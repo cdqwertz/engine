@@ -1,0 +1,45 @@
+<html>
+	<head>
+		<title>Game</title>
+	</head>
+	<body onload="onInit()">
+		<canvas id="screen"></canvas>
+
+		<script src="vector.js"></script>
+		<script src="actor.js"></script>
+		<script src="scene.js"></script>
+		<script src="core.js"></script>
+
+		<script>
+			function drawRect(pos, scale)
+			{
+				this.pos = pos;
+				this.scale = scale;
+				this.update = function() {
+					screen.fillRect(this.pos.x, this.pos.y,this.scale.x,this.scale.y);
+				};
+			}
+
+			function transform(p, v) {
+				this.p = p;
+				this.v = v
+				this.update = function() {
+					p.add(v);
+					screen.translate(this.p.x, this.p.y);
+				}
+				this.afterUpdate = function() {
+					screen.translate(-this.p.x, -this.p.y);
+				}
+			}
+			
+			function load()
+			{
+				var test = new actor();
+				test.addComponent(new transform(new vec2(100, 100), new vec2(1, 1)));
+				test.addComponent(new drawRect(new vec2(0, 0), new vec2(100, 100)));
+			
+				mainScene.addObject(test);
+			}
+		</script>
+	</body>
+</html>
