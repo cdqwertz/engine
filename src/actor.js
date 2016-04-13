@@ -6,12 +6,12 @@ function actor() {
 	this.update = function() {
 		for (var i in this.components) {
 			if (this.components[i].update) {
-				this.components[i].update();
+				this.components[i].update(this);
 			}
 		}
 		for (var i in this.components) {
 			if (this.components[i].afterUpdate) {
-				this.components[i].afterUpdate();
+				this.components[i].afterUpdate(this);
 			}
 		}
 	};

@@ -6,36 +6,44 @@
 		<canvas id="screen"></canvas>
 
 		<script src="vector.js"></script>
+		<script src="input.js"></script>
 		<script src="actor.js"></script>
 		<script src="scene.js"></script>
+		<script src="components.js"></script>
 		<script src="core.js"></script>
 
 		<script>
-			function drawRect(pos, scale)
-			{
-				this.pos = pos;
-				this.scale = scale;
-				this.update = function() {
-					screen.fillRect(this.pos.x, this.pos.y,this.scale.x,this.scale.y);
+			function move(obj) {
+				this.componentType = "move";
+				this.update = function(obj) {
+					if (input.getKey(38) == true) {
+						console.log(obj.components[1].componentType);
+						obj.components[1].getPos().add(new vec2(0, -2));
+						//obj.components[1].setPos(p);
+					}
+					if (input.getKey(37) == true) {
+						console.log(obj.components[1].componentType);
+						obj.components[1].getPos().add(new vec2(-2, 0));
+						//obj.components[1].setPos(p);
+					}
+					if (input.getKey(39) == true) {
+						console.log(obj.components[1].componentType);
+						obj.components[1].getPos().add(new vec2(2, 0));
+						//obj.components[1].setPos(p);
+					}
+					if (input.getKey(40) == true) {
+						console.log(obj.components[1].componentType);
+						obj.components[1].getPos().add(new vec2(0, 2));
+						//obj.components[1].setPos(p);
+					}
 				};
 			}
 
-			function transform(p, v) {
-				this.p = p;
-				this.v = v
-				this.update = function() {
-					p.add(v);
-					screen.translate(this.p.x, this.p.y);
-				}
-				this.afterUpdate = function() {
-					screen.translate(-this.p.x, -this.p.y);
-				}
-			}
-			
 			function load()
 			{
 				var test = new actor();
-				test.addComponent(new transform(new vec2(100, 100), new vec2(1, 1)));
+				test.addComponent(new move());
+				test.addComponent(new transform(new vec2(100, 100), new vec2(0, 0)));
 				test.addComponent(new drawRect(new vec2(0, 0), new vec2(100, 100)));
 			
 				mainScene.addObject(test);

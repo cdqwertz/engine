@@ -4,5 +4,6 @@ function vec2(x, y) {
 	this.add = function(other) {
 		this.x += other.x;
 		this.y += other.y;
+		return this;
 	};
 }
