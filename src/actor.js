@@ -15,4 +15,13 @@ function actor() {
 			}
 		}
 	};
+	
+	this.findComponent = function(t) {
+		for(var i = 0; i < this.components.length; i++) {
+			if(this.components[i].componentType == t) {
+				return i;
+			}
+		}
+		return -1;
+	};
 }
