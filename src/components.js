@@ -30,6 +30,7 @@ function transform(p, v) {
 		ctx.translate(-this.p.x, -this.p.y);
 	};
 	this.setPos = function(pos) {
+		this.p = pos;
 		return this.p;
 	};
 	this.getPos = function() {

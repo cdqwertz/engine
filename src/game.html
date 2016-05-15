@@ -10,42 +10,49 @@
 		<script src="actor.js"></script>
 		<script src="scene.js"></script>
 		<script src="components.js"></script>
+		<script src="physics.js"></script>
 		<script src="core.js"></script>
 
 		<script>
 			function move(obj) {
 				this.componentType = "move";
+				this.g = obj;
 				this.update = function(obj) {
 					if (input.getKey(38) == true) {
-						console.log(obj.components[1].componentType);
 						obj.components[1].getPos().add(new vec2(0, -2));
-						//obj.components[1].setPos(p);
 					}
 					if (input.getKey(37) == true) {
-						console.log(obj.components[1].componentType);
 						obj.components[1].getPos().add(new vec2(-2, 0));
-						//obj.components[1].setPos(p);
 					}
 					if (input.getKey(39) == true) {
-						console.log(obj.components[1].componentType);
 						obj.components[1].getPos().add(new vec2(2, 0));
-						//obj.components[1].setPos(p);
 					}
 					if (input.getKey(40) == true) {
-						console.log(obj.components[1].componentType);
 						obj.components[1].getPos().add(new vec2(0, 2));
-						//obj.components[1].setPos(p);
+					}
+
+					if(obj.components[obj.findComponent("boxCollider")].intersect(this.g.components[this.g.findComponent("boxCollider")])) {
+						console.log("intersect");
+						obj.components[1].setPos(new vec2(0, 0));
 					}
 				};
 			}
 
 			function load()
 			{
+				var ground = new actor();
+				ground.addComponent(new transform(new vec2(400, 300), new vec2(0, 0)));
+				ground.addComponent(new boxCollider(0, 0, 300, 300, "enemy"));
+				ground.addComponent(new drawRect(new vec2(0, 0), new vec2(300, 300)));
+
+				mainScene.addObject(ground);
+
 				var test = new actor();
-				test.addComponent(new move());
+				test.addComponent(new move(ground));
 				test.addComponent(new transform(new vec2(100, 100), new vec2(0, 0)));
+				test.addComponent(new boxCollider(0, 0, 100, 100));
 				test.addComponent(new drawRect(new vec2(0, 0), new vec2(100, 100)));
-			
+
 				mainScene.addObject(test);
 			}
 		</script>
