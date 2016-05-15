@@ -2,22 +2,27 @@
 ##Vector
 ###vec2
 ```javascript
-new vec2(x, y)```
+new vec2(x, y)
+```
 
 The vec2 class can store 2d positions.
 
 ####Functions:
 ```javascript
-x.add(other)```
+x.add(other)
+```
 
 ```javascript
-x.sub(other)```
+x.sub(other)
+```
 
 ```javascript
-x.mul(other)```
+x.mul(other)
+```
 
 ```javascript
-x.div(other)```
+x.div(other)
+```
 
 
 ##Core
