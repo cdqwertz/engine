@@ -3,6 +3,14 @@ function actor() {
 	this.addComponent = function (comp) {
 		this.components.push(comp);
 	};
+	this.start = function() {
+		for (var i in this.components) {
+			if (this.components[i].start) {
+				this.components[i].start(this);
+			}
+		}
+	};
+
 	this.update = function() {
 		for (var i in this.components) {
 			if (this.components[i].update) {
