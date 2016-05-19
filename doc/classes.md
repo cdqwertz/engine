@@ -1,5 +1,5 @@
 #Classes
-###actor
+##actor
 
 ```javascript
 new actor()
@@ -19,7 +19,23 @@ x.update()
 x.findComponent("component type")
 ```
 
-###scene
+##collisionLayer
+
+```javascript
+new collisionLayer()
+```
+
+####Methods:
+
+```javascript
+x.addCollider(c)
+```
+
+```javascript
+x.update()
+```
+
+##scene
 
 ```javascript
 new scene()
@@ -35,7 +51,7 @@ x.addObject(obj)
 x.update()
 ```
 
-###vec2
+##vec2
 ```javascript
 new vec2(x, y)
 ```

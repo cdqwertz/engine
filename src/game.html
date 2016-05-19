@@ -34,7 +34,6 @@
 					if(obj.components[obj.findComponent("boxCollider")].isColliding) {
 						console.log("intersect");
 						obj.components[1].setPos(new vec2(0, 0));
-						obj.components[obj.findComponent("boxCollider")].isColliding = false;
 					}
 				};
 			}
@@ -42,12 +41,20 @@
 			function load()
 			{
 				var ground = new actor();
-				ground.addComponent(new transform(new vec2(400, 300), new vec2(0, 0)));
+				ground.addComponent(new transform(new vec2(400, 300), new vec2(-1, -1)));
 				var groundColl = new boxCollider(0, 0, 300, 300, "enemy", false)
 				ground.addComponent(groundColl);
 				ground.addComponent(new drawRect(new vec2(0, 0), new vec2(300, 300)));
 
 				mainScene.addObject(ground);
+
+				var box = new actor();
+				box.addComponent(new transform(new vec2(200, 500), new vec2(0, 0)));
+				var boxColl = new boxCollider(0, 0, 400, 200, "enemy", false)
+				box.addComponent(boxColl);
+				box.addComponent(new drawRect(new vec2(0, 0), new vec2(400, 200)));
+
+				mainScene.addObject(box);
 
 				var test = new actor();
 				test.addComponent(new move(ground));
@@ -58,6 +65,7 @@
 
 				var collLayer = new collisionLayer();
 				collLayer.addCollider(groundColl);
+				collLayer.addCollider(boxColl);
 				collLayer.addCollider(testColl);
 				physicsLayers.addLayer(collLayer);
 

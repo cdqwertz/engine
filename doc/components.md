@@ -1,17 +1,17 @@
 #Components
-###drawRect
+##drawRect
 
 ```javascript
 new drawRect(pos, scale)
 ```
 
-###drawImage
+##drawImage
 
 ```javascript
 new drawImage(pos, img)
 ```
 
-###transform
+##transform
 
 ```javascript
 new transform(pos, v)
