@@ -14,26 +14,25 @@
 		<script src="core.js"></script>
 
 		<script>
-			function move(obj) {
+			function move() {
 				this.componentType = "move";
-				this.g = obj;
 				this.update = function(obj) {
 					if (input.getKey(38) == true) {
-						obj.components[1].getPos().add(new vec2(0, -2));
+						obj.components[2].getPos().add(new vec2(0, -2));
 					}
 					if (input.getKey(37) == true) {
-						obj.components[1].getPos().add(new vec2(-2, 0));
+						obj.components[2].getPos().add(new vec2(-2, 0));
 					}
 					if (input.getKey(39) == true) {
-						obj.components[1].getPos().add(new vec2(2, 0));
+						obj.components[2].getPos().add(new vec2(2, 0));
 					}
 					if (input.getKey(40) == true) {
-						obj.components[1].getPos().add(new vec2(0, 2));
+						obj.components[2].getPos().add(new vec2(0, 2));
 					}
+					var coll = obj.components[obj.findComponent("boxCollider")]
 
-					if(obj.components[obj.findComponent("boxCollider")].isColliding) {
-						console.log("intersect");
-						obj.components[1].setPos(new vec2(0, 0));
+					if(coll.other) {
+						console.log(coll.other.tag || "null");
 					}
 				};
 			}
@@ -41,8 +40,8 @@
 			function load()
 			{
 				var ground = new actor();
-				ground.addComponent(new transform(new vec2(400, 300), new vec2(-1, -1)));
-				var groundColl = new boxCollider(0, 0, 300, 300, "enemy", false)
+				ground.addComponent(new transform(new vec2(400, 300), new vec2(1, 0)));
+				var groundColl = new boxCollider(0, 0, 300, 300, "ground", false)
 				ground.addComponent(groundColl);
 				ground.addComponent(new drawRect(new vec2(0, 0), new vec2(300, 300)));
 
@@ -57,7 +56,8 @@
 				mainScene.addObject(box);
 
 				var test = new actor();
-				test.addComponent(new move(ground));
+				test.addComponent(new simpleRigidbody(3.0));
+				test.addComponent(new move());
 				test.addComponent(new transform(new vec2(100, 100), new vec2(0, 0)));
 				var testColl = new boxCollider(0, 0, 100, 100, "player", true);
 				test.addComponent(testColl);

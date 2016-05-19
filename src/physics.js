@@ -18,6 +18,7 @@ function collisionLayer() {
 	this.update = function() {
 		for(var i = 0; i < this.objs.length; i++) {
 			this.objs[i].isColliding = false;
+			this.objs[i].other = null;
 		}
 
 		for(var i = 0; i < this.objs.length; i++) {
@@ -27,6 +28,11 @@ function collisionLayer() {
 						var c = this.objs[i].intersect(this.objs[j]);
 						this.objs[j].isColliding = c || this.objs[j].isColliding;
 						this.objs[i].isColliding = c || this.objs[i].isColliding;
+
+						if(c) {
+							this.objs[j].other = this.objs[i]
+							this.objs[i].other = this.objs[j]
+						}
 					}
 				}
 			}
@@ -46,6 +52,7 @@ function boxCollider(x, y, w, h, t, m) {
 	this.componentType = "boxCollider";
 
 	this.isColliding = false;
+	this.other = null;
 
 	this.start = function(obj) {
 		var p = obj.components[obj.findComponent("transform")].getPos();
@@ -69,4 +76,14 @@ function boxCollider(x, y, w, h, t, m) {
 			return false;
 		}
 	};
+}
+
+
+function simpleRigidbody(g) {
+	this.gravity = g || 0.0;
+	this.componentType = "simpleRigidbody";
+	
+	this.update = function(obj) {
+		var t = obj.components[obj.findComponent("transform")]
+	}
 }
