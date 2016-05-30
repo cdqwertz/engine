@@ -1,0 +1,154 @@
+<html>
+	<head>
+		<title>Game Editor</title>
+		<style>
+			body {
+				background-color: #f7f7f7;
+			}
+
+			#objects {
+				background-color: #f3f3f3;
+				border: 1px solid #d3d3d3;
+				list-style-type: none;
+
+				position: fixed;
+				top: 70px;
+				left: 0;
+				width: 200px;
+				height: 70%;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+			}
+
+			#objects li {
+				 float: top;
+			}
+
+			#objects li a {
+				display: block;
+				text-align: center;
+				padding: 14px 16px;
+				text-decoration: none;
+				color: black;
+			}
+
+			#objects li a:hover {
+				display: block;
+				text-align: center;
+				padding: 14px 16px;
+				text-decoration: none;
+				color: black;
+				background-color: #777777;
+			}
+			
+
+			#nav {
+				background-color: #f3f3f3;
+				border: 1px solid #d3d3d3;
+				list-style-type: none;
+
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+			}
+
+			#nav #l {
+				 float: left;
+			}
+
+			#nav #r {
+				 float: right;
+			}
+
+			#nav li a {
+				display: block;
+				text-align: center;
+				padding: 14px 16px;
+				text-decoration: none;
+				color: black;
+			}
+			
+			#nav li a:hover {
+				display: block;
+				text-align: center;
+				padding: 14px 16px;
+				text-decoration: none;
+				color: black;
+				background-color: #777777;
+			}
+		</style>
+	</head>
+	<body onload="load();">
+		<script>
+			var scenes = [["mainScene"]];
+			var scene = 0;
+
+			var objectsGUI;
+
+			function load() {
+				objectsGUI = document.getElementById("objects");
+			}
+
+			//update gui
+
+			function updateObjectsGUI() {
+				var s = "";
+				for(var i = 1; i < scenes[scene].length; i++) {
+					s += "<li><a>" + scenes[scene][i][0] + "</a></li>";
+				}
+				objectsGUI.innerHTML = s;
+			}
+
+			//generate Code
+
+			function showCode() {
+				alert(genCode());
+			}
+
+			function genCode() {
+				var code = "function load() {\n";
+				for(var i = 0; i < scenes.length; i++){
+					for(var j = 1; j < scenes[i].length; j++){
+						code += "\tvar " + scenes[i][j][0] + " = new actor();\n" ;
+						for(var k = 1; k < scenes[i][j].length; k++){
+							
+						}
+						code += "\tmainScene.addObject(" + scenes[i][j][0] + ");\n\n" ;
+					}
+				}
+				code += "}";
+				return code;
+			}
+
+			//add actors, scenes...
+
+			function addActor() {
+				var n = prompt("Name:");
+				if(n) {
+					var p = scenes[scene].push([]);
+					scenes[scene][p-1].push(n);
+				}
+				updateObjectsGUI();
+			}
+		</script>
+
+		<ul id="nav">
+
+			<li id="l"><a onclick="newGame();return false;">New</a></li>
+			<li id="l"><a onclick="openGame();return false;">Open</a></li>
+			<li id="l"><a onclick="saveGame();return false;">Save</a></li>
+			<li id="l"><a onclick="showCode();return false;">Export</a></li>
+
+			<li id="r"><a onclick="addActor();return false;">Add Actor</a></li>
+		</ul>
+
+		<ul id="objects">
+		</ul>
+
+	</body>
+</html>
