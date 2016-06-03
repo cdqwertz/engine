@@ -45,44 +45,7 @@
 			}
 
 
-			#components {
-				background-color: #f3f3f3;
-				border: 1px solid #d3d3d3;
-				list-style-type: none;
 
-				position: fixed;
-				top: 70px;
-				right: 0px;
-				width: 200px;
-				height: 70%;
-				margin: 0;
-				padding: 0;
-				overflow: hidden;
-			}
-
-			#components li {
-				 float: top;
-			}
-
-			#components li a {
-				display: block;
-				text-align: center;
-				padding: 14px 16px;
-				text-decoration: none;
-				color: black;
-			}
-
-			#components li a:hover {
-				display: block;
-				text-align: center;
-				padding: 14px 16px;
-				text-decoration: none;
-				color: black;
-				background-color: #777777;
-
-				box-shadow: 0px 0px 5px grey; 
-			}
-			
 
 			#nav {
 				background-color: #f3f3f3;
@@ -134,16 +97,14 @@
 			var selectedObject;
 
 			var objectsGUI;
-			var componentsGUI;
 
 			function load() {
 				objectsGUI = document.getElementById("objects");
-				componentsGUI = document.getElementById("components");
 			}
 
 			//gui
 
-			function updateObjectsGUI() {
+			function showObjectsGUI() {
 				var s = "";
 				for(var i = 1; i < scenes[scene].length; i++) {
 					s += "<li><a onclick=\"GUISelectObject(" + i + ");return false;\">" + scenes[scene][i][0] + "</a></li>";
@@ -151,20 +112,21 @@
 				objectsGUI.innerHTML = s;
 			}
 
-			function updateComponentsGUI() {
+			function showComponentsGUI() {
 				var s = "";
 				if(selectedObject == -1) {
 					return 0;
 				}
+				s += "<li><a onclick=\"showObjectsGUI();return false;\">Back</a></li>";
 				for(var i = 1; i < scenes[scene][selectedObject].length; i++) {
 					s += "<li><a onclick=\"GUISelectComponent(" + i + ");return false;\">" + scenes[scene][selectedObject][i] + "</a></li>";
 				}
-				componentsGUI.innerHTML = s;
+				objectsGUI.innerHTML = s;
 			}
 
 			function GUISelectObject(i) {
 				selectedObject = i;
-				updateComponentsGUI();
+				showComponentsGUI();
 			}
 			function GUISelectComponent(i) {
 				
@@ -199,7 +161,7 @@
 					var p = scenes[scene].push([]);
 					scenes[scene][p-1].push(n);
 				}
-				updateObjectsGUI();
+				showObjectsGUI();
 			}
 			
 			function addComponent() {
@@ -208,7 +170,7 @@
 					var p = scenes[scene][selectedObject].push([]);
 					scenes[scene][selectedObject][p-1].push(n);
 				}
-				updateComponentsGUI();
+				showComponentsGUI();
 			}
 		</script>
 
@@ -226,7 +188,7 @@
 		<ul id="objects">
 		</ul>
 
-		<ul id = "components">  
-		</ul>
+		<canvas id=preview>
+		</canvas>
 	</body>
 </html>
