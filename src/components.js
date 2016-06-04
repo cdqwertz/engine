@@ -8,13 +8,45 @@ function drawRect(pos, scale)
 	};
 }
 
-function drawImage(pos, img)
+function drawImage(pos, img, mode, w, h, animations, animation, speed)
 {
 	this.pos = pos;
 	this.img = img;
 	this.componentType = "drawImage";
+	
+	this.mode = mode || 0;	
+
+	this.w = w || 0;
+	this.h = h || 0;
+
+	this.animations = animations || [];
+	this.frame = 0;
+	this.speed = speed || 10;
+	this.timer = 0;
+	this.animation = animation || 0;
+
 	this.update = function(obj) {
-		ctx.drawImage(this.img,this.pos.x, this.pos.y);
+		if(this.mode == 0) {
+			ctx.drawImage(this.img,this.pos.x, this.pos.y);
+		} else if(this.mode == 1) {
+			ctx.drawImage(this.img,this.pos.x, this.pos.y, this.w, this.h);
+		} else if(this.mode == 2) {
+			if(this.animation == -1) {
+				ctx.drawImage(this.img, 0, 0, this.w, this.h,this.pos.x, this.pos.y, this.w, this.h);	
+			} else {
+				var s = this.animations[this.animation][0];
+				var e = this.animations[this.animation][1];
+				ctx.drawImage(this.img, this.frame*this.w + s*this.w, 0, this.w, this.h,this.pos.x, this.pos.y, this.w, this.h);
+				if(this.timer > this.speed) {	
+					this.frame += 1;
+					if(this.frame > e) {
+						this.frame = s;
+					}
+					this.timer = 0;
+				}
+				this.timer += 1;
+			}
+		}
 	};
 }
 

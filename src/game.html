@@ -61,8 +61,11 @@
 				test.addComponent(new transform(new vec2(100, 100), new vec2(0, 0)));
 				var testColl = new boxCollider(0, 0, 100, 100, "player", true);
 				test.addComponent(testColl);
+				//var img = new Image();
+				//img.src = "imgs/box.png";
+				//test.addComponent(new drawImage(new vec2(0, 0), img, 2, 100, 100, [[0,2]]), 0, 0);
 				test.addComponent(new drawRect(new vec2(0, 0), new vec2(100, 100)));
-
+				
 				var collLayer = new collisionLayer();
 				collLayer.addCollider(groundColl);
 				collLayer.addCollider(boxColl);
