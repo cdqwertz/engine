@@ -100,6 +100,7 @@
 
 			function load() {
 				objectsGUI = document.getElementById("objects");
+				showObjectsGUI();
 			}
 
 			//gui
@@ -109,6 +110,7 @@
 				for(var i = 1; i < scenes[scene].length; i++) {
 					s += "<li><a onclick=\"GUISelectObject(" + i + ");return false;\">" + scenes[scene][i][0] + "</a></li>";
 				}
+				s += "<li><a onclick=\"addActor();return false;\">Add Actor</a></li>";
 				objectsGUI.innerHTML = s;
 			}
 
@@ -119,8 +121,9 @@
 				}
 				s += "<li><a onclick=\"showObjectsGUI();return false;\">Back</a></li>";
 				for(var i = 1; i < scenes[scene][selectedObject].length; i++) {
-					s += "<li><a onclick=\"GUISelectComponent(" + i + ");return false;\">" + scenes[scene][selectedObject][i] + "</a></li>";
+					s += "<li><a onclick=\"GUISelectComponent(" + i + ");return false;\">" + scenes[scene][selectedObject][i][0] + "</a></li>";
 				}
+				s += "<li><a onclick=\"addComponent();return false;\">Add Component</a></li>";
 				objectsGUI.innerHTML = s;
 			}
 
@@ -128,8 +131,17 @@
 				selectedObject = i;
 				showComponentsGUI();
 			}
-			function GUISelectComponent(i) {
-				
+			function GUISelectComponent(n) {
+				var s = "";
+				if(selectedObject == -1) {
+					return 0;
+				}
+				s += "<li><a onclick=\"showComponentsGUI();return false;\">Back</a></li>";
+				for(var i = 1; i < scenes[scene][selectedObject][n].length; i++) {
+					s += "<li><a><input type=\"text\" value=\"" + scenes[scene][selectedObject][n][i] + "\" onchange = \"scenes[scene][selectedObject]["+n+"]["+i+"] = this.value; GUISelectComponent(" + n+");\"></input></a></li>";
+				}
+				//s += "<li><a onclick=\"addComponent();return false;\">Add Component</a></li>";
+				objectsGUI.innerHTML = s;
 			}
 
 			//generate Code
@@ -138,13 +150,22 @@
 				alert(genCode());
 			}
 
+			function genParams(l) {
+				var s = "";
+				for(var i = 1; i < l.length; i++){
+					s += l[i] + ",";
+				}
+				s = s.substring(0, s.length-1);
+				return s;
+			}
+
 			function genCode() {
 				var code = "function load() {\n";
 				for(var i = 0; i < scenes.length; i++){
 					for(var j = 1; j < scenes[i].length; j++){
 						code += "\tvar " + scenes[i][j][0] + " = new actor();\n" ;
 						for(var k = 1; k < scenes[i][j].length; k++){
-							code += "\t" + scenes[i][j][0] + ".addComponent(new " + scenes[i][j][k] + "());\n" ;
+							code += "\t" + scenes[i][j][0] + ".addComponent(new " + scenes[i][j][k][0] + "(" + genParams(scenes[i][j][k]) + "));\n" ;
 						}
 						code += "\tmainScene.addObject(" + scenes[i][j][0] + ");\n\n" ;
 					}
@@ -169,6 +190,10 @@
 				if(n) {
 					var p = scenes[scene][selectedObject].push([]);
 					scenes[scene][selectedObject][p-1].push(n);
+					if(n == "transform") {
+						scenes[scene][selectedObject][p-1].push("new vec2(0, 0)");
+						scenes[scene][selectedObject][p-1].push("new vec2(0, 0)");
+					}
 				}
 				showComponentsGUI();
 			}
