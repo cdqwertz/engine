@@ -55,7 +55,7 @@ function transform(p, v) {
 	this.v = v
 	this.componentType = "transform";
 	this.update = function(obj) {
-		p.add(v);
+		p.add(new vec2(this.v.x*time.dtime, this.v.y*time.dtime));
 		ctx.translate(this.p.x, this.p.y);
 	};
 	this.afterUpdate = function(obj) {

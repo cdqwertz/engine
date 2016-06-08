@@ -18,29 +18,35 @@
 				this.componentType = "move";
 				this.update = function(obj) {
 					if (input.getKey(38) == true) {
-						obj.components[2].getPos().add(new vec2(0, -2));
+						obj.components[2].getPos().add(new vec2(0, -0.2*time.dtime));
 					}
 					if (input.getKey(37) == true) {
-						obj.components[2].getPos().add(new vec2(-2, 0));
+						obj.components[2].getPos().add(new vec2(-0.2*time.dtime, 0));
 					}
 					if (input.getKey(39) == true) {
-						obj.components[2].getPos().add(new vec2(2, 0));
+						obj.components[2].getPos().add(new vec2(0.2*time.dtime, 0));
 					}
 					if (input.getKey(40) == true) {
-						obj.components[2].getPos().add(new vec2(0, 2));
+						obj.components[2].getPos().add(new vec2(0, 0.2*time.dtime));
 					}
-					var coll = obj.components[obj.findComponent("boxCollider")]
+					var coll = obj.components[obj.findComponent("boxCollider")];
 
 					if(coll.other) {
-						console.log(coll.other.tag || "null");
+						ctx.fillStyle = "#FF0000";
+					} else {
+						ctx.fillStyle = "#000000";
 					}
+				};
+
+				this.afterUpdate = function(obj) {
+					ctx.fillStyle = "#000000";
 				};
 			}
 
 			function load()
 			{
 				var ground = new actor();
-				ground.addComponent(new transform(new vec2(400, 300), new vec2(1, 0)));
+				ground.addComponent(new transform(new vec2(400, 300), new vec2(0.1, 0)));
 				var groundColl = new boxCollider(0, 0, 300, 300, "ground", false)
 				ground.addComponent(groundColl);
 				ground.addComponent(new drawRect(new vec2(0, 0), new vec2(300, 300)));

@@ -32,4 +32,8 @@ function actor() {
 		}
 		return -1;
 	};
+
+	this.getComponent = function(t) {
+		return this.components[this.findComponent(t)]
+	};
 }
