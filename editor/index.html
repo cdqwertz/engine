@@ -193,6 +193,25 @@
 					if(n == "transform") {
 						scenes[scene][selectedObject][p-1].push("new vec2(0, 0)");
 						scenes[scene][selectedObject][p-1].push("new vec2(0, 0)");
+					} else if(n == "drawRect") {
+						scenes[scene][selectedObject][p-1].push("new vec2(0, 0)");
+						scenes[scene][selectedObject][p-1].push("new vec2(0, 0)");
+					} else if(n == "drawImage") {
+						scenes[scene][selectedObject][p-1].push("new vec2(0, 0)");
+						scenes[scene][selectedObject][p-1].push("new Image()");
+						scenes[scene][selectedObject][p-1].push("0");
+						scenes[scene][selectedObject][p-1].push("512");
+						scenes[scene][selectedObject][p-1].push("512");
+						scenes[scene][selectedObject][p-1].push("[]");
+					} else if(n == "boxCollider") {
+						scenes[scene][selectedObject][p-1].push("0");
+						scenes[scene][selectedObject][p-1].push("0");
+
+						scenes[scene][selectedObject][p-1].push("512");
+						scenes[scene][selectedObject][p-1].push("512");
+
+						scenes[scene][selectedObject][p-1].push("");
+						scenes[scene][selectedObject][p-1].push("false");
 					}
 				}
 				showComponentsGUI();
