@@ -23,6 +23,19 @@ function actor() {
 			}
 		}
 	};
+
+	this.draw = function() {
+		for (var i in this.components) {
+			if (this.components[i].draw) {
+				this.components[i].draw(this);
+			}
+		}
+		for (var i in this.components) {
+			if (this.components[i].afterDraw) {
+				this.components[i].afterDraw(this);
+			}
+		}
+	};
 	
 	this.findComponent = function(t) {
 		for(var i = 0; i < this.components.length; i++) {

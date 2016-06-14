@@ -8,8 +8,8 @@ var screen = new function() {
 	this.h = 0;
 
 	this.init = function(x) {
-		this.w = window.innerWidth-30;
-		this.h = window.innerHeight-30;
+		this.w = document.body.clientWidth-20;
+		this.h = document.body.clientHeight-20;
 		x.width  = this.w;
 		x.height = this.h;
 	};
@@ -22,8 +22,6 @@ var time = new function() {
 	this.update = function(x) {
 		this.dtime = x-this.lastTime || 0.0;
 		this.lastTime = x;
-		
-		console.log(this.dtime);
 	};
 }();
 

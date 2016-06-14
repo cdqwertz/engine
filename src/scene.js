@@ -16,5 +16,10 @@ function scene() {
 				this.objs[i].update();
 			}
 		}
+		for (var i in this.objs) {
+			if (this.objs[i].draw) {
+				this.objs[i].draw();
+			}
+		}
 	};
 }

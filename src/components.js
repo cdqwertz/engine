@@ -3,7 +3,7 @@ function drawRect(pos, scale)
 	this.pos = pos;
 	this.scale = scale;
 	this.componentType = "drawRect";
-	this.update = function(obj) {
+	this.draw = function(obj) {
 		ctx.fillRect(this.pos.x, this.pos.y,this.scale.x,this.scale.y);
 	};
 }
@@ -25,7 +25,7 @@ function drawImage(pos, img, mode, w, h, animations, animation, speed)
 	this.timer = 0;
 	this.animation = animation || 0;
 
-	this.update = function(obj) {
+	this.draw = function(obj) {
 		if(this.mode == 0) {
 			ctx.drawImage(this.img,this.pos.x, this.pos.y);
 		} else if(this.mode == 1) {
@@ -50,15 +50,51 @@ function drawImage(pos, img, mode, w, h, animations, animation, speed)
 	};
 }
 
-function transform(p, v) {
-	this.p = p;
-	this.v = v
-	this.componentType = "transform";
+function velocity(_v) {
+	this.v = _v;
+	this.t;
+	this.componentType = "velocity";
+	this.start = function(obj) {
+		this.t = obj.getComponent("transform");
+	};
 	this.update = function(obj) {
-		p.add(new vec2(this.v.x*time.dtime, this.v.y*time.dtime));
+		if(this.t) {
+			this.t.p.add(new vec2(this.v.x*time.dtime, this.v.y*time.dtime));
+		}
+	};
+}
+
+function bounce() {
+	this.coll;
+	this.v;
+	this.componentType = "bounce";
+	this.start = function(obj) {
+		this.coll = obj.getComponent("boxCollider");
+		this.v = obj.getComponent("velocity");
+	};
+	this.update = function(obj) {
+		if(this.coll) {
+			if(this.coll.isColliding) {
+				//TODO
+				if(this.coll.other.tag == "wall") {
+					var x1 = -this.v.v.x;
+					var y1 = this.v.v.y;
+					console.log(x1);
+					this.v.v.x = x1;
+					this.v.v.y = y1;
+				}
+			}
+		}
+	};
+}
+
+function transform(p, r) {
+	this.p = p;
+	this.componentType = "transform";
+	this.draw = function(obj) {
 		ctx.translate(this.p.x, this.p.y);
 	};
-	this.afterUpdate = function(obj) {
+	this.afterDraw = function(obj) {
 		ctx.translate(-this.p.x, -this.p.y);
 	};
 	this.setPos = function(pos) {

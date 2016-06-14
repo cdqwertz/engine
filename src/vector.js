@@ -38,5 +38,4 @@ function vec2(x, y) {
 		this.y = math.abs(this.y);
 		return this;
 	};
-
 }
