@@ -8,8 +8,8 @@ var screen = new function() {
 	this.h = 0;
 
 	this.init = function(x) {
-		this.w = document.body.clientWidth-20;
-		this.h = document.body.clientHeight-20;
+		this.w = document.body.clientWidth;
+		this.h = document.body.clientHeight;
 		x.width  = this.w;
 		x.height = this.h;
 	};
@@ -30,6 +30,8 @@ function onUpdate(t) {
 		
 	ctx.clearRect(0, 0, c.width, c.height);
 	mainScene.update();
+
+	console.log(input.mouseX + " " + input.mouseY)
 	
 	physicsLayers.update();
 	window.requestAnimationFrame(onUpdate);
