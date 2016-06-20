@@ -12,8 +12,8 @@
 				list-style-type: none;
 
 				position: fixed;
-				top: 70px;
-				left: 0;
+				top: 50px;
+				left: -170;
 				width: 200px;
 				height: 70%;
 				margin: 0;
@@ -21,6 +21,22 @@
 				overflow: hidden;
 			}
 
+
+			#objects:hover {
+				background-color: #f3f3f3;
+				border: 1px solid #d3d3d3;
+				list-style-type: none;
+
+				position: fixed;
+				top: 50px;
+				left: 0;
+				width: 200px;
+				height: 70%;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+			}
+				
 			#objects li {
 				 float: top;
 			}
@@ -87,6 +103,13 @@
 				background-color: #777777;
 				box-shadow: 0px 0px 5px grey; 
 			}
+
+			#code {
+				position:absolute;
+				z-index: -1;
+				top:0px;
+				left:0px;
+			}
 		</style>
 	</head>
 	<body onload="load();">
@@ -97,11 +120,144 @@
 			var selectedObject;
 
 			var objectsGUI;
+			var codeGUI;
+			var codeCtx;
+
+			var components = [[]];
+			var component = 0;
+
+			var codeCmds = [];
 
 			function load() {
 				objectsGUI = document.getElementById("objects");
+				codeGUI = document.getElementById("code");
+				codeCtx = codeGUI.getContext("2d");
+
+				codeGUI.width = document.body.clientWidth;
+				codeGUI.height = document.body.clientHeight;
+
+				updateEditorGUI();
+				codeGUI.onmousedown = codeOnMouseDown;
+				codeGUI.onmouseup = codeOnMouseUp;
+				codeGUI.onmousemove = codeOnMouseMove;
+
 				showObjectsGUI();
 			}
+
+			//code editor
+
+			var codeMouseDown = false;
+			var codeSelectedObject = [-1];
+
+			function codeOnMouseDown(e) {
+				codeMouseDown = true;
+				var x = e.clientX;
+				var y = e.clientY;
+				console.log(x + "," + y);
+
+				if(component != -1) {
+					for(var i = 0; i < components[component].length; i++){
+						if(x > components[component][i][0] &&
+						   x < components[component][i][0]+100 &&
+						   y > components[component][i][1] &&
+						   y < components[component][i][1]+100) {
+							codeSelectedObject = [0,i];
+							updateEditorGUI();
+						}
+						if(x > components[component][i][0]+100 &&
+						   x < components[component][i][0]+115 &&
+						   y > components[component][i][1]+10 &&
+						   y < components[component][i][1]+25) {
+							codeSelectedObject = [1,i];
+							updateEditorGUI();
+						}
+					}
+				}
+				
+			}
+
+			function codeOnMouseUp(e) {
+				var x = e.clientX;
+				var y = e.clientY;
+				if(component != -1 && codeSelectedObject[0] == 1) {
+					for(var i = 0; i < components[component].length; i++){
+						if(x > components[component][i][0]-15 &&
+						   x < components[component][i][0]+10 &&
+						   y > components[component][i][1] &&
+						   y < components[component][i][1]+25) {
+							components[component][codeSelectedObject[1]][3].push([i]);
+							updateEditorGUI();
+						}
+					}
+				}
+				codeMouseDown = false;
+				codeSelectedObject = [-1];
+			}
+
+			function codeOnMouseMove(e) {
+				if(codeMouseDown) {
+					var x = e.clientX;
+					var y = e.clientY;
+					if(component != -1 && codeSelectedObject[0] != -1) {
+						if(codeSelectedObject[0] == 0) {
+							components[component][codeSelectedObject[1]][0] = x -50;
+							components[component][codeSelectedObject[1]][1] = y -50;
+							updateEditorGUI();
+						}
+					}
+				}
+			}
+
+			
+			function updateEditorGUI() {
+				codeCtx.clearRect(0,0,codeGUI.width,codeGUI.height);
+				if(component != -1) {
+					for(var i = 0; i < components[component].length; i++){
+						codeDrawCmd(components[component][i]);
+					}
+				}
+			}
+
+			function codeDrawCmd(d) {
+				codeCtx.strokeRect(d[0],d[1], 100, 100);
+				codeCtx.fillText(d[2],d[0]+20,d[1] + 20);
+
+				//draw inputs
+				codeCtx.strokeRect(d[0]-15,d[1]+10, 15, 15);
+				
+				//draw outputs
+				codeCtx.strokeRect(d[0]+100,d[1]+10, 15, 15);
+
+				//draw connections
+				for(var i = 0; i < d[3].length; i++){
+					codeCtx.beginPath();
+					codeCtx.moveTo(d[0]+107,d[1]+17, 15, 15);
+					var c = components[component][d[3][i][0]];
+					codeCtx.lineTo(c[0]-10,c[1]+17, 15, 15);
+					codeCtx.stroke();
+				}
+			}
+
+			function codeAddCmd(n) {
+				components[component].push([200, 200, codeCmds[n][0], []]); 
+				updateEditorGUI();
+			}
+
+			function codeAddConnection(n) {
+				components[component][n][3].push([n]); 
+				updateEditorGUI();
+			}
+
+			function codeRegisterCmd(name) {
+				codeCmds.push([name])
+			}
+
+			//register commands
+
+			codeRegisterCmd("test");
+			
+
+			
 
 			//gui
 
@@ -145,6 +301,15 @@
 			}
 
 			//generate Code
+
+			function newGame() {
+			}
+
+			function saveGame() {
+			}
+			
+			function openGame() {
+			}
 
 			function showCode() {
 				alert(genCode());
@@ -225,14 +390,13 @@
 			<li id="l"><a onclick="saveGame();return false;">Save</a></li>
 			<li id="l"><a onclick="showCode();return false;">Export</a></li>
 
-			<li id="r"><a onclick="addActor();return false;">Add Actor</a></li>
-			<li id="r"><a onclick="addComponent();return false;">Add Component</a></li>
+			<li id="r"><a onclick="codeAddCmd(0);return false;">Add Command</a></li>
 		</ul>
 
 		<ul id="objects">
 		</ul>
 
-		<canvas id=preview>
+		<canvas id="code">
 		</canvas>
 	</body>
 </html>
