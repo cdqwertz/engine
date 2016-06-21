@@ -3,6 +3,7 @@ body {
 }
 
 #objects {
+	transition-duration: 2s;
 	background-color: #f3f3f3;
 	border: 1px solid #d3d3d3;
 	list-style-type: none;
@@ -14,11 +15,12 @@ body {
 	height: 70%;
 	margin: 0;
 	padding: 0;
-	overflow: scroll;
+	overflow: auto;
 }
 
 
 #objects:hover {
+	transition-duration: 0.3s;
 	background-color: #f3f3f3;
 	border: 1px solid #d3d3d3;
 	list-style-type: none;
@@ -30,7 +32,7 @@ body {
 	height: 70%;
 	margin: 0;
 	padding: 0;
-	overflow: scroll;
+	overflow: auto;
 }
 	
 #objects li {
@@ -38,6 +40,7 @@ body {
 }
 
 #objects li a {
+	transition-duration: 0.5s;
 	display: block;
 	text-align: center;
 	padding: 14px 16px;
@@ -46,6 +49,7 @@ body {
 }
 
 #objects li a:hover {
+	transition-duration: 0.2s;
 	display: block;
 	text-align: center;
 	padding: 14px 16px;
@@ -82,6 +86,7 @@ body {
 }
 
 #nav li a {
+	transition-duration: 0.3s;
 	display: block;
 	text-align: center;
 	padding: 14px 16px;
@@ -90,6 +95,7 @@ body {
 }
 
 #nav li a:hover {
+	transition-duration: 0.2s;
 	display: block;
 	text-align: center;
 	padding: 14px 16px;
