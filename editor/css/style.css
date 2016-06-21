@@ -1,0 +1,108 @@
+body {
+	background-color: #f7f7f7;
+}
+
+#objects {
+	background-color: #f3f3f3;
+	border: 1px solid #d3d3d3;
+	list-style-type: none;
+
+	position: fixed;
+	top: 50px;
+	left: -170;
+	width: 200px;
+	height: 70%;
+	margin: 0;
+	padding: 0;
+	overflow: scroll;
+}
+
+
+#objects:hover {
+	background-color: #f3f3f3;
+	border: 1px solid #d3d3d3;
+	list-style-type: none;
+
+	position: fixed;
+	top: 50px;
+	left: 0;
+	width: 200px;
+	height: 70%;
+	margin: 0;
+	padding: 0;
+	overflow: scroll;
+}
+	
+#objects li {
+	 float: top;
+}
+
+#objects li a {
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	color: black;
+}
+
+#objects li a:hover {
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	color: black;
+	background-color: #777777;
+
+	box-shadow: 0px 0px 5px grey; 
+}
+
+
+
+
+#nav {
+	background-color: #f3f3f3;
+	border: 1px solid #d3d3d3;
+	list-style-type: none;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+#nav #l {
+	 float: left;
+}
+
+#nav #r {
+	 float: right;
+}
+
+#nav li a {
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	color: black;
+}
+
+#nav li a:hover {
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+
+	color: black;
+	background-color: #777777;
+	box-shadow: 0px 0px 5px grey; 
+}
+
+#code {
+	position:absolute;
+	z-index: -1;
+	top:0px;
+	left:0px;
+}
