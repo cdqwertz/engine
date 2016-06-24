@@ -8,29 +8,26 @@
 		<script src="js/code_editor.js"></script>
 		<script src="js/level_editor.js"></script>
 		<script src="js/code_generator.js"></script>
+		<script src="js/core.js"></script>
 		<script>
 			var objectsGUI;
-			var codeGUI;
-			var codeCtx;
+			var canvasGUI;
+			var ctx;
 
 			function load() {
 				objectsGUI = document.getElementById("objects");
-				codeGUI = document.getElementById("code");
-				codeCtx = codeGUI.getContext("2d");
+				canvasGUI = document.getElementById("code");
+				ctx = canvasGUI.getContext("2d");
 
-				codeGUI.width = document.body.clientWidth;
-				codeGUI.height = document.body.clientHeight;
+				canvasGUI.width = document.body.clientWidth;
+				canvasGUI.height = document.body.clientHeight;
 
 				code_editor.updateEditorGUI();
-				codeGUI.onmousedown = input.onMouseDown;
-				codeGUI.onmouseup = input.onMouseUp;
-				codeGUI.onmousemove = input.onMouseMove;
+				canvasGUI.onmousedown = input.onMouseDown;
+				canvasGUI.onmouseup = input.onMouseUp;
+				canvasGUI.onmousemove = input.onMouseMove;
 
-				input.mouseMove = code_editor.OnMouseMove;
-				input.mouseDown = code_editor.OnMouseDown;
-				input.mouseUp = code_editor.OnMouseUp;
-
-				level_editor.showObjectsGUI();
+				code_editor.showCmdsGUI();
 			}
 
 			function newGame() {
@@ -54,7 +51,8 @@
 			<li id="l"><a onclick="saveGame();return false;">Save</a></li>
 			<li id="l"><a onclick="showCode();return false;">Export</a></li>
 
-			<li id="r"><a onclick="code_editor.AddCmd(0);return false;">Add Command</a></li>
+			<li id="r"><a onclick="core.code();return false;">Code</a></li>
+			<li id="r"><a onclick="core.level();return false;">Create</a></li>
 		</ul>
 
 		<ul id="objects">

@@ -11,19 +11,19 @@ var input = new function() {
 		input.mouseY = e.clientY;
 		input.mousePressed = true;
 
-		code_editor.OnMouseDown(e);
+		core.mouseDown(e);
 	};
 	this.onMouseMove = function(e) {
 		input.mouseX = e.clientX;
 		input.mouseY = e.clientY;
 
-		code_editor.OnMouseMove(e);
+		core.mouseMove(e);
 	};
 	this.onMouseUp = function(e) {
 		input.mouseX = e.clientX;
 		input.mouseY = e.clientY;
 		input.mousePressed = false;
 
-		code_editor.OnMouseUp(e);
+		core.mouseUp(e);
 	};
 }();

@@ -3,6 +3,21 @@ var level_editor = new function() {
 	this.scene = 0;
 	this.selectedObject = -1;
 
+	this.mouseDown = function(e) {
+	};
+
+	this.mouseUp = function(e) {
+	};
+	
+	this.mouseMove = function(e) {
+	};
+
+	this.updateEditorGUI = function(e) {
+		ctx.clearRect(0,0,canvasGUI.width,canvasGUI.height);
+		
+	};
+
+
 	this.showObjectsGUI = function() {
 		var s = "";
 		for(var i = 1; i < this.scenes[this.scene].length; i++) {
