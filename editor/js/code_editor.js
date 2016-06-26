@@ -2,11 +2,15 @@ var code_editor = new function() {
 	this.components = [[]];
 	this.component = 0;
 	this.Cmds = [];
+	this.library = [];
 
 	this.MouseDown = false;
+	// [type, data1, data2]
 	this.SelectedObject = [-1];
 
 	this.connectionsWithStart = []
+
+	this.vars = [];
 
 	this.OnMouseDown = function (e) {
 		this.MouseDown = true;
@@ -75,6 +79,9 @@ var code_editor = new function() {
 						   y < this.components[this.component][i][1]+25+20*j) {
 							if(this.SelectedObject[0] == 1) {
 								this.components[this.component][this.SelectedObject[1]][3].push([i, j, this.SelectedObject[2]]);
+								if(j != 0) {
+									this.components[this.component][i][5].push([this.SelectedObject[1], this.SelectedObject[2], j]);
+								}
 							} else if(this.SelectedObject[0] == 2) {
 								this.connectionsWithStart.push([i,j]);
 							}
@@ -126,11 +133,22 @@ var code_editor = new function() {
 		ctx.fillText(this.genCode(),700,100);
 	};
 
-	this.showCmdsGUI = function() {
+	this.showLibraryGUI = function() {
+		var s = "";
+		for(var i = 0; i < this.library.length; i++) {
+			s += "<li><a onclick=\"code_editor.showCmdsGUI(\'" + this.library[i] + "\');return false;\">" + this.library[i] + "</a></li>";
+		}
+		objectsGUI.innerHTML = s;
+	};
+
+	this.showCmdsGUI = function(n) {
 		var s = "";
 		for(var i = 0; i < this.Cmds.length; i++) {
-			s += "<li><a onclick=\"code_editor.AddCmd(" + i + ");return false;\">" + this.Cmds[i][0] + "</a></li>";
+			if(this.Cmds[i][4] == n) {
+				s += "<li><a onclick=\"code_editor.AddCmd(" + i + ");return false;\">" + this.Cmds[i][0] + "</a></li>";
+			}
 		}
+		s += "<li><a onclick=\"code_editor.showLibraryGUI();return false;\">" + "Back" + "</a></li>";
 		objectsGUI.innerHTML = s;
 	};
 
@@ -165,7 +183,7 @@ var code_editor = new function() {
 
 	this.AddCmd = function(n) {
 		var a = this.Cmds[n][2]
-		this.components[this.component].push([200, 200, this.Cmds[n][0], [], new Array(a)]); 
+		this.components[this.component].push([200, 200, this.Cmds[n][0], [], new Array(a), []]); 
 		this.updateEditorGUI();
 	};
 
@@ -174,8 +192,12 @@ var code_editor = new function() {
 		this.updateEditorGUI();
 	};
 
-	this.RegisterCmd = function(name, inputs, outputs, type) {
-		this.Cmds.push([name, inputs, outputs, type])
+	this.RegisterCmd = function(name, inputs, outputs, type, library) {
+		this.Cmds.push([name, inputs, outputs, type, library])
+	};
+
+	this.registerLibrary = function(name) {
+		this.library.push(name)
 	};
 
 	this.findCmd = function(name) {
@@ -189,6 +211,7 @@ var code_editor = new function() {
 
 	this.genCode = function() {
 		var c = "";
+		this.vars = [];
 		for(var i = 0; i < this.connectionsWithStart.length; i++){
 			c += this.genPart(this.connectionsWithStart[i][0]) + "\n";
 		}
@@ -205,13 +228,59 @@ var code_editor = new function() {
 		var c = "";
 		var name = this.components[this.component][n][2];
 		var param = "";
+		var v = "";
+		var t = this.Cmds[this.findCmd(name)][3];
+		var object = "";
 
-		for(var i = 1; i < this.components[this.component][n][4].length; i++){
-			param += (this.components[this.component][n][4][i] || "null") + ",";
+		if(this.Cmds[this.findCmd(name)][2] > 1) {
+			var m = "";
+			var var_name = "var_";
+			var_name += n;
+			this.vars.push([var_name, n]);
+			v = "var " + var_name + " = ";
 		}
-		param = param.substring(0, param.length-1);
 
-		c += name + "(" + param + ");\n";
+
+		if(t == 0) {
+			for(var i = 1; i < this.Cmds[this.findCmd(name)][2]+1; i++){
+				if(this.components[this.component][n][4][i]) {
+					param += (this.components[this.component][n][4][i]) + ",";
+				} else {
+					for(var j = 0; j < this.components[this.component][n][5].length; j++){
+						if(this.components[this.component][n][5][j][2] == i) {
+							param += ("var_" + this.components[this.component][n][5][j][0]) + ",";
+						}
+					}
+				}
+			}
+			param = param.substring(0, param.length-1);
+		} else if(t== 2) {
+			for(var j = 0; j < this.components[this.component][n][5].length; j++){
+				if(this.components[this.component][n][5][j][2] == 1) {
+					object = ("var_" + this.components[this.component][n][5][j][0]);
+				}
+			}
+			for(var i = 2; i < this.Cmds[this.findCmd(name)][2]+1; i++){
+				if(this.components[this.component][n][4][i]) {
+					param += (this.components[this.component][n][4][i]) + ",";
+				} else {
+					for(var j = 0; j < this.components[this.component][n][5].length; j++){
+						if(this.components[this.component][n][5][j][2] == i) {
+							param += ("var_" + this.components[this.component][n][5][j][0]) + ",";
+						}
+					}
+				}
+			}
+			param = param.substring(0, param.length-1);
+		};
+
+		if(t == 0) {
+			c += v + name + "(" + param + ");\n";
+		} else if(t == 1) {
+			c += v + name + ";\n";
+		} else if(t==2) {
+			c += v + object + "." + name + "(" + param + ");\n";
+		}
 		for(var i = 0; i < this.components[this.component][n][3].length; i++){
 			if(this.components[this.component][n][3][i][2] == 0) {
 				c += this.genCmd(this.components[this.component][n][3][i][0]);
@@ -220,19 +289,28 @@ var code_editor = new function() {
 		return c;
 	};
 
+	//register libraries
+	
+	this.registerLibrary("actor");
+	this.registerLibrary("input");
+	this.registerLibrary("vector");
+
 	//register commands
 
-	this.RegisterCmd("value", 0, 1, 4);
-
 	//input
-	this.RegisterCmd("input.mouseX", 0, 1, 1);
-	this.RegisterCmd("input.mouseY", 0, 1, 1);
-	this.RegisterCmd("input.getKey", 2, 1, 0);
+	this.RegisterCmd("input.mouseX", 1, 2, 1, "input");
+	this.RegisterCmd("input.mouseY", 1, 2, 1, "input");
+	this.RegisterCmd("input.getKey", 2, 2, 0, "input");
 
 	//actor
-	this.RegisterCmd("findComponent", 3, 2, 3);
-	this.RegisterCmd("getComponent", 3, 2, 3);
+	this.RegisterCmd("findComponent", 3, 2, 2, "actor");
+	this.RegisterCmd("getComponent", 3, 2, 2, "actor");
 
 	//vec2
-	this.RegisterCmd("add", 2, 2, 3);
+	this.RegisterCmd("new vector", 3, 2, 0, "vector");
+	this.RegisterCmd("add", 3, 2, 2, "vector");
+	this.RegisterCmd("sub", 3, 2, 2, "vector");
+	this.RegisterCmd("mul", 3, 2, 2, "vector");
+	this.RegisterCmd("div", 3, 2, 2, "vector");
+	this.RegisterCmd("dist", 3, 2, 2, "vector");
 }();
