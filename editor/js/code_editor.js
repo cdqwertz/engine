@@ -112,6 +112,7 @@ var code_editor = new function() {
 	
 	this.updateEditorGUI = function () {
 		ctx.clearRect(0,0,canvasGUI.width,canvasGUI.height);
+		ctx.strokeStyle = "#000000";
 
 		ctx.strokeRect(100,100, 50, 50);
 
@@ -121,6 +122,7 @@ var code_editor = new function() {
 			ctx.moveTo(125, 125);
 			var c = this.components[this.component][d[0]];
 			ctx.lineTo(c[0]-10,c[1]+17+20*d[1], 15, 15);
+			ctx.strokeStyle = "#0000FF";
 			ctx.stroke();
 		}
 
@@ -153,6 +155,7 @@ var code_editor = new function() {
 	};
 
 	this.DrawCmd = function(d) {
+		ctx.strokeStyle = "#000000";
 		ctx.strokeRect(d[0],d[1], 100, 100);
 		ctx.fillText(d[2],d[0]+20,d[1] + 20);
 
@@ -177,6 +180,11 @@ var code_editor = new function() {
 			ctx.moveTo(d[0]+107,d[1]+17+20*d[3][i][2], 15, 15);
 			var c = this.components[this.component][d[3][i][0]];
 			ctx.lineTo(c[0]-10,c[1]+17+20*d[3][i][1], 15, 15);
+			if(d[3][i][2] == 0) {
+				ctx.strokeStyle = "#0000FF";
+			} else {
+				ctx.strokeStyle = "#00FF00";
+			}
 			ctx.stroke();
 		}
 	};
