@@ -67,10 +67,10 @@ function boxCollider(x, y, w, h, t, m) {
 	};
 
 	this.intersect = function (b) {
-		if (this.x < b.x + b.w && 
-			this.x + this.w > b.x &&
-			this.y < b.y + b.h &&
-			this.h + this.y > b.y) {
+		if (this.x-this.w/2 < b.x-b.w/2 + b.w && 
+			this.x-this.w/2 + this.w > b.x-b.w/2 &&
+			this.y-this.h/2 < b.y-b.h/2 + b.h &&
+			this.h + (this.y-this.h/2) > b.y-b.h/2) {
 			return true;
 		} else {
 			return false;

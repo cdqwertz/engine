@@ -21,6 +21,7 @@
 		<script src="core.js"></script>
 
 		<script>
+			//Test component
 			function move() {
 				this.componentType = "move";
 				this.update = function(obj) {
@@ -53,12 +54,14 @@
 				};
 			}
 
+			//Load
+
 			function load()
 			{
 				var ball = new actor();
-				ball.addComponent(new transform(new vec2(50, 50), new vec2(0, 0)));
+				ball.addComponent(new transform(new vec2(200, 0), 0));
 				ball.addComponent(new bounce());
-				ball.addComponent(new velocity(new vec2(0.3, 0.1)));
+				ball.addComponent(new velocity(new vec2(0.3, 0.1), 0.1));
 				var ballColl = new boxCollider(0, 0, 50, 50, "ball", true)
 				ball.addComponent(ballColl);
 				ball.addComponent(new drawRect(new vec2(0, 0), new vec2(50, 50)));
@@ -66,16 +69,16 @@
 				mainScene.addObject(ball);
 
 				var wall1 = new actor();
-				wall1.addComponent(new transform(new vec2(0, 0), new vec2(0, 0)));
-				var wall1Coll = new boxCollider(0, 0, 50, screen.h, "wall", false)
+				wall1.addComponent(new transform(new vec2(25, screen.h/2), 0));
+				var wall1Coll = new boxCollider(0,0, 50, screen.h, "wall", false)
 				wall1.addComponent(wall1Coll);
 				wall1.addComponent(new drawRect(new vec2(0, 0), new vec2(50, screen.h)));
 
 				mainScene.addObject(wall1);
 
 				var wall2 = new actor();
-				wall2.addComponent(new transform(new vec2(screen.w-50, 0), new vec2(0, 0)));
-				var wall2Coll = new boxCollider(0, 0, 50, screen.h, "wall", false)
+				wall2.addComponent(new transform(new vec2(screen.w-25, screen.h/2), 0));
+				var wall2Coll = new boxCollider(0,0, 50, screen.h, "wall", false)
 				wall2.addComponent(wall2Coll);
 				wall2.addComponent(new drawRect(new vec2(0, 0), new vec2(50, screen.h)));
 

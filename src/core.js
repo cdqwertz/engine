@@ -31,7 +31,7 @@ function onUpdate(t) {
 	ctx.clearRect(0, 0, c.width, c.height);
 	mainScene.update();
 
-	console.log(input.mouseX + " " + input.mouseY)
+	//console.log(input.mouseX + " " + input.mouseY)
 	
 	physicsLayers.update();
 	window.requestAnimationFrame(onUpdate);
