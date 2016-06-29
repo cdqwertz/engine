@@ -162,6 +162,11 @@ var code_editor = new function() {
 		//draw inputs
 		var inputs = this.Cmds[this.findCmd(d[2])][1]
 		for(var i = 0; i < inputs; i++){
+			if(i == 0) {
+				ctx.strokeStyle = "#0000FF";
+			} else {
+				ctx.strokeStyle = "#00FF00";
+			}
 			ctx.strokeRect(d[0]-15,d[1]+10+i*20, 15, 15);
 			if(d[4][i]) {
 				ctx.fillText(d[4][i],d[0]-50,d[1]+20+i*20);
@@ -171,6 +176,11 @@ var code_editor = new function() {
 		//draw outputs
 		var outputs = this.Cmds[this.findCmd(d[2])][2]
 		for(var i = 0; i < outputs; i++){
+			if(i == 0) {
+				ctx.strokeStyle = "#0000FF";
+			} else {
+				ctx.strokeStyle = "#00FF00";
+			}
 			ctx.strokeRect(d[0]+100,d[1]+10+i*20, 15, 15);
 		}
 

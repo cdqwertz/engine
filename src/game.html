@@ -59,11 +59,12 @@
 			function load()
 			{
 				var ball = new actor();
-				ball.addComponent(new transform(new vec2(200, 0), 0));
+				ball.addComponent(new transform(new vec2(200, 100), 0));
 				ball.addComponent(new bounce());
-				ball.addComponent(new velocity(new vec2(0.3, 0.1), 0.1));
+				ball.addComponent(new velocity(new vec2(-0.4, 0.2), 0.1));
 				var ballColl = new boxCollider(0, 0, 50, 50, "ball", true)
 				ball.addComponent(ballColl);
+				ball.addComponent(new simpleRigidbody());
 				ball.addComponent(new drawRect(new vec2(0, 0), new vec2(50, 50)));
 
 				mainScene.addObject(ball);
@@ -84,11 +85,29 @@
 
 				mainScene.addObject(wall2);
 
+				var wall3 = new actor();
+				wall3.addComponent(new transform(new vec2(screen.w/2, 25), 0));
+				var wall3Coll = new boxCollider(0,0, screen.w, 50, "wall", false)
+				wall3.addComponent(wall3Coll);
+				wall3.addComponent(new drawRect(new vec2(0, 0), new vec2(screen.w, 50)));
+
+				mainScene.addObject(wall3);
+
+				var wall4 = new actor();
+				wall4.addComponent(new transform(new vec2(screen.w/2, screen.h-25), 0));
+				var wall4Coll = new boxCollider(0,0, screen.w, 50, "wall", false)
+				wall4.addComponent(wall4Coll);
+				wall4.addComponent(new drawRect(new vec2(0, 0), new vec2(screen.w, 50)));
+
+				mainScene.addObject(wall4);
+
 				
 				var collLayer = new collisionLayer();
 				collLayer.addCollider(ballColl);
 				collLayer.addCollider(wall1Coll);
 				collLayer.addCollider(wall2Coll);
+				collLayer.addCollider(wall3Coll);
+				collLayer.addCollider(wall4Coll);
 				physicsLayers.addLayer(collLayer);
 
 				//mainScene.addObject(test);

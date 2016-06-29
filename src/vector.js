@@ -36,16 +36,16 @@ function vec2(x, y) {
 	};
 
 	this.dist = function(other) {
-		return math.pow(math.pow(this.x-other.x)+math.pow(this.y-other.y),0.5);
+		return Math.pow(Math.pow(this.x-other.x)+Math.pow(this.y-other.y),0.5);
 	};
 
 	this.length = function() {
-		return math.pow(math.pow(this.x)+math.pow(this.y),0.5);
+		return Math.pow(Math.pow(this.x)+Math.pow(this.y),0.5);
 	};
 
 	this.abs = function() {
-		var _x = math.abs(this.x);
-		var _y = math.abs(this.y);
+		var _x = Math.abs(this.x);
+		var _y = Math.abs(this.y);
 		return (new vec2(_x,_y));
 	};
 }

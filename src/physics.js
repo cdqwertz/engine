@@ -76,14 +76,67 @@ function boxCollider(x, y, w, h, t, m) {
 			return false;
 		}
 	};
+
+
+	this.getDir = function(b) {
+		var d = -1;
+		var dx = (b.x-this.x)/(b.w/2);
+		var dy = (b.y-this.y)/(b.h/2);
+
+		var absDx = Math.abs(dx);
+		var absDy = Math.abs(dy);
+
+		if(absDx > absDy){
+			if(dx > 0) {
+				d = 0;
+			} else {
+				d = 2;
+			}
+		} else {
+			if(dy > 0) {
+				d = 1;
+			} else {
+				d = 3;
+			}
+		}
+
+		//dir
+		// 0 : right
+		// 1 : bottom
+		// 2 : left
+		// 3 : top
+
+		return d;
+	};
 }
 
 
-function simpleRigidbody(g) {
-	this.gravity = g || 0.0;
+function simpleRigidbody() {
 	this.componentType = "simpleRigidbody";
 	
+	this.t = null;
+	this.coll = null;
+
+	this.start = function(obj) {
+		this.t = obj.getComponent("transform");
+		this.coll = obj.getComponent("boxCollider");
+	};	
+
 	this.update = function(obj) {
-		var t = obj.components[obj.findComponent("transform")]
+		//console.log(this.t.p.x + " " + this.t.p.y);
+		if(this.coll) {
+			if(this.coll.isColliding) {
+				var dir = this.coll.getDir(this.coll.other);
+				if(dir == 0) {
+					this.t.p.x = this.coll.other.x - this.coll.other.w/2 -  this.coll.w/2;
+				} else if(dir == 1) {
+					this.t.p.y = this.coll.other.y - this.coll.other.h/2 - this.coll.h/2;
+				} else if(dir == 2) {
+					this.t.p.x = this.coll.other.x + this.coll.other.w;
+				} else if(dir == 3) {
+					this.t.p.y = this.coll.other.y + this.coll.other.h;
+				}
+			}
+		}
 	}
 }

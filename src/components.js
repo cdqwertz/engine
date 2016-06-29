@@ -77,13 +77,35 @@ function bounce() {
 	this.update = function(obj) {
 		if(this.coll) {
 			if(this.coll.isColliding) {
-				//TODO
+				
 				if(this.coll.other.tag == "wall") {
-					var x1 = -this.v.v.x;
-					var y1 = this.v.v.y;
-					console.log(x1);
-					this.v.v.x = x1;
-					this.v.v.y = y1;
+					var dir = this.coll.getDir(this.coll.other);
+					console.log(dir);
+					if(dir == 1) {
+						var x1 = this.v.v.x;
+						var y1 = -Math.abs(this.v.v.y);
+					
+						this.v.v.x = x1;
+						this.v.v.y = y1;
+					} else if(dir == 3) {
+						var x1 = this.v.v.x;
+						var y1 = Math.abs(this.v.v.y);
+					
+						this.v.v.x = x1;
+						this.v.v.y = y1;
+					} else if(dir == 0) {
+						var x1 = -Math.abs(this.v.v.x);
+						var y1 = this.v.v.y;
+					
+						this.v.v.x = x1;
+						this.v.v.y = y1;
+					} else if(dir == 2) {
+						var x1 = Math.abs(this.v.v.x);
+						var y1 = this.v.v.y;
+					
+						this.v.v.x = x1;
+						this.v.v.y = y1;
+					}
 				}
 			}
 		}
