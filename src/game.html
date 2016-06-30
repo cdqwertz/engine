@@ -22,34 +22,44 @@
 
 		<script>
 			//Test component
-			function move() {
+			function move(type, speed, jumpForce) {
 				this.componentType = "move";
+				this.t = null;
+				this.type = type || 0;
+				this.speed = speed || 0;
+				this.jumpForce = jumpForce || speed;
+
+				this.start =  function(obj) {
+					this.t = obj.getComponent("transform");
+				};
+
 				this.update = function(obj) {
-					if (input.getKey(38) == true) {
-						obj.components[2].getPos().add(new vec2(0, -0.2*time.dtime));
-					}
-					if (input.getKey(37) == true) {
-						obj.components[2].getPos().add(new vec2(-0.2*time.dtime, 0));
-					}
-					if (input.getKey(39) == true) {
-						obj.components[2].getPos().add(new vec2(0.2*time.dtime, 0));
-					}
-					if (input.getKey(40) == true) {
-						obj.components[2].getPos().add(new vec2(0, 0.2*time.dtime));
-					}
-				};
-
-				this.afterDraw = function(obj) {
-					ctx.fillStyle = "#000000";
-				};
-
-				this.draw = function(obj) {
-					var coll = obj.components[obj.findComponent("boxCollider")];
-
-					if(coll.other) {
-						ctx.fillStyle = "#FF0000";
-					} else {
-						ctx.fillStyle = "#000000";
+					if(this.type == 0) {
+						if (input.getKey(38) == true) {
+							this.t.p = this.t.p.add(new vec2(0, -this.speed*time.dtime));
+						}
+						if (input.getKey(37) == true) {
+							this.t.p = this.t.p.add(new vec2(-this.speed*time.dtime, 0));
+						}
+						if (input.getKey(39) == true) {
+							this.t.p = this.t.p.add(new vec2(this.speed*time.dtime, 0));
+						}
+						if (input.getKey(40) == true) {
+							this.t.p = this.t.p.add(new vec2(0, this.speed*time.dtime));
+						}
+					} else if(this.type == 1) {
+						if (input.getKey(38) == true) {
+							this.t.p = this.t.p.add(new vec2(0, -this.jumpForce*time.dtime));
+						}
+						if (input.getKey(37) == true) {
+							this.t.p = this.t.p.add(new vec2(-this.speed*time.dtime, 0));
+						}
+						if (input.getKey(39) == true) {
+							this.t.p = this.t.p.add(new vec2(this.speed*time.dtime, 0));
+						}
+						if (input.getKey(40) == true) {
+							this.t.p = this.t.p.add(new vec2(0, this.jumpForce*time.dtime));
+						}
 					}
 				};
 			}
@@ -60,9 +70,10 @@
 			{
 				var ball = new actor();
 				ball.addComponent(new transform(new vec2(200, 100), 0));
-				ball.addComponent(new bounce());
-				ball.addComponent(new velocity(new vec2(-0.4, 0.2), 0.1));
-				var ballColl = new boxCollider(0, 0, 50, 50, "ball", true)
+				//ball.addComponent(new bounce());
+				ball.addComponent(new move(0, 0.7));
+				ball.addComponent(new velocity(new vec2(0, 0), 0));
+				var ballColl = new boxCollider(0, 0, 50, 50, "wall", true)
 				ball.addComponent(ballColl);
 				ball.addComponent(new simpleRigidbody());
 				ball.addComponent(new drawRect(new vec2(0, 0), new vec2(50, 50)));
@@ -101,6 +112,16 @@
 
 				mainScene.addObject(wall4);
 
+				var wall5 = new actor();
+				wall5.addComponent(new transform(new vec2(screen.w/2, screen.h/2), 0));
+				var wall5Coll = new boxCollider(0,0, 100, 100, "wall", true)
+				wall5.addComponent(wall5Coll);
+				wall5.addComponent(new velocity(new vec2(0.4, 0.2), 0));
+				wall5.addComponent(new bounce());
+				wall5.addComponent(new drawRect(new vec2(0, 0), new vec2(100, 100)));
+
+				mainScene.addObject(wall5);
+
 				
 				var collLayer = new collisionLayer();
 				collLayer.addCollider(ballColl);
@@ -108,6 +129,7 @@
 				collLayer.addCollider(wall2Coll);
 				collLayer.addCollider(wall3Coll);
 				collLayer.addCollider(wall4Coll);
+				collLayer.addCollider(wall5Coll);
 				physicsLayers.addLayer(collLayer);
 
 				//mainScene.addObject(test);

@@ -30,8 +30,11 @@ function collisionLayer() {
 						this.objs[i].isColliding = c || this.objs[i].isColliding;
 
 						if(c) {
-							this.objs[j].other = this.objs[i]
-							this.objs[i].other = this.objs[j]
+							this.objs[j].other = this.objs[i];
+							this.objs[i].other = this.objs[j];
+
+							this.objs[i].collisions.push(new collision(this.objs[i], this.objs[j]));
+							this.objs[j].collisions.push(new collision(this.objs[j], this.objs[i]));
 						}
 					}
 				}
@@ -39,6 +42,13 @@ function collisionLayer() {
 		}
 	}
 }
+
+function collision(a, b) {
+	this.a = a;
+	this.b = b;
+}
+
+//collider
 
 function boxCollider(x, y, w, h, t, m) {
 	this.x = 0;
@@ -53,8 +63,12 @@ function boxCollider(x, y, w, h, t, m) {
 
 	this.isColliding = false;
 	this.other = null;
+	this.collisions = [];
+	this.parent = null;
 
 	this.start = function(obj) {
+		this.parent = obj;
+
 		var p = obj.components[obj.findComponent("transform")].getPos();
 		this.x = p.x + this.offset_x;
 		this.y = p.y + this.offset_y;
@@ -64,6 +78,10 @@ function boxCollider(x, y, w, h, t, m) {
 		var p = obj.components[obj.findComponent("transform")].getPos();
 		this.x = p.x + this.offset_x;
 		this.y = p.y + this.offset_y;
+	};
+
+	this.afterUpdate = function(obj) {
+		this.collisions = [];
 	};
 
 	this.intersect = function (b) {
@@ -126,15 +144,18 @@ function simpleRigidbody() {
 		//console.log(this.t.p.x + " " + this.t.p.y);
 		if(this.coll) {
 			if(this.coll.isColliding) {
-				var dir = this.coll.getDir(this.coll.other);
-				if(dir == 0) {
-					this.t.p.x = this.coll.other.x - this.coll.other.w/2 -  this.coll.w/2;
-				} else if(dir == 1) {
-					this.t.p.y = this.coll.other.y - this.coll.other.h/2 - this.coll.h/2;
-				} else if(dir == 2) {
-					this.t.p.x = this.coll.other.x + this.coll.other.w;
-				} else if(dir == 3) {
-					this.t.p.y = this.coll.other.y + this.coll.other.h;
+				for(var i = 0; i < this.coll.collisions.length; i++) {
+					var other = this.coll.collisions[i].b;
+					var dir = this.coll.getDir(other);
+					if(dir == 0) {
+						this.t.p.x = other.x - other.w/2 -  this.coll.w/2;
+					} else if(dir == 1) {
+						this.t.p.y = other.y - other.h/2 - this.coll.h/2;
+					} else if(dir == 2) {
+						this.t.p.x = other.x + other.w/2 + this.coll.w/2;
+					} else if(dir == 3) {
+						this.t.p.y = other.y + other.h/2 + this.coll.h/2;
+					}
 				}
 			}
 		}
