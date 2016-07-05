@@ -6,6 +6,7 @@
 	<body onload="load();">
 		<script src="js/input.js"></script>
 		<script src="js/code_editor.js"></script>
+		<script src="js/prefab_editor.js"></script>
 		<script src="js/level_editor.js"></script>
 		<script src="js/code_generator.js"></script>
 		<script src="js/core.js"></script>
@@ -51,8 +52,9 @@
 			<li id="l"><a onclick="saveGame();return false;">Save</a></li>
 			<li id="l"><a onclick="showCode();return false;">Export</a></li>
 
-			<li id="r"><a onclick="core.code();return false;">Code</a></li>
 			<li id="r"><a onclick="core.level();return false;">Create</a></li>
+			<li id="r"><a onclick="core.prefabs();return false;">Prefabs</a></li>
+			<li id="r"><a onclick="core.code();return false;">Code</a></li>
 		</ul>
 
 		<ul id="objects">

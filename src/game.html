@@ -76,7 +76,7 @@
 				var ballColl = new boxCollider(0, 0, 50, 50, "wall", true)
 				ball.addComponent(ballColl);
 				ball.addComponent(new simpleRigidbody());
-				ball.addComponent(new drawRect(new vec2(0, 0), new vec2(50, 50)));
+				ball.addComponent(new drawRect(new vec2(0, 0), new vec2(50, 50), "#FF0000"));
 
 				mainScene.addObject(ball);
 

@@ -1,9 +1,23 @@
 var level_editor = new function() {
 	this.scenes = [["mainScene"]];
 	this.scene = 0;
-	this.selectedObject = -1;
+	this.selectedObject = [-1];
+
+	this.selectedPrefab = -1;
 
 	this.mouseDown = function(e) {
+		var x = e.clientX;
+		var y = e.clientY;
+		console.log("mouse down");
+		if(this.selectedPrefab != -1) {
+			if(e.which == 2) {
+				this.selectedPrefab = -1;
+				canvasGUI.style.cursor = "auto";
+			} else {
+				console.log("add prefab");
+				this.addPrefab(this.selectedPrefab,x,y);
+			}
+		}
 	};
 
 	this.mouseUp = function(e) {
@@ -14,87 +28,77 @@ var level_editor = new function() {
 
 	this.updateEditorGUI = function(e) {
 		ctx.clearRect(0,0,canvasGUI.width,canvasGUI.height);
-		
-	};
-
-
-	this.showObjectsGUI = function() {
-		var s = "";
 		for(var i = 1; i < this.scenes[this.scene].length; i++) {
-			s += "<li><a onclick=\"level_editor.GUISelectObject(" + i + ");return false;\">" + this.scenes[this.scene][i][0] + "</a></li>";
+			//BEGIN TODO : move this to an own class
+			for(var j = 1; j < this.scenes[this.scene][i].length; j++) {
+				if(this.scenes[this.scene][i][j][0] == "transform") {
+					var x = this.scenes[this.scene][i][j][1][1];
+					var y = this.scenes[this.scene][i][j][1][2];
+					ctx.translate(x,y);
+				}
+				if(this.scenes[this.scene][i][j][0] == "drawRect") {
+					var x = this.scenes[this.scene][i][j][1][1];
+					var y = this.scenes[this.scene][i][j][1][2];
+					var sx = this.scenes[this.scene][i][j][2][1];
+					var sy = this.scenes[this.scene][i][j][2][2];
+					ctx.fillStyle = this.scenes[this.scene][i][j][3][1];
+					ctx.fillRect(x-(sx/2), y-(sy/2),sx,sy);
+				}
+				if(this.scenes[this.scene][i][j][0] == "boxCollider") {
+					var x = this.scenes[this.scene][i][j][1][1];
+					var y = this.scenes[this.scene][i][j][2][1];
+					var sx = this.scenes[this.scene][i][j][3][1];
+					var sy = this.scenes[this.scene][i][j][4][1];
+					ctx.strokeStyle = "#0000FF";
+					ctx.lineWidth = 3;
+					ctx.strokeRect(x-(sx/2), y-(sy/2),sx,sy);
+					ctx.lineWidth = 1;
+					ctx.strokeStyle = "#000000";
+				}
+				
+			}
+
+			for(var j = 1; j < this.scenes[this.scene][i].length; j++) {
+				if(this.scenes[this.scene][i][j][0] == "transform") {
+					var x = this.scenes[this.scene][i][j][1][1];
+					var y = this.scenes[this.scene][i][j][1][2];
+					ctx.translate(-x,-y)
+				}
+				
+			}
+			//END TODO
 		}
-		s += "<li><a onclick=\"level_editor.addActor();return false;\">Add Actor</a></li>";
-		objectsGUI.innerHTML = s;
 	};
 
-	this.showComponentsGUI = function() {
+
+	this.showPrefabsGUI = function() {
 		var s = "";
-		if(this.selectedObject == -1) {
-			return 0;
-		}
-		s += "<li><a onclick=\"level_editor.showObjectsGUI();return false;\">Back</a></li>";
-		for(var i = 1; i < this.scenes[this.scene][this.selectedObject].length; i++) {
-			s += "<li><a onclick=\"level_editor.GUISelectComponent(" + i + ");return false;\">" + this.scenes[this.scene][this.selectedObject][i][0] + "</a></li>";
-		}
-		s += "<li><a onclick=\"level_editor.addComponent();return false;\">Add Component</a></li>";
-		objectsGUI.innerHTML = s;
-	};
-
-	this.GUISelectObject = function(i) {
-		this.selectedObject = i;
-		this.showComponentsGUI();
-	};
-
-	this.GUISelectComponent = function(n) {
-		var s = "";
-		if(this.selectedObject == -1) {
-			return 0;
-		}
-		s += "<li><a onclick=\"level_editor.showComponentsGUI();return false;\">Back</a></li>";
-		for(var i = 1; i < this.scenes[this.scene][this.selectedObject][n].length; i++) {
-			s += "<li><a><input type=\"text\" value=\"" + this.scenes[this.scene][this.selectedObject][n][i] + "\" onchange = \"level_editor.scenes[level_editor.scene][level_editor.selectedObject]["+n+"]["+i+"] = this.value; level_editor.GUISelectComponent(" + n+");\"></input></a></li>";
+		for(var i = 0; i < prefab_editor.prefabs.length; i++) {
+			s += "<li><a onclick=\"level_editor.GUISelectPrefab(" + i + ");return false;\">" + prefab_editor.prefabs[i][0] + "</a></li>";
 		}
 		objectsGUI.innerHTML = s;
 	};
 
-	this.addActor = function() {
-		var n = prompt("Name:");
-		if(n) {
-			var p = this.scenes[this.scene].push([]);
-			this.scenes[this.scene][p-1].push(n);
-		}
-		this.showObjectsGUI();
+	this.GUISelectPrefab = function(i) {
+		this.selectedPrefab = i;
+		canvasGUI.style.cursor = "crosshair";
 	};
-	
-	this.addComponent = function() {
-		var n = prompt("Type:");
-		if(n) {
-			var p = this.scenes[this.scene][this.selectedObject].push([]);
-			this.scenes[this.scene][this.selectedObject][p-1].push(n);
-			if(n == "transform") {
-				this.scenes[this.scene][this.selectedObject][p-1].push("new vec2(0, 0)");
-				this.scenes[this.scene][this.selectedObject][p-1].push("new vec2(0, 0)");
-			} else if(n == "drawRect") {
-				this.scenes[this.scene][this.selectedObject][p-1].push("new vec2(0, 0)");
-				this.scenes[this.scene][this.selectedObject][p-1].push("new vec2(0, 0)");
-			} else if(n == "drawImage") {
-				this.scenes[this.scene][this.selectedObject][p-1].push("new vec2(0, 0)");
-				this.scenes[this.scene][this.selectedObject][p-1].push("new Image()");
-				this.scenes[this.scene][this.selectedObject][p-1].push("0");
-				this.scenes[this.scene][this.selectedObject][p-1].push("512");
-				this.scenes[this.scene][this.selectedObject][p-1].push("512");
-				this.scenes[this.scene][this.selectedObject][p-1].push("[]");
-			} else if(n == "boxCollider") {
-				this.scenes[this.scene][this.selectedObject][p-1].push("0");
-				this.scenes[this.scene][this.selectedObject][p-1].push("0");
 
-				this.scenes[this.scene][this.selectedObject][p-1].push("512");
-				this.scenes[this.scene][this.selectedObject][p-1].push("512");
-
-				this.scenes[this.scene][this.selectedObject][p-1].push("");
-				this.scenes[this.scene][this.selectedObject][p-1].push("false");
+	this.addPrefab = function(n,x,y) {
+		var name = prompt("name");
+		//BEGIN TODO : replace the code below with better code
+		var prefab = JSON.parse(JSON.stringify(prefab_editor.prefabs[n]));
+		//END TODO
+		var p = this.scenes[this.scene].push(prefab);
+		this.scenes[this.scene][p-1][0] = name;
+		var obj = this.scenes[this.scene][p-1];
+		for(var i = 1; i < obj.length; i++) {
+			if(obj[i][0] == "transform") {
+				obj[i][1][1] = x;
+				obj[i][1][2] = y;
 			}
 		}
-		this.showComponentsGUI();
+		
+		this.updateEditorGUI();
 	};
 }();

@@ -1,9 +1,11 @@
-function drawRect(pos, scale)
+function drawRect(pos, scale, color)
 {
 	this.pos = pos;
 	this.scale = scale;
+	this.color = color || "#000000";
 	this.componentType = "drawRect";
 	this.draw = function(obj) {
+		ctx.fillStyle = this.color;
 		ctx.fillRect(this.pos.x-(this.scale.x/2), this.pos.y-(this.scale.y/2),this.scale.x,this.scale.y);
 	};
 }

@@ -2,7 +2,13 @@ code_generator = new function() {
 	this.genParams = function(l) {
 		var s = "";
 		for(var i = 1; i < l.length; i++){
-			s += l[i] + ",";
+			if(l[i][0] == "vec2") {
+				s += "new vec2(" + l[i][1] + "," +l[i][2] + ")" + ",";
+			} else if(l[i][0] == "string") {
+				s += "\"" + l[i][1] + "\"" + ",";
+			} else {
+				s += l[i][1] + ",";
+			}
 		}
 		s = s.substring(0, s.length-1);
 		return s;
