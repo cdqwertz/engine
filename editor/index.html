@@ -5,6 +5,7 @@
 	</head>
 	<body onload="load();">
 		<script src="js/input.js"></script>
+		<script src="js/prefab_preview.js"></script>
 		<script src="js/code_editor.js"></script>
 		<script src="js/prefab_editor.js"></script>
 		<script src="js/level_editor.js"></script>
@@ -40,17 +41,14 @@
 			function openGame() {
 			}
 
-			function showCode() {
-				alert(code_generator.genCode());
-			}
 		</script>
 
 		<ul id="nav">
 
-			<li id="l"><a onclick="newGame();return false;">New</a></li>
-			<li id="l"><a onclick="openGame();return false;">Open</a></li>
-			<li id="l"><a onclick="saveGame();return false;">Save</a></li>
-			<li id="l"><a onclick="showCode();return false;">Export</a></li>
+			<li id="l"><a onclick="core.newProject();return false;">New</a></li>
+			<li id="l"><a onclick="core.openProject();return false;">Open</a></li>
+			<li id="l"><a onclick="core.saveProject();return false;">Save</a></li>
+			<li id="l"><a onclick="core.exportCode();return false;">Export</a></li>
 
 			<li id="r"><a onclick="core.level();return false;">Create</a></li>
 			<li id="r"><a onclick="core.prefabs();return false;">Prefabs</a></li>

@@ -1,6 +1,12 @@
 var core = new function() {
 	this.mode = 0;
+	this.mouseX = 0;
+	this.mouseY = 0;
+
+
 	this.mouseDown = function(e) {
+		this.mouseX = e.clientX;
+		this.mouseY = e.clientY;
 		if(this.mode == 0) {
 			code_editor.OnMouseDown(e);
 		} else if(this.mode == 2) {
@@ -10,6 +16,8 @@ var core = new function() {
 	};
 
 	this.mouseUp = function(e) {
+		this.mouseX = e.clientX;
+		this.mouseY = e.clientY;
 		if(this.mode == 0) {
 			code_editor.OnMouseUp(e);
 		} else if(this.mode == 2) {
@@ -19,6 +27,8 @@ var core = new function() {
 	};
 	
 	this.mouseMove = function(e) {
+		this.mouseX = e.clientX;
+		this.mouseY = e.clientY;
 		if(this.mode == 0) {
 			code_editor.OnMouseMove(e);
 		} else if(this.mode == 2) {
@@ -44,4 +54,40 @@ var core = new function() {
 		prefab_editor.showObjectsGUI();
 		prefab_editor.updateEditorGUI();
 	};
+
+	this.exportCode = function() {
+		alert(code_generator.genCode());
+	};
+
+	this.newProject = function() {
+	}
+
+	this.openProject = function() {
+		var l = JSON.parse(prompt("Data:"));
+		if (l && l != []) {
+			code_editor.components = l[0];
+			prefab_editor.prefabs = l[1];
+			level_editor.scenes = l[2];
+
+			level_editor.selectedObject = [-1];
+			level_editor.selectedPrefab = -1;
+
+			prefab_editor.selectedObject = -1;
+
+			code_editor.component = 0;
+			code_editor.SelectedObject = [-1];
+			code_editor.vars = [];
+			code_editor.connectionsWithStart = [];
+
+			this.code();
+		}
+	}
+	
+	this.saveProject = function() {
+		var l = [];
+		l.push(code_editor.components);
+		l.push(prefab_editor.prefabs);
+		l.push(level_editor.scenes);
+		alert(JSON.stringify(l));
+	}
 }();

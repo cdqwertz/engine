@@ -3,6 +3,7 @@ body {
 }
 
 #objects {
+	opacity: 0.8;
 	transition-duration: 2s;
 	background-color: #f3f3f3;
 	border: 1px solid #d3d3d3;
@@ -16,10 +17,12 @@ body {
 	margin: 0;
 	padding: 0;
 	overflow: auto;
+	box-shadow: 0px 0px 2px grey; 
 }
 
 
 #objects:hover {
+	opacity: 1;
 	transition-duration: 0.3s;
 	background-color: #f3f3f3;
 	border: 1px solid #d3d3d3;
@@ -33,6 +36,7 @@ body {
 	margin: 0;
 	padding: 0;
 	overflow: auto;
+	box-shadow: 5px 5px 5px grey; 
 }
 	
 #objects li {
@@ -57,7 +61,7 @@ body {
 	color: black;
 	background-color: #777777;
 
-	box-shadow: 0px 0px 5px grey; 
+	box-shadow: 0px 2px 5px grey; 
 }
 
 
@@ -75,6 +79,7 @@ body {
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
+	box-shadow: 1px 1px 5px grey; 
 }
 
 #nav #l {
@@ -103,7 +108,7 @@ body {
 
 	color: black;
 	background-color: #777777;
-	box-shadow: 0px 0px 5px grey; 
+	box-shadow: 4px 0px 5px grey; 
 }
 
 #code {

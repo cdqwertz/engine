@@ -29,44 +29,7 @@ var level_editor = new function() {
 	this.updateEditorGUI = function(e) {
 		ctx.clearRect(0,0,canvasGUI.width,canvasGUI.height);
 		for(var i = 1; i < this.scenes[this.scene].length; i++) {
-			//BEGIN TODO : move this to an own class
-			for(var j = 1; j < this.scenes[this.scene][i].length; j++) {
-				if(this.scenes[this.scene][i][j][0] == "transform") {
-					var x = this.scenes[this.scene][i][j][1][1];
-					var y = this.scenes[this.scene][i][j][1][2];
-					ctx.translate(x,y);
-				}
-				if(this.scenes[this.scene][i][j][0] == "drawRect") {
-					var x = this.scenes[this.scene][i][j][1][1];
-					var y = this.scenes[this.scene][i][j][1][2];
-					var sx = this.scenes[this.scene][i][j][2][1];
-					var sy = this.scenes[this.scene][i][j][2][2];
-					ctx.fillStyle = this.scenes[this.scene][i][j][3][1];
-					ctx.fillRect(x-(sx/2), y-(sy/2),sx,sy);
-				}
-				if(this.scenes[this.scene][i][j][0] == "boxCollider") {
-					var x = this.scenes[this.scene][i][j][1][1];
-					var y = this.scenes[this.scene][i][j][2][1];
-					var sx = this.scenes[this.scene][i][j][3][1];
-					var sy = this.scenes[this.scene][i][j][4][1];
-					ctx.strokeStyle = "#0000FF";
-					ctx.lineWidth = 3;
-					ctx.strokeRect(x-(sx/2), y-(sy/2),sx,sy);
-					ctx.lineWidth = 1;
-					ctx.strokeStyle = "#000000";
-				}
-				
-			}
-
-			for(var j = 1; j < this.scenes[this.scene][i].length; j++) {
-				if(this.scenes[this.scene][i][j][0] == "transform") {
-					var x = this.scenes[this.scene][i][j][1][1];
-					var y = this.scenes[this.scene][i][j][1][2];
-					ctx.translate(-x,-y)
-				}
-				
-			}
-			//END TODO
+			prefab_preview.render(this.scenes[this.scene][i],0,0);
 		}
 	};
 

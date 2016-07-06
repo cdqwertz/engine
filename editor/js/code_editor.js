@@ -8,7 +8,7 @@ var code_editor = new function() {
 	// [type, data1, data2]
 	this.SelectedObject = [-1];
 
-	this.connectionsWithStart = []
+	this.connectionsWithStart = [];
 
 	this.vars = [];
 
@@ -26,6 +26,7 @@ var code_editor = new function() {
 					   y > this.components[this.component][i][1] &&
 					   y < this.components[this.component][i][1]+100) {
 						this.SelectedObject = [0,i,0];
+						canvasGUI.style.cursor = "move";
 						this.updateEditorGUI();
 					}
 					var outputs = this.Cmds[this.findCmd(this.components[this.component][i][2])][2];
@@ -35,6 +36,7 @@ var code_editor = new function() {
 						   y > this.components[this.component][i][1]+10+j*20 &&
 						   y < this.components[this.component][i][1]+25+j*20) {
 							this.SelectedObject = [1,i,j];
+							canvasGUI.style.cursor = "crosshair";
 							this.updateEditorGUI();
 						}
 					}
@@ -42,6 +44,7 @@ var code_editor = new function() {
 				if(x > 100 && x < 200 &&
 				   y > 100 && y < 200) {
 					this.SelectedObject = [2,0,0];
+					canvasGUI.style.cursor = "crosshair";
 					this.updateEditorGUI();
 				}
 			}
@@ -91,6 +94,7 @@ var code_editor = new function() {
 				}
 			}
 		}
+		canvasGUI.style.cursor = "auto";
 		this.MouseDown = false;
 		this.SelectedObject = [-1];
 	};
