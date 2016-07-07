@@ -14,8 +14,8 @@ var code_editor = new function() {
 
 	this.OnMouseDown = function (e) {
 		this.MouseDown = true;
-		var x = e.clientX;
-		var y = e.clientY;
+		var x = core.mouseX;
+		var y = core.mouseY;
 		console.log(x + "," + y);
 
 		if(e.which == 1) {
@@ -26,7 +26,7 @@ var code_editor = new function() {
 					   y > this.components[this.component][i][1] &&
 					   y < this.components[this.component][i][1]+100) {
 						this.SelectedObject = [0,i,0];
-						canvasGUI.style.cursor = "move";
+						canvasOverlayGUI.style.cursor = "move";
 						this.updateEditorGUI();
 					}
 					var outputs = this.Cmds[this.findCmd(this.components[this.component][i][2])][2];
@@ -36,7 +36,7 @@ var code_editor = new function() {
 						   y > this.components[this.component][i][1]+10+j*20 &&
 						   y < this.components[this.component][i][1]+25+j*20) {
 							this.SelectedObject = [1,i,j];
-							canvasGUI.style.cursor = "crosshair";
+							canvasOverlayGUI.style.cursor = "crosshair";
 							this.updateEditorGUI();
 						}
 					}
@@ -44,7 +44,7 @@ var code_editor = new function() {
 				if(x > 100 && x < 200 &&
 				   y > 100 && y < 200) {
 					this.SelectedObject = [2,0,0];
-					canvasGUI.style.cursor = "crosshair";
+					canvasOverlayGUI.style.cursor = "crosshair";
 					this.updateEditorGUI();
 				}
 			}
@@ -69,8 +69,8 @@ var code_editor = new function() {
 	};
 
 	this.OnMouseUp = function (e) {
-		var x = e.clientX;
-		var y = e.clientY;
+		var x = core.mouseX;
+		var y = core.mouseY;
 		if(e.which == 1) {
 			if(this.component != -1 && (this.SelectedObject[0] == 1 || this.SelectedObject[0] == 2)) {
 				for(var i = 0; i < this.components[this.component].length; i++){
@@ -94,15 +94,15 @@ var code_editor = new function() {
 				}
 			}
 		}
-		canvasGUI.style.cursor = "auto";
+		canvasOverlayGUI.style.cursor = "auto";
 		this.MouseDown = false;
 		this.SelectedObject = [-1];
 	};
 
 	this.OnMouseMove = function (e) {
 		if(this.MouseDown) {
-			var x = e.clientX;
-			var y = e.clientY;
+			var x = core.mouseX;
+			var y = core.mouseY;
 			if(this.component != -1 && this.SelectedObject[0] != -1) {
 				if(this.SelectedObject[0] == 0) {
 					this.components[this.component][this.SelectedObject[1]][0] = x -50;
@@ -315,6 +315,7 @@ var code_editor = new function() {
 	
 	this.registerLibrary("actor");
 	this.registerLibrary("input");
+	this.registerLibrary("transform");
 	this.registerLibrary("vector");
 
 	//register commands
@@ -327,9 +328,14 @@ var code_editor = new function() {
 	//actor
 	this.RegisterCmd("findComponent", 3, 2, 2, "actor");
 	this.RegisterCmd("getComponent", 3, 2, 2, "actor");
+	this.RegisterCmd("obj", 1, 2, 1, "actor");
+
+	//transform
+	this.RegisterCmd("getPos", 2, 2, 2, "transform");
+	this.RegisterCmd("setPos", 3, 2, 2, "transform");
 
 	//vec2
-	this.RegisterCmd("new vector", 3, 2, 0, "vector");
+	this.RegisterCmd("new vec2", 3, 2, 0, "vector");
 	this.RegisterCmd("add", 3, 2, 2, "vector");
 	this.RegisterCmd("sub", 3, 2, 2, "vector");
 	this.RegisterCmd("mul", 3, 2, 2, "vector");

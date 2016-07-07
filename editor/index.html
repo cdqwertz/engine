@@ -16,18 +16,27 @@
 			var canvasGUI;
 			var ctx;
 
+			var canvasOverlayGUI;
+			var overlayCtx;
+
 			function load() {
 				objectsGUI = document.getElementById("objects");
 				canvasGUI = document.getElementById("code");
 				ctx = canvasGUI.getContext("2d");
 
+				canvasOverlayGUI = document.getElementById("overlay");
+				overlayCtx = canvasOverlayGUI.getContext("2d");
+
 				canvasGUI.width = document.body.clientWidth;
 				canvasGUI.height = document.body.clientHeight;
 
+				canvasOverlayGUI.width = document.body.clientWidth;
+				canvasOverlayGUI.height = document.body.clientHeight;
+
 				code_editor.updateEditorGUI();
-				canvasGUI.onmousedown = input.onMouseDown;
-				canvasGUI.onmouseup = input.onMouseUp;
-				canvasGUI.onmousemove = input.onMouseMove;
+				canvasOverlayGUI.onmousedown = input.onMouseDown;
+				canvasOverlayGUI.onmouseup = input.onMouseUp;
+				canvasOverlayGUI.onmousemove = input.onMouseMove;
 
 				code_editor.showLibraryGUI();
 			}
@@ -50,6 +59,8 @@
 			<li id="l"><a onclick="core.saveProject();return false;">Save</a></li>
 			<li id="l"><a onclick="core.exportCode();return false;">Export</a></li>
 
+			<li id = "s"><a onclick="core.snap = !core.snap;return false;">Snap</a></li>
+
 			<li id="r"><a onclick="core.level();return false;">Create</a></li>
 			<li id="r"><a onclick="core.prefabs();return false;">Prefabs</a></li>
 			<li id="r"><a onclick="core.code();return false;">Code</a></li>
@@ -59,6 +70,9 @@
 		</ul>
 
 		<canvas id="code">
+		</canvas>
+
+		<canvas id="overlay">
 		</canvas>
 	</body>
 </html>

@@ -6,13 +6,13 @@ var level_editor = new function() {
 	this.selectedPrefab = -1;
 
 	this.mouseDown = function(e) {
-		var x = e.clientX;
-		var y = e.clientY;
+		var x = core.mouseX;
+		var y = core.mouseY;
 		console.log("mouse down");
 		if(this.selectedPrefab != -1) {
 			if(e.which == 2) {
 				this.selectedPrefab = -1;
-				canvasGUI.style.cursor = "auto";
+				canvasOverlayGUI.style.cursor = "auto";
 			} else {
 				console.log("add prefab");
 				this.addPrefab(this.selectedPrefab,x,y);
@@ -44,7 +44,7 @@ var level_editor = new function() {
 
 	this.GUISelectPrefab = function(i) {
 		this.selectedPrefab = i;
-		canvasGUI.style.cursor = "crosshair";
+		canvasOverlayGUI.style.cursor = "crosshair";
 	};
 
 	this.addPrefab = function(n,x,y) {
