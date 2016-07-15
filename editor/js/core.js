@@ -3,12 +3,13 @@ var core = new function() {
 	this.mouseX = 0;
 	this.mouseY = 0;
 	this.snap = false;
+	this.snapDistance = 15;
 
 
 	this.mouseDown = function(e) {
 		if(this.snap) {
-			this.mouseX = Math.floor((e.clientX / 15)+0.5)*15;
-			this.mouseY = Math.floor((e.clientY / 15)+0.5)*15;
+			this.mouseX = Math.floor((e.clientX / this.snapDistance)+0.5)*this.snapDistance;
+			this.mouseY = Math.floor((e.clientY / this.snapDistance)+0.5)*this.snapDistance;
 		} else {
 			this.mouseX = e.clientX;
 			this.mouseY = e.clientY;
@@ -23,8 +24,8 @@ var core = new function() {
 
 	this.mouseUp = function(e) {
 		if(this.snap) {
-			this.mouseX = Math.floor((e.clientX / 15)+0.5)*15;
-			this.mouseY = Math.floor((e.clientY / 15)+0.5)*15;
+			this.mouseX = Math.floor((e.clientX / this.snapDistance)+0.5)*this.snapDistance;
+			this.mouseY = Math.floor((e.clientY / this.snapDistance)+0.5)*this.snapDistance;
 		} else {
 			this.mouseX = e.clientX;
 			this.mouseY = e.clientY;
@@ -39,8 +40,8 @@ var core = new function() {
 	
 	this.mouseMove = function(e) {
 		if(this.snap) {
-			this.mouseX = Math.floor((e.clientX / 15)+0.5)*15;
-			this.mouseY = Math.floor((e.clientY / 15)+0.5)*15;
+			this.mouseX = Math.floor((e.clientX / this.snapDistance)+0.5)*this.snapDistance;
+			this.mouseY = Math.floor((e.clientY / this.snapDistance)+0.5)*this.snapDistance;
 		} else {
 			this.mouseX = e.clientX;
 			this.mouseY = e.clientY;
@@ -66,6 +67,30 @@ var core = new function() {
 			overlayCtx.stroke();
 		}
 
+	};
+
+	this.keyDown = function(e) {
+		if(e.keyCode == 83) {
+			this.snap = !this.snap;
+		} else if(e.keyCode == 81) {
+			this.snapDistance += 5;
+		} else if(e.keyCode == 65) {
+			if(!(this.snapDistance < 10)) {
+				this.snapDistance -= 5;
+			}
+		} else if(e.keyCode == 32) {
+			var cmd = prompt("Command:");
+			//TODO: add some simple commands (snap <d>, add <name>,...)
+		}
+
+
+		if(this.mode == 0) {
+			code_editor.keyDown(e);
+		} else if(this.mode == 2) {
+			prefab_editor.keyDown(e);
+		} else {
+			level_editor.keyDown(e);
+		}
 	};
 
 	this.code = function() {

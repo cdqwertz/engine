@@ -26,4 +26,8 @@ var input = new function() {
 
 		core.mouseUp(e);
 	};
+
+	this.onKeyDown = function(e) {
+		core.keyDown(e);
+	};
 }();

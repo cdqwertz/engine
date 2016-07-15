@@ -11,6 +11,23 @@ var prefab_editor = new function() {
 	this.mouseMove = function(e) {
 	};
 
+	this.keyDown = function(e) {
+		if(e.keyCode == 84) {
+			if(this.selectedObject != -1) {
+				var p = this.prefabs[this.selectedObject].push([]);
+				this.prefabs[this.selectedObject][p-1].push("transform");
+				this.prefabs[this.selectedObject][p-1].push(["vec2", 0 , 0, "position"]);
+				this.prefabs[this.selectedObject][p-1].push(["float", 0, "rotation"]);
+				this.showComponentsGUI();
+				this.updateEditorGUI();
+			}
+		} else if(e.keyCode == 87) {
+			this.addActor();
+		} else if(e.keyCode == 69) {
+			this.addComponent();
+		}
+	};
+
 	this.updateEditorGUI = function() {
 		ctx.clearRect(0,0,canvasGUI.width,canvasGUI.height);
 		if(this.selectedObject != -1) {
@@ -71,8 +88,9 @@ var prefab_editor = new function() {
 		if(n) {
 			var p = this.prefabs.push([]);
 			this.prefabs[p-1].push(n);
+			this.selectedObject = p-1;
 		}
-		this.showObjectsGUI();
+		this.showComponentsGUI();
 		this.updateEditorGUI();
 	};
 	
