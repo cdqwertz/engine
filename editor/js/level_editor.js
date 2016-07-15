@@ -26,6 +26,9 @@ var level_editor = new function() {
 	this.mouseMove = function(e) {
 	};
 
+	this.keyDown = function(e) {
+	};
+
 	this.updateEditorGUI = function(e) {
 		ctx.clearRect(0,0,canvasGUI.width,canvasGUI.height);
 		for(var i = 1; i < this.scenes[this.scene].length; i++) {

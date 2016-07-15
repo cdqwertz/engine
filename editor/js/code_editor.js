@@ -113,6 +113,9 @@ var code_editor = new function() {
 		}
 	};
 
+	this.keyDown = function(e) {
+	};
+
 	
 	this.updateEditorGUI = function () {
 		ctx.clearRect(0,0,canvasGUI.width,canvasGUI.height);
