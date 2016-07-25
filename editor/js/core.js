@@ -17,6 +17,8 @@ var core = new function() {
 		if(this.mode == 0) {
 			code_editor.OnMouseDown(e);
 		} else if(this.mode == 2) {
+		} else if(this.mode == 3) {
+			event_editor.mouseDown();
 		} else {
 			level_editor.mouseDown(e);
 		}
@@ -111,6 +113,12 @@ var core = new function() {
 		prefab_editor.updateEditorGUI();
 	};
 
+	this.events = function() {
+		this.mode = 3;
+		event_editor.showCommandsGUI();
+		event_editor.updateEditorGUI();
+	};
+
 	this.exportCode = function() {
 		alert(code_generator.genCode());
 	};
@@ -135,6 +143,8 @@ var core = new function() {
 			code_editor.vars = [];
 			code_editor.connectionsWithStart = [];
 
+			event_editor.components = l[3];
+
 			this.code();
 		}
 	}
@@ -144,6 +154,7 @@ var core = new function() {
 		l.push(code_editor.components);
 		l.push(prefab_editor.prefabs);
 		l.push(level_editor.scenes);
+		l.push(event_editor.components);
 		alert(JSON.stringify(l));
 	}
 }();
