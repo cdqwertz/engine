@@ -13,8 +13,31 @@ Take a look at LICENSE.txt
 
 ###TODO
 - Complete physics engine
-- Add message system
 - Add paths
+- Add sound engine
+- Add gui engine
+
+######Components
+- Add animation component
+- Add health component
+- Add damage component
+- Add gravity component
+- Add followPath component
+
+######GUI
+- Button
+- Text Edit
+- Text Area
+- Touch Area
+- ...
+
+######3D
+- Add vec3
+- Add isometric 3d rendering
+- Add simple 3d physics engine
+
+######Editor
+- Complete event editor
 
 ###Created by
 cd2 (cdqwertz) - cdqwertz.github.io
