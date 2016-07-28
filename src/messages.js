@@ -14,7 +14,7 @@ var messages = new function() {
 	this.getMessagesForObject = function(name) {
 		var m = [];
 		for(var i = 0; i < this.messages.length; i++) {
-			if(this.messages[i].receiver == name) {
+			if(this.messages[i].receiver == name || this.messages[i].receiver == "") {
 				m.push(this.messages[i]);
 			}
 		}

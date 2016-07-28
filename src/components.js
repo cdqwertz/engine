@@ -137,3 +137,24 @@ function transform(p, r) {
 		this.r += r;
 	};
 }
+
+function health(hp) {
+	this.hp = hp;
+	this.maxHp = hp;
+	this.componentType = "health";
+
+	this.timer = 0;
+	
+	this.update = function(obj) {
+		if(this.regeneration) {
+			timer += time.dtime;
+			if(timer > 1) {
+				this.hp += this.regeneration;
+			}
+		}
+
+		if(this.hp > this.maxHp) {
+			this.hp = this.maxHp;
+		}
+	};
+}
