@@ -15,7 +15,7 @@ code_generator = new function() {
 	}
 
 	this.genCode = function() {
-		var c = "function load() {\n";
+		var c = event_editor.genCode() + "function load() {\n";
 		for(var i = 0; i < level_editor.scenes.length; i++){
 			for(var j = 1; j < level_editor.scenes[i].length; j++){
 				c += "\tvar " + level_editor.scenes[i][j][0] + " = new actor();\n" ;

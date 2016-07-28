@@ -1,0 +1,1 @@
+[[[]],[],[["mainScene"]],[["simpleMove",[["Key Pressed?",["37"]],["Move",["parent","10","0"]]],[["Key Pressed?",["38"]],["Move",["parent","0","10"]]],[["Key Pressed?",["39"]],["Move",["parent","-10","0"]]],[],[["Key Pressed?",["40"]],["Move",["parent","0","-10"]]]]]]

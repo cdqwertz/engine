@@ -18,7 +18,7 @@ var core = new function() {
 			code_editor.OnMouseDown(e);
 		} else if(this.mode == 2) {
 		} else if(this.mode == 3) {
-			event_editor.mouseDown();
+			event_editor.mouseDown(e);
 		} else {
 			level_editor.mouseDown(e);
 		}
@@ -83,6 +83,15 @@ var core = new function() {
 		} else if(e.keyCode == 32) {
 			var cmd = prompt("Command:");
 			//TODO: add some simple commands (snap <d>, add <name>,...)
+			if(this.mode == 0) {
+				//code_editor.runEditorCommand(cmd);
+			} else if(this.mode == 2) {
+				//prefab_editor.runEditorCommand(cmd);
+			} else if(this.mode == 3) {
+				event_editor.runEditorCommand(cmd);
+			} else {
+				//level_editor.runEditorCommand(cmd);
+			}
 		}
 
 
