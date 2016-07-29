@@ -3,7 +3,7 @@
 
 ```javascript
 new actor()
-```
+```s
 
 ####Methods:
 

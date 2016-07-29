@@ -129,7 +129,7 @@ var core = new function() {
 	};
 
 	this.exportCode = function() {
-		alert(code_generator.genCode());
+		alert(code_generator.genHtml(code_generator.genCode()));
 	};
 
 	this.newProject = function() {

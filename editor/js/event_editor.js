@@ -115,23 +115,25 @@ var event_editor = new function() {
 	this.genCode = function() {
 		var c = "";
 		for(var i = 0; i < this.components.length; i++){
-			c += "function " + this.components[i][0] + "() {\n\tthis.componentType=\""+ this.components[i][0] +"\";\n\tfunction update(parent) {\n";
+			c += "function " + this.components[i][0] + "() {\n\tthis.componentType=\""+ this.components[i][0] +"\";\n\tthis.update = function(parent) {\n";
 			for(var j = 1; j < this.components[i].length; j++){
+				c += "\t\t{\n"
 				var z = 0;
 				for(var k = 0; k < this.components[i][j].length; k++){
 					var cmd = this.commands[this.findCommand(this.components[i][j][k][0])];
 					for(var n = 0; n < cmd[1].length; n++){
-						c += "\t\tvar " + cmd[1][n][1] + " = " + this.components[i][j][k][1][n] + ";\n";
+						c += "\t\t\tvar " + cmd[1][n][1] + " = " + this.components[i][j][k][1][n] + ";\n";
 					}
-					c += "\t\t" + cmd[2] + "\n";
+					c += "\t\t\t" + cmd[2] + "\n";
 					if(cmd[3]) {
 						z++;
 					}
 				}
 
 				for(var k = 0; k < z; k++){
-					c += "\t\t}\n"
+					c += "\t\t\t}\n"
 				}
+				c += "\t\t}\n";
 			}
 			c += "\t}\n}\n\n";
 		}
@@ -140,5 +142,5 @@ var event_editor = new function() {
 
 	this.registerCommand("Key Pressed?", [["Key", "key"]], "if(input.getKey(key)) {", true);
 	this.registerCommand("?", [], "if(last_output) {", true);
-	this.registerCommand("Move", [["Actor","obj"],["X","x"] , ["Y", "y"]], "var t = obj.getComponent(\"transform\");\nt.setPos(t.getPos().add(new vec2(x*time.delta, y*time.delta)));");
+	this.registerCommand("Move", [["Actor","obj"],["X","x"] , ["Y", "y"]], "var t = obj.getComponent(\"transform\");\nt.setPos(t.getPos().add(new vec2(x*time.dtime, y*time.dtime)));");
 }();

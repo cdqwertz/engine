@@ -21,3 +21,9 @@
 - Q : increase snap distance
 - A : decrease snap distance
 
+###Event Editor
+
+- S : toggle snap
+- Q : increase snap distance
+- A : decrease snap distance
+
