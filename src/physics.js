@@ -1,3 +1,6 @@
+//file : physics.js
+//author : cdqwertz
+
 function physicsManager() {
 	this.layers = new Array();
 	this.addLayer = function(c) {
@@ -26,15 +29,15 @@ function collisionLayer() {
 				for(var j = 0; j < this.objs.length; j++) {
 					if(this.objs[j] != this.objs[i]) {
 						var c = this.objs[i].intersect(this.objs[j]);
-						this.objs[j].isColliding = c || this.objs[j].isColliding;
+						//this.objs[j].isColliding = c || this.objs[j].isColliding;
 						this.objs[i].isColliding = c || this.objs[i].isColliding;
 
 						if(c) {
-							this.objs[j].other = this.objs[i];
+							//this.objs[j].other = this.objs[i];
 							this.objs[i].other = this.objs[j];
 
 							this.objs[i].collisions.push(new collision(this.objs[i], this.objs[j]));
-							this.objs[j].collisions.push(new collision(this.objs[j], this.objs[i]));
+							//this.objs[j].collisions.push(new collision(this.objs[j], this.objs[i]));
 						}
 					}
 				}
@@ -134,19 +137,45 @@ function simpleRigidbody() {
 	
 	this.t = null;
 	this.coll = null;
+	this.velocity = null;
+
+	this.gravity = 0.03;
 
 	this.start = function(obj) {
 		this.t = obj.getComponent("transform");
 		this.coll = obj.getComponent("boxCollider");
+		this.velocity = obj.getComponent("velocity")
 	};	
 
-	this.update = function(obj) {
+	this.physics = function(obj) {
 		//console.log(this.t.p.x + " " + this.t.p.y);
+
+		//gravity
+		if(this.velocity) {
+			this.velocity.v.y += this.gravity;
+		}
+
 		if(this.coll) {
 			if(this.coll.isColliding) {
 				for(var i = 0; i < this.coll.collisions.length; i++) {
 					var other = this.coll.collisions[i].b;
 					var dir = this.coll.getDir(other);
+					
+					
+
+					if(this.velocity && other.parent.getComponent("velocity")) {
+						var _velocity = other.parent.getComponent("velocity");
+						var _v = _velocity.v.clone()
+						_velocity.v = this.velocity.v.clone();
+						this.velocity.v = _v;
+					} else if(this.velocity) {
+						if(dir == 0 || dir == 2) {
+							this.velocity.v.x = 0;	
+						} else if(dir == 1 || dir == 3) {
+							this.velocity.v.y = 0;
+						}
+					}
+						
 					if(dir == 0) {
 						this.t.p.x = other.x - other.w/2 -  this.coll.w/2;
 					} else if(dir == 1) {

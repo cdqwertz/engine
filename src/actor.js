@@ -1,3 +1,6 @@
+//file : actor.js
+//author : cdqwertz
+
 function actor() {
 	this.components = new Array();
 	this.addComponent = function (comp) {
@@ -33,6 +36,14 @@ function actor() {
 		for (var i in this.components) {
 			if (this.components[i].afterDraw) {
 				this.components[i].afterDraw(this);
+			}
+		}
+	};
+
+	this.physics = function() {
+		for (var i in this.components) {
+			if (this.components[i].physics) {
+				this.components[i].physics(this);
 			}
 		}
 	};

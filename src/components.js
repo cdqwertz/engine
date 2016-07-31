@@ -1,3 +1,6 @@
+//file : components.js
+//author : cdqwertz
+
 function drawRect(pos, scale, color)
 {
 	this.pos = pos;

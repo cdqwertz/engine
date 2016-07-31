@@ -1,3 +1,7 @@
+//file : messages.js
+//author : cdqwertz
+
+
 function message(_title, _body, _receiver) {
 	this.title = _title;
 	this.body = _body;

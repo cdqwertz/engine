@@ -1,7 +1,9 @@
+//file : core.js
+//author : cdqwertz
+
 var c = document.getElementById("screen");
 var ctx = c.getContext("2d");
 var mainScene = new scene();
-var physicsLayers = new physicsManager();
 
 var screen = new function() {
 	this.w = 0;
@@ -30,10 +32,7 @@ function onUpdate(t) {
 		
 	ctx.clearRect(0, 0, c.width, c.height);
 	mainScene.update();
-
-	//console.log(input.mouseX + " " + input.mouseY)
 	
-	physicsLayers.update();
 	window.requestAnimationFrame(onUpdate);
 }
 

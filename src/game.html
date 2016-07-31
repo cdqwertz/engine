@@ -36,16 +36,16 @@
 
 				this.update = function(obj) {
 					if(this.type == 0) {
-						if (input.getKey(38) == true) {
+						if (input.getKey(keyCodes.arrow_up) == true) {
 							this.t.p = this.t.p.add(new vec2(0, -this.speed*time.dtime));
 						}
-						if (input.getKey(37) == true) {
+						if (input.getKey(keyCodes.arrow_left) == true) {
 							this.t.p = this.t.p.add(new vec2(-this.speed*time.dtime, 0));
 						}
-						if (input.getKey(39) == true) {
+						if (input.getKey(keyCodes.arrow_right) == true) {
 							this.t.p = this.t.p.add(new vec2(this.speed*time.dtime, 0));
 						}
-						if (input.getKey(40) == true) {
+						if (input.getKey(keyCodes.arrow_down) == true) {
 							this.t.p = this.t.p.add(new vec2(0, this.speed*time.dtime));
 						}
 					} else if(this.type == 1) {
@@ -73,7 +73,7 @@
 				ball.addComponent(new transform(new vec2(200, 100), 0));
 				//ball.addComponent(new bounce());
 				ball.addComponent(new move(0, 0.7));
-				ball.addComponent(new velocity(new vec2(0, 0), 0));
+				ball.addComponent(new velocity(new vec2(0.7, 0.3), 0));
 				var ballColl = new boxCollider(0, 0, 50, 50, "wall", true)
 				ball.addComponent(ballColl);
 				ball.addComponent(new simpleRigidbody());
@@ -117,8 +117,9 @@
 				wall5.addComponent(new transform(new vec2(screen.w/2, screen.h/2), 0));
 				var wall5Coll = new boxCollider(0,0, 100, 100, "wall", true)
 				wall5.addComponent(wall5Coll);
-				wall5.addComponent(new velocity(new vec2(0.4, 0.2), 0));
-				wall5.addComponent(new bounce());
+				wall5.addComponent(new velocity(new vec2(0, 0), 0));
+				//wall5.addComponent(new bounce());
+				wall5.addComponent(new simpleRigidbody());
 				wall5.addComponent(new drawRect(new vec2(0, 0), new vec2(100, 100)));
 
 				mainScene.addObject(wall5);
@@ -131,7 +132,7 @@
 				collLayer.addCollider(wall3Coll);
 				collLayer.addCollider(wall4Coll);
 				collLayer.addCollider(wall5Coll);
-				physicsLayers.addLayer(collLayer);
+				mainScene.physicsManager.addLayer(collLayer);
 
 				//mainScene.addObject(test);
 			}
