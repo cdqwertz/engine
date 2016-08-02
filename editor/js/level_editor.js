@@ -39,9 +39,38 @@ var level_editor = new function() {
 
 	this.showPrefabsGUI = function() {
 		var s = "";
+		s += "<li><a onclick=\"level_editor.showMenuGUI();return false;\">...</a></li>";
 		for(var i = 0; i < prefab_editor.prefabs.length; i++) {
 			s += "<li><a onclick=\"level_editor.GUISelectPrefab(" + i + ");return false;\">" + prefab_editor.prefabs[i][0] + "</a></li>";
 		}
+		objectsGUI.innerHTML = s;
+	};
+
+	this.showObjectsGUI = function() {
+		var s = "";
+		s += "<li><a onclick=\"level_editor.showMenuGUI();return false;\">...</a></li>";
+		for(var i = 1; i < this.scenes[this.scene].length; i++) {
+			s += "<li><a onclick=\"level_editor.GUISelectObject(" + i + ");return false;\">" + this.scenes[this.scene][i][0] + "</a></li>";
+		}
+		objectsGUI.innerHTML = s;
+	};
+
+	this.GUISelectObject = function(i) {
+		var s = "";
+		s += "<li><a onclick=\"level_editor.showObjectsGUI();return false;\">...</a></li>";
+		s += "<li><a onclick=\"level_editor.showObjectsGUI();return false;\">Update (WIP)</a></li>";
+		s += "<li><a onclick=\"level_editor.showObjectsGUI();return false;\">Show Prefab (WIP)</a></li>";
+		s += "<li><a onclick=\"level_editor.GUIDeleteObject(" + i + ");return false;\">Delete</a></li>";
+		objectsGUI.innerHTML = s;
+	};
+
+	this.GUIDeleteObject = function(i) {
+	};
+
+	this.showMenuGUI = function() {
+		var s = "";
+		s += "<li><a onclick=\"level_editor.showPrefabsGUI();return false;\">Add...</a></li>";
+		s += "<li><a onclick=\"level_editor.showObjectsGUI();return false;\">Objects...</a></li>";
 		objectsGUI.innerHTML = s;
 	};
 

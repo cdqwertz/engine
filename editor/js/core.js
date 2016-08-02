@@ -112,7 +112,7 @@ var core = new function() {
 
 	this.level = function() {
 		this.mode = 1;
-		level_editor.showPrefabsGUI();
+		level_editor.showMenuGUI();
 		level_editor.updateEditorGUI();
 	};
 	

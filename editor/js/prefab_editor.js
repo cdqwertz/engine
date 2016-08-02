@@ -72,6 +72,7 @@ var prefab_editor = new function() {
 			return 0;
 		}
 		s += "<li><a onclick=\"prefab_editor.showComponentsGUI();return false;\">Back</a></li>";
+		s += "<li><a onclick=\"prefab_editor.GUIRemoveComponent("+ n +");return false;\">Delete</a></li>";
 		for(var i = 1; i < this.prefabs[this.selectedObject][n].length; i++) {
 			if(this.prefabs[this.selectedObject][n][i][0] == "vec2") {
 				s += "<li><a>"+ this.prefabs[this.selectedObject][n][i][3] +"<br><br><input type=\"text\" value=\"" + this.prefabs[this.selectedObject][n][i][1] + "\" onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][1] = this.value; prefab_editor.GUISelectComponent(" + n+");\"></input><input type=\"text\" value=\"" + this.prefabs[this.selectedObject][n][i][2] + "\" onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][2] = this.value; prefab_editor.GUISelectComponent(" + n+");\"></input></a></li>";
@@ -81,6 +82,11 @@ var prefab_editor = new function() {
 		}
 		objectsGUI.innerHTML = s;
 		this.updateEditorGUI();
+	};
+
+	this.GUIRemoveComponent = function(n) {
+		this.prefabs[this.selectedObject].splice(n,1);
+		this.showComponentsGUI();
 	};
 
 	this.addActor = function() {
