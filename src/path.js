@@ -1,3 +1,6 @@
+//file : path.js
+//author : cdqwertz
+
 function path(p) {
 	this.points = p;
 
