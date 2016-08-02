@@ -35,7 +35,6 @@ function collisionLayer() {
 						if(c) {
 							//this.objs[j].other = this.objs[i];
 							this.objs[i].other = this.objs[j];
-
 							this.objs[i].collisions.push(new collision(this.objs[i], this.objs[j]));
 							//this.objs[j].collisions.push(new collision(this.objs[j], this.objs[i]));
 						}
@@ -137,53 +136,67 @@ function simpleRigidbody() {
 	
 	this.t = null;
 	this.coll = null;
-	this.velocity = null;
-
-	this.gravity = 0.03;
+	this.motion = null;
 
 	this.start = function(obj) {
 		this.t = obj.getComponent("transform");
 		this.coll = obj.getComponent("boxCollider");
-		this.velocity = obj.getComponent("velocity")
+		this.motion = obj.getComponent("motion")
 	};	
 
 	this.physics = function(obj) {
-		//console.log(this.t.p.x + " " + this.t.p.y);
-
-		//gravity
-		if(this.velocity) {
-			this.velocity.v.y += this.gravity;
-		}
-
 		if(this.coll) {
 			if(this.coll.isColliding) {
+				var rigidbody_collisions = [];
+				var can_move = [true, true, true, true];
 				for(var i = 0; i < this.coll.collisions.length; i++) {
 					var other = this.coll.collisions[i].b;
 					var dir = this.coll.getDir(other);
+					var solve = true;
 					
-					
-
-					if(this.velocity && other.parent.getComponent("velocity")) {
-						var _velocity = other.parent.getComponent("velocity");
-						var _v = _velocity.v.clone()
-						_velocity.v = this.velocity.v.clone();
-						this.velocity.v = _v;
-					} else if(this.velocity) {
+					if(other.parent && this.motion && other.parent.getComponent("simpleRigidbody")) {
+						rigidbody_collisions.push(this.coll.collisions[i]);
+						solve = false;
+					} else if(this.motion) {
 						if(dir == 0 || dir == 2) {
-							this.velocity.v.x = 0;	
+							this.motion.velocity.x = 0;	
 						} else if(dir == 1 || dir == 3) {
-							this.velocity.v.y = 0;
+							this.motion.velocity.y = 0;
 						}
 					}
 						
-					if(dir == 0) {
-						this.t.p.x = other.x - other.w/2 -  this.coll.w/2;
-					} else if(dir == 1) {
-						this.t.p.y = other.y - other.h/2 - this.coll.h/2;
-					} else if(dir == 2) {
-						this.t.p.x = other.x + other.w/2 + this.coll.w/2;
-					} else if(dir == 3) {
-						this.t.p.y = other.y + other.h/2 + this.coll.h/2;
+					if(solve) {
+						if(can_move[(dir+2)%4]) {
+							can_move[dir] = false;
+							if(dir == 0) {
+								this.t.position.x = other.x - other.w/2 -  this.coll.w/2;
+							} else if(dir == 1) {
+								this.t.position.y = other.y - other.h/2 - this.coll.h/2;
+							} else if(dir == 2) {
+								this.t.position.x = other.x + other.w/2 + this.coll.w/2;
+							} else if(dir == 3) {
+								this.t.position.y = other.y + other.h/2 + this.coll.h/2;
+							}
+						}
+					}
+				}
+				
+				for(var i = 0; i < rigidbody_collisions.length; i++) {
+					var other = rigidbody_collisions[i].b;
+					var dir = this.coll.getDir(other);
+					if(can_move[(dir+2)%4]) {
+						can_move[dir] = false;
+						if(dir == 0) {
+							this.t.position.x = other.x - other.w/2 -  this.coll.w/2;
+						} else if(dir == 1) {
+							this.t.position.y = other.y - other.h/2 - this.coll.h/2;
+						} else if(dir == 2) {
+							this.t.position.x = other.x + other.w/2 + this.coll.w/2;
+						} else if(dir == 3) {
+							this.t.position.y = other.y + other.h/2 + this.coll.h/2;
+						}
+					} else {
+						console.log(can_move[(dir+2)%4]);
 					}
 				}
 			}

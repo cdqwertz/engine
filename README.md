@@ -13,15 +13,12 @@ Take a look at LICENSE.txt
 
 ###TODO
 - Complete physics engine
-- Add paths
 - Add sound engine
 - Add gui engine
 
 ######Components
 - Add animation component
-- Add health component
 - Add damage component
-- Add gravity component
 - Add followPath component
 
 ######GUI

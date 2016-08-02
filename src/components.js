@@ -55,19 +55,54 @@ function drawImage(pos, img, mode, w, h, animations, animation, speed)
 	};
 }
 
-function velocity(_v, _r) {
-	this.v = _v;
-	this.r = _r;
+function motion(v, r, a, f, g) {
+	this.velocity = v;
+	this.velocity_rotation = r;
+	
+	this.acceleration = a || new vec2(0,0);
+
+	this.friction = f || 0.0;
+	this.gravity = g || 0.0;
+
 	this.t;
-	this.componentType = "velocity";
+	this.componentType = "motion";
 	this.start = function(obj) {
 		this.t = obj.getComponent("transform");
 	};
 	this.update = function(obj) {
+		this.velocity = this.velocity.mul(new vec2(1.0-this.friction,1.0-this.friction));
+		this.velocity.y += this.gravity;
+		this.velocity = this.velocity.add(this.acceleration);
+
 		if(this.t) {
-			this.t.p = this.t.p.add(new vec2(this.v.x*time.dtime, this.v.y*time.dtime));
-			this.t.rotate(this.r*time.dtime);
+			this.t.position = this.t.position.add(new vec2(this.velocity.x*time.dtime, this.velocity.y*time.dtime));
+			this.t.rotate(this.velocity_rotation*time.dtime);
 		}
+	};
+}
+
+function loop() {
+	this.componentType = "loop";
+	this.t = null;
+	
+	this.start = function(obj) {
+		this.t = obj.getComponent("transform");
+	};
+
+	this.update = function(obj) {
+		if(this.t.position.y < 0) {
+			this.t.position.y += screen.h;
+		}
+		if(this.t.position.x > screen.w) {
+			this.t.position.x -= screen.w;
+		}
+		if(this.t.position.y > screen.h) {
+			this.t.position.y -= screen.h;
+		}
+		if(this.t.position.x < 0) {
+			this.t.position.x += screen.w;
+		}
+
 	};
 }
 
@@ -77,7 +112,7 @@ function bounce() {
 	this.componentType = "bounce";
 	this.start = function(obj) {
 		this.coll = obj.getComponent("boxCollider");
-		this.v = obj.getComponent("velocity");
+		this.v = obj.getComponent("motion");
 	};
 	this.update = function(obj) {
 		if(this.coll) {
@@ -87,29 +122,29 @@ function bounce() {
 					var dir = this.coll.getDir(this.coll.other);
 					console.log(dir);
 					if(dir == 1) {
-						var x1 = this.v.v.x;
-						var y1 = -Math.abs(this.v.v.y);
+						var x1 = this.v.velocity.x;
+						var y1 = -Math.abs(this.v.velocity.y);
 					
-						this.v.v.x = x1;
-						this.v.v.y = y1;
+						this.v.velocity.x = x1;
+						this.v.velocity.y = y1;
 					} else if(dir == 3) {
-						var x1 = this.v.v.x;
-						var y1 = Math.abs(this.v.v.y);
+						var x1 = this.v.velocity.x;
+						var y1 = Math.abs(this.v.velocity.y);
 					
-						this.v.v.x = x1;
-						this.v.v.y = y1;
+						this.v.velocity.x = x1;
+						this.v.velocity.y = y1;
 					} else if(dir == 0) {
-						var x1 = -Math.abs(this.v.v.x);
-						var y1 = this.v.v.y;
+						var x1 = -Math.abs(this.v.velocity.x);
+						var y1 = this.v.velocity.y;
 					
-						this.v.v.x = x1;
-						this.v.v.y = y1;
+						this.v.velocity.x = x1;
+						this.v.velocity.y = y1;
 					} else if(dir == 2) {
-						var x1 = Math.abs(this.v.v.x);
-						var y1 = this.v.v.y;
+						var x1 = Math.abs(this.v.velocity.x);
+						var y1 = this.v.velocity.y;
 					
-						this.v.v.x = x1;
-						this.v.v.y = y1;
+						this.v.velocity.x = x1;
+						this.v.velocity.y = y1;
 					}
 				}
 			}
@@ -118,32 +153,34 @@ function bounce() {
 }
 
 function transform(p, r) {
-	this.p = p;
-	this.r = r;
+	this.position = p;
+	this.rotation = r;
 	this.componentType = "transform";
 	this.draw = function(obj) {
-		ctx.translate(this.p.x, this.p.y);
-		ctx.rotate(this.r);
+		ctx.translate(this.position.x, this.position.y);
+		ctx.rotate(this.rotation);
 	};
 	this.afterDraw = function(obj) {
-		ctx.rotate(-this.r);
-		ctx.translate(-this.p.x, -this.p.y);
+		ctx.rotate(-this.rotation);
+		ctx.translate(-this.position.x, -this.position.y);
 	};
 	this.setPos = function(pos) {
-		this.p = pos;
-		return this.p;
+		this.position = pos;
+		return this.position;
 	};
 	this.getPos = function() {
-		return(this.p);
+		return(this.position);
 	};
 	this.rotate = function(r) {
-		this.r += r;
+		this.rotation += r;
 	};
 }
 
-function health(hp) {
+function health(hp, regeneration) {
 	this.hp = hp;
 	this.maxHp = hp;
+	this.regeneration = regeneration;
+
 	this.componentType = "health";
 
 	this.timer = 0;

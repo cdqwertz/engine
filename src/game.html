@@ -18,6 +18,7 @@
 		<script src="actor.js"></script>
 		<script src="scene.js"></script>
 		<script src="components.js"></script>
+		<script src="path.js"></script>
 		<script src="physics.js"></script>
 		<script src="core.js"></script>
 
@@ -32,35 +33,44 @@
 
 				this.start =  function(obj) {
 					this.t = obj.getComponent("transform");
+					this.motion = obj.getComponent("motion");
 				};
 
 				this.update = function(obj) {
 					if(this.type == 0) {
+						var x = 0;
+						var y = 0;
 						if (input.getKey(keyCodes.arrow_up) == true) {
-							this.t.p = this.t.p.add(new vec2(0, -this.speed*time.dtime));
+							y += -this.speed;
 						}
 						if (input.getKey(keyCodes.arrow_left) == true) {
-							this.t.p = this.t.p.add(new vec2(-this.speed*time.dtime, 0));
+							x += -this.speed;
 						}
 						if (input.getKey(keyCodes.arrow_right) == true) {
-							this.t.p = this.t.p.add(new vec2(this.speed*time.dtime, 0));
+							x += this.speed;
 						}
 						if (input.getKey(keyCodes.arrow_down) == true) {
-							this.t.p = this.t.p.add(new vec2(0, this.speed*time.dtime));
+							y += this.speed;
 						}
+						this.motion.velocity.x += x;
+						this.motion.velocity.y += y;
 					} else if(this.type == 1) {
-						if (input.getKey(38) == true) {
-							this.t.p = this.t.p.add(new vec2(0, -this.jumpForce*time.dtime));
+						var x = 0;
+						var y = 0;
+						if (input.getKey(keyCodes.w) == true) {
+							y += -this.speed;
 						}
-						if (input.getKey(37) == true) {
-							this.t.p = this.t.p.add(new vec2(-this.speed*time.dtime, 0));
+						if (input.getKey(keyCodes.a) == true) {
+							x += -this.speed;
 						}
-						if (input.getKey(39) == true) {
-							this.t.p = this.t.p.add(new vec2(this.speed*time.dtime, 0));
+						if (input.getKey(keyCodes.d) == true) {
+							x += this.speed;
 						}
-						if (input.getKey(40) == true) {
-							this.t.p = this.t.p.add(new vec2(0, this.jumpForce*time.dtime));
+						if (input.getKey(keyCodes.s) == true) {
+							y += this.speed;
 						}
+						this.motion.velocity.x += x;
+						this.motion.velocity.y += y;
 					}
 				};
 			}
@@ -72,12 +82,13 @@
 				var ball = new actor();
 				ball.addComponent(new transform(new vec2(200, 100), 0));
 				//ball.addComponent(new bounce());
-				ball.addComponent(new move(0, 0.7));
-				ball.addComponent(new velocity(new vec2(0.7, 0.3), 0));
+				ball.addComponent(new move(0, 0.05));
+				ball.addComponent(new motion(new vec2(0.7, 0), 0, null, 0.03, 0.03));
 				var ballColl = new boxCollider(0, 0, 50, 50, "wall", true)
 				ball.addComponent(ballColl);
 				ball.addComponent(new simpleRigidbody());
 				ball.addComponent(new drawRect(new vec2(0, 0), new vec2(50, 50), "#FF0000"));
+				ball.addComponent(new loop());
 
 				mainScene.addObject(ball);
 
@@ -87,7 +98,7 @@
 				wall1.addComponent(wall1Coll);
 				wall1.addComponent(new drawRect(new vec2(0, 0), new vec2(50, screen.h)));
 
-				mainScene.addObject(wall1);
+				//mainScene.addObject(wall1);
 
 				var wall2 = new actor();
 				wall2.addComponent(new transform(new vec2(screen.w-25, screen.h/2), 0));
@@ -95,7 +106,7 @@
 				wall2.addComponent(wall2Coll);
 				wall2.addComponent(new drawRect(new vec2(0, 0), new vec2(50, screen.h)));
 
-				mainScene.addObject(wall2);
+				//mainScene.addObject(wall2);
 
 				var wall3 = new actor();
 				wall3.addComponent(new transform(new vec2(screen.w/2, 25), 0));
@@ -103,7 +114,7 @@
 				wall3.addComponent(wall3Coll);
 				wall3.addComponent(new drawRect(new vec2(0, 0), new vec2(screen.w, 50)));
 
-				mainScene.addObject(wall3);
+				//mainScene.addObject(wall3);
 
 				var wall4 = new actor();
 				wall4.addComponent(new transform(new vec2(screen.w/2, screen.h-25), 0));
@@ -117,19 +128,21 @@
 				wall5.addComponent(new transform(new vec2(screen.w/2, screen.h/2), 0));
 				var wall5Coll = new boxCollider(0,0, 100, 100, "wall", true)
 				wall5.addComponent(wall5Coll);
-				wall5.addComponent(new velocity(new vec2(0, 0), 0));
+				wall5.addComponent(new motion(new vec2(0, 0), 0, null, 0.03, 0.03));
 				//wall5.addComponent(new bounce());
+				wall5.addComponent(new loop());
 				wall5.addComponent(new simpleRigidbody());
 				wall5.addComponent(new drawRect(new vec2(0, 0), new vec2(100, 100)));
+				wall5.addComponent(new move(1, 0.05));
 
 				mainScene.addObject(wall5);
 
 				
 				var collLayer = new collisionLayer();
 				collLayer.addCollider(ballColl);
-				collLayer.addCollider(wall1Coll);
-				collLayer.addCollider(wall2Coll);
-				collLayer.addCollider(wall3Coll);
+				//collLayer.addCollider(wall1Coll);
+				//collLayer.addCollider(wall2Coll);
+				//collLayer.addCollider(wall3Coll);
 				collLayer.addCollider(wall4Coll);
 				collLayer.addCollider(wall5Coll);
 				mainScene.physicsManager.addLayer(collLayer);
