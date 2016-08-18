@@ -52,6 +52,7 @@ var level_editor = new function() {
 		for(var i = 1; i < this.scenes[this.scene].length; i++) {
 			s += "<li><a onclick=\"level_editor.GUISelectObject(" + i + ");return false;\">" + this.scenes[this.scene][i][0] + "</a></li>";
 		}
+		s += "<li><a onclick=\"level_editor.showPrefabsGUI();return false;\">Add Prefab</a></li>";
 		objectsGUI.innerHTML = s;
 	};
 
@@ -65,6 +66,9 @@ var level_editor = new function() {
 	};
 
 	this.GUIDeleteObject = function(i) {
+		this.scenes[this.scene].splice(i,1);
+		this.showObjectsGUI();
+		this.updateEditorGUI();
 	};
 
 	this.showMenuGUI = function() {

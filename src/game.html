@@ -2,15 +2,20 @@
 	<head>
 		<title>Game</title>
 		<style>
-			#screen {
+			#canvas {
 				position:absolute;
 				top:0px;
 				left:0px;
+			}
+
+			#screen {
+				display: none;
 			}
 		</style>
 	</head>
 	<body onload="onInit()">
 		<canvas id="screen"></canvas>
+		<canvas id="canvas"></canvas>
 
 		<script src="vector.js"></script>
 		<script src="input.js"></script>

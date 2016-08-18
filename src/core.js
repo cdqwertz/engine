@@ -5,15 +5,21 @@ var c = document.getElementById("screen");
 var ctx = c.getContext("2d");
 var mainScene = new scene();
 
+var c2 = document.getElementById("canvas");
+var ctx2 = c2.getContext("2d");
+
 var screen = new function() {
 	this.w = 0;
 	this.h = 0;
 
-	this.init = function(x) {
+	this.init = function(x,y) {
 		this.w = document.body.clientWidth;
 		this.h = document.body.clientHeight;
+
 		x.width  = this.w;
 		x.height = this.h;
+		y.width  = this.w;
+		y.height = this.h;
 	};
 }();
 
@@ -32,12 +38,15 @@ function onUpdate(t) {
 		
 	ctx.clearRect(0, 0, c.width, c.height);
 	mainScene.update();
+
+	ctx2.clearRect(0, 0, c.width, c.height);
+	ctx2.drawImage(c,0,0);
 	
 	window.requestAnimationFrame(onUpdate);
 }
 
 function onInit() {
-	screen.init(c);
+	screen.init(c, c2);
 	if(load) {
 		load();
 	}
