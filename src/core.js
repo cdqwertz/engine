@@ -12,9 +12,15 @@ var screen = new function() {
 	this.w = 0;
 	this.h = 0;
 
+	this.centerX = 0;
+	this.centerY = 0;
+
 	this.init = function(x,y) {
 		this.w = document.body.clientWidth;
 		this.h = document.body.clientHeight;
+
+		this.centerX = this.w/2;
+		this.centerY = this.h/2;
 
 		x.width  = this.w;
 		x.height = this.h;
