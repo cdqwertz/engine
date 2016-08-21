@@ -21,7 +21,7 @@ new drawImage(pos, img, mode, w, h, animations, animation, speed)
 ##transform
 
 ```javascript
-new transform(pos, v)
+new transform(pos, rotation)
 ```
 
 ####Methods:
