@@ -66,3 +66,31 @@ function button(x,y,w,h,text,color,textColor,font) {
 		ctx.fillText(this.text, this.x+(this.w/2), this.y+(this.h/2));
 	};
 }
+
+function menu(items, dist, color, font, fontActive) {
+	this.items = items;
+	this.distY = dist;
+
+	this.color = color;
+	this.font = font;
+	this.fontActive = fontActive;	
+
+	this.selected = 0;
+
+	this.update = function(parent) {
+		for(var i = 0; i < this.items.length; i++) {
+			if(input.mouseY > screen.centerY+i*this.distY-(this.items.length*this.distY/2)-this.distY) {
+				this.selected = i;
+			}
+		}
+	};
+
+	this.draw = function(parent) {
+		ctx.textAlign = "center";
+		for(var i = 0; i < this.items.length; i++) {
+			ctx.font = ((i == this.selected) ? this.fontActive : this.font);
+			ctx.fillStyle = this.color;
+			ctx.fillText(items[i], screen.centerX, screen.centerY+i*this.distY-(this.items.length*this.distY/2));
+		};
+	};
+};
