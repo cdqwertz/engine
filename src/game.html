@@ -20,7 +20,8 @@
 		<script src="vector.js"></script>
 		<script src="input.js"></script>
 		<script src="messages.js"></script>
-		<script src="actor.js"></script>
+		<script src="actor.js"></script>	
+		<script src="prefab.js"></script>
 		<script src="scene.js"></script>
 		<script src="components.js"></script>
 		<script src="gui.js"></script>
@@ -81,6 +82,16 @@
 				};
 			}
 
+			var platform = new prefab(function (pos) {
+				var p = new actor();
+				p.addComponent(new transform(pos, 0));
+				var coll = new boxCollider(0,0, 300, 100, "wall", false)
+				p.addComponent(coll);
+				p.addComponent(new drawRect(new vec2(0, 0), new vec2(300, 100)));
+				
+				return p;
+			});
+
 			//Load
 
 			function load()
@@ -97,30 +108,6 @@
 				ball.addComponent(new loop());
 
 				mainScene.addObject(ball);
-
-				var wall1 = new actor();
-				wall1.addComponent(new transform(new vec2(25, screen.h/2), 0));
-				var wall1Coll = new boxCollider(0,0, 50, screen.h, "wall", false)
-				wall1.addComponent(wall1Coll);
-				wall1.addComponent(new drawRect(new vec2(0, 0), new vec2(50, screen.h)));
-
-				//mainScene.addObject(wall1);
-
-				var wall2 = new actor();
-				wall2.addComponent(new transform(new vec2(screen.w-25, screen.h/2), 0));
-				var wall2Coll = new boxCollider(0,0, 50, screen.h, "wall", false)
-				wall2.addComponent(wall2Coll);
-				wall2.addComponent(new drawRect(new vec2(0, 0), new vec2(50, screen.h)));
-
-				//mainScene.addObject(wall2);
-
-				var wall3 = new actor();
-				wall3.addComponent(new transform(new vec2(screen.w/2, 25), 0));
-				var wall3Coll = new boxCollider(0,0, screen.w, 50, "wall", false)
-				wall3.addComponent(wall3Coll);
-				wall3.addComponent(new drawRect(new vec2(0, 0), new vec2(screen.w, 50)));
-
-				//mainScene.addObject(wall3);
 
 				var wall4 = new actor();
 				wall4.addComponent(new transform(new vec2(screen.w/2, screen.h-25), 0));
@@ -143,12 +130,12 @@
 
 				mainScene.addObject(wall5);
 
+				var p1 = platform.build(new vec2(200,300));
+				mainScene.addObject(p1);
+
 				
 				var collLayer = new collisionLayer();
 				collLayer.addCollider(ballColl);
-				//collLayer.addCollider(wall1Coll);
-				//collLayer.addCollider(wall2Coll);
-				//collLayer.addCollider(wall3Coll);
 				collLayer.addCollider(wall4Coll);
 				collLayer.addCollider(wall5Coll);
 				mainScene.physicsManager.addLayer(collLayer);

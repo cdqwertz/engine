@@ -1,5 +1,8 @@
 var prefab_preview = new function() {
 	this.render = function(obj, _x,_y) {
+		if(!obj) {
+			return;
+		}
 		ctx.translate(_x,_y);
 		for(var j = 1; j < obj.length; j++) {
 			if(obj[j][0] == "transform") {
@@ -14,6 +17,16 @@ var prefab_preview = new function() {
 				var sy = obj[j][2][2];
 				ctx.fillStyle = obj[j][3][1];
 				ctx.fillRect(x-(sx/2), y-(sy/2),sx,sy);
+			}
+			if(obj[j][0] == "drawImage") {
+				var x = obj[j][1][1];
+				var y = obj[j][1][2];
+				var sx = obj[j][4][1];
+				var sy = obj[j][5][1];
+				ctx.strokeStyle = "#000000";
+				ctx.fillStyle = "#000000";
+				ctx.strokeRect(x-(sx/2), y-(sy/2),sx,sy);
+				ctx.fillText("Image", x-(sx/2)+10, y-(sy/2)+20);
 			}
 			if(obj[j][0] == "boxCollider") {
 				var x = obj[j][1][1];

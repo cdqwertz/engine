@@ -32,7 +32,7 @@ var level_editor = new function() {
 	this.updateEditorGUI = function(e) {
 		ctx.clearRect(0,0,canvasGUI.width,canvasGUI.height);
 		for(var i = 1; i < this.scenes[this.scene].length; i++) {
-			prefab_preview.render(this.scenes[this.scene][i],0,0);
+			prefab_preview.render(prefab_editor.getPrefab(this.scenes[this.scene][i][0]),this.scenes[this.scene][i][1],this.scenes[this.scene][i][2]);
 		}
 	};
 
@@ -84,20 +84,7 @@ var level_editor = new function() {
 	};
 
 	this.addPrefab = function(n,x,y) {
-		var name = prompt("name");
-		//BEGIN TODO : replace the code below with better code
-		var prefab = JSON.parse(JSON.stringify(prefab_editor.prefabs[n]));
-		//END TODO
-		var p = this.scenes[this.scene].push(prefab);
-		this.scenes[this.scene][p-1][0] = name;
-		var obj = this.scenes[this.scene][p-1];
-		for(var i = 1; i < obj.length; i++) {
-			if(obj[i][0] == "transform") {
-				obj[i][1][1] = x;
-				obj[i][1][2] = y;
-			}
-		}
-		
+		var p = this.scenes[this.scene].push([prefab_editor.prefabs[n][0],x,y]);
 		this.updateEditorGUI();
 	};
 }();

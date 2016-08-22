@@ -1,5 +1,5 @@
 var event_editor = new function() {
-	this.components = [[""]];
+	this.components = [["component1"]];
 	this.selectedComponent = 0;
 
 	this.commands = [];
@@ -115,27 +115,27 @@ var event_editor = new function() {
 	this.genCode = function() {
 		var c = "";
 		for(var i = 0; i < this.components.length; i++){
-			c += "function " + this.components[i][0] + "() {\n\tthis.componentType=\""+ this.components[i][0] +"\";\n\tthis.update = function(parent) {\n";
+			c += "\tfunction " + this.components[i][0] + "() {\n\tthis.componentType=\""+ this.components[i][0] +"\";\n\tthis.update = function(parent) {\n";
 			for(var j = 1; j < this.components[i].length; j++){
-				c += "\t\t{\n"
+				c += "\t\t\t{\n"
 				var z = 0;
 				for(var k = 0; k < this.components[i][j].length; k++){
 					var cmd = this.commands[this.findCommand(this.components[i][j][k][0])];
 					for(var n = 0; n < cmd[1].length; n++){
-						c += "\t\t\tvar " + cmd[1][n][1] + " = " + this.components[i][j][k][1][n] + ";\n";
+						c += "\t\t\t\tvar " + cmd[1][n][1] + " = " + this.components[i][j][k][1][n] + ";\n";
 					}
-					c += "\t\t\t" + cmd[2] + "\n";
+					c += "\t\t\t\t" + cmd[2] + "\n";
 					if(cmd[3]) {
 						z++;
 					}
 				}
 
 				for(var k = 0; k < z; k++){
-					c += "\t\t\t}\n"
+					c += "\t\t\t\t}\n"
 				}
-				c += "\t\t}\n";
+				c += "\t\t\t}\n";
 			}
-			c += "\t}\n}\n\n";
+			c += "\t\t}\n\t}\n\n";
 		}
 		return c;
 	}

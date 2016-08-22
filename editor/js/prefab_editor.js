@@ -128,9 +128,26 @@ var prefab_editor = new function() {
 
 				this.prefabs[this.selectedObject][p-1].push(["string", "tag", "tag"]);
 				this.prefabs[this.selectedObject][p-1].push(["bool", false, "check"]);
+			} else if(n == "motion") {
+				this.prefabs[this.selectedObject][p-1].push(["vec2", 0 , 0, "velocity"]);
+				this.prefabs[this.selectedObject][p-1].push(["float", 0, "rotation"]);
+				this.prefabs[this.selectedObject][p-1].push(["vec2", 0, 0, "acceleration"]);	
+				this.prefabs[this.selectedObject][p-1].push(["float", 0, "friction"]);
+				this.prefabs[this.selectedObject][p-1].push(["float", 0, "gravity"]);
+			} else if(n == "health") {	
+				this.prefabs[this.selectedObject][p-1].push(["float", 0, "hp"]);
+				this.prefabs[this.selectedObject][p-1].push(["float", 0, "regeneration"]);
 			}
 		}
 		this.showComponentsGUI();
 		this.updateEditorGUI();
+	};
+
+	this.getPrefab = function(name) {
+		for(var i = 0; i < this.prefabs.length; i++) {
+			if(this.prefabs[i][0] == name) {
+				return (this.prefabs[i])
+			}
+		}
 	};
 }();
