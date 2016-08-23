@@ -1,6 +1,14 @@
 //file : gui.js
 //author : cdqwertz
 
+var guiStyle = new function() {
+	this.color = "#CCCCCC";
+	this.colorActive = "#AAAAAA";
+
+	this.textColor = "#000000";
+	this.font = null;
+}();
+
 function label(x,y,text,color, font) {
 	this.componentType = "label";
 	
@@ -8,8 +16,8 @@ function label(x,y,text,color, font) {
 	this.y = y;
 
 	this.text = text;
-	this.color = color || "#000000";
-	this.font = font || null;
+	this.color = color || guiStyle.textColor || "#000000";
+	this.font = font || guiStyle.font || null;
 
 	this.draw = function(parent) {
 		if(this.font != undefined && this.font) {
@@ -30,11 +38,11 @@ function button(x,y,w,h,text,color,textColor,font) {
 	this.w = w;
 	this.h = h;
 
-	this.color = color || "#CCCCCC";
+	this.color = color || guiStyle.color || "#CCCCCC";
 	
 	this.text = text || "Button" ;
-	this.textColor = textColor || "#000000";
-	this.font = font || null;
+	this.textColor = textColor || guiStyle.textColor || "#000000";
+	this.font = font || guiStyle.font  || null;
 
 	this.active = false;
 
@@ -52,7 +60,7 @@ function button(x,y,w,h,text,color,textColor,font) {
 
 	this.draw = function(parent) {
 		if(this.active) {
-			ctx.fillStyle = "#AAAAAA";
+			ctx.fillStyle = guiStyle.colorActive;
 		} else {
 			ctx.fillStyle = this.color;
 		}
@@ -71,8 +79,8 @@ function menu(items, dist, color, font, fontActive) {
 	this.items = items;
 	this.distY = dist;
 
-	this.color = color;
-	this.font = font;
+	this.color = color || guiStyle.textColor;
+	this.font = font || guiStyle.font || null;
 	this.fontActive = fontActive;	
 
 	this.selected = 0;
@@ -94,3 +102,42 @@ function menu(items, dist, color, font, fontActive) {
 		};
 	};
 };
+
+function scrollbar(x,y,w,h,color) {
+	this.componentType = "scrollbar";
+
+	this.x = x;
+	this.y = y;
+	this.w = w;
+	this.h = h;
+
+	this.color = color || guiStyle.color || "#CCCCCC";
+
+	this.active = false;
+	this.value = 0.0;
+
+	this.update = function(parent) {
+		if(input.getMouse(1) &&
+		   input.mouseX > this.x && 
+		   input.mouseX < this.x+this.w &&
+		   input.mouseY > this.y &&
+		   input.mouseY < this.y+this.h) {
+			this.active = true;	
+			this.value = (input.mouseY - this.y)/this.h;
+		} else {
+			this.active = false;
+		}
+	};
+
+	this.draw = function(parent) {
+		ctx.fillStyle = this.color;
+		ctx.fillRect(this.x, this.y, this.w, this.h);
+
+		ctx.fillStyle = guiStyle.colorActive;
+		ctx.fillRect(this.x, this.y+this.value*this.h-10, this.w, 20);
+	};
+
+	this.getValue = function() {
+		return (this.value);
+	};
+}
