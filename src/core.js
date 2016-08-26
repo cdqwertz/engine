@@ -42,7 +42,7 @@ var time = new function() {
 function onUpdate(t) {
 	time.update(t || 0);
 		
-	ctx.clearRect(0, 0, c.width, c.height);
+	ctx.clearRect(-c.width/2, -c.height/2, c.width, c.height);
 	mainScene.update();
 
 	ctx2.clearRect(0, 0, c.width, c.height);
@@ -56,6 +56,7 @@ function onInit() {
 	if(load) {
 		load();
 	}
+	ctx.translate(screen.centerX, screen.centerY);
 	mainScene.start();
 	onUpdate();
 }

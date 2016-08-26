@@ -90,16 +90,16 @@ function loop() {
 	};
 
 	this.update = function(obj) {
-		if(this.t.position.y < 0) {
+		if(this.t.position.y < -screen.centerY) {
 			this.t.position.y += screen.h;
 		}
-		if(this.t.position.x > screen.w) {
+		if(this.t.position.x > screen.centerX) {
 			this.t.position.x -= screen.w;
 		}
-		if(this.t.position.y > screen.h) {
+		if(this.t.position.y > screen.centerY) {
 			this.t.position.y -= screen.h;
 		}
-		if(this.t.position.x < 0) {
+		if(this.t.position.x < -screen.centerX) {
 			this.t.position.x += screen.w;
 		}
 

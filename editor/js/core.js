@@ -2,6 +2,9 @@ var core = new function() {
 	this.mode = 0;
 	this.mouseX = 0;
 	this.mouseY = 0;
+	this.pmouseX = 0;
+	this.pmouseY = 0;
+
 	this.snap = false;
 	this.snapDistance = 15;
 
@@ -22,6 +25,9 @@ var core = new function() {
 		} else {
 			level_editor.mouseDown(e);
 		}
+
+		this.pmouseX = this.mouseX;
+		this.pmouseY = this.mouseY;
 	};
 
 	this.mouseUp = function(e) {
@@ -38,6 +44,9 @@ var core = new function() {
 		} else {
 			level_editor.mouseUp(e);
 		}
+
+		this.pmouseX = this.mouseX;
+		this.pmouseY = this.mouseY;
 	};
 	
 	this.mouseMove = function(e) {
@@ -69,6 +78,8 @@ var core = new function() {
 			overlayCtx.stroke();
 		}
 
+		this.pmouseX = this.mouseX;
+		this.pmouseY = this.mouseY;
 	};
 
 	this.keyDown = function(e) {
