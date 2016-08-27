@@ -96,6 +96,22 @@
 
 			function load()
 			{
+				var wall5 = new actor();
+				wall5.addComponent(new transform(new vec2(0, 0), 0));
+				wall5.addComponent(new move(1, 0.05));
+				wall5.addComponent(new motion(new vec2(0, 0), 0, null, 0.03, 0.03));
+
+				var wall5Coll = new boxCollider(0,0, 100, 100, "wall", true)
+				wall5.addComponent(wall5Coll);
+				//wall5.addComponent(new bounce());
+				wall5.addComponent(new loop());
+				wall5.addComponent(new simpleRigidbody());
+
+				wall5.addComponent(new drawRect(new vec2(0, 0), new vec2(100, 100)));
+
+				mainScene.addObject(wall5);
+
+
 				var ball = new actor();
 				ball.addComponent(new transform(new vec2(0, 0), 0));
 				//ball.addComponent(new bounce());
@@ -117,28 +133,8 @@
 
 				mainScene.addObject(wall4);
 
-				var wall5 = new actor();
-				wall5.addComponent(new transform(new vec2(0, 0), 0));
-				var wall5Coll = new boxCollider(0,0, 100, 100, "wall", true)
-				wall5.addComponent(wall5Coll);
-				wall5.addComponent(new motion(new vec2(0, 0), 0, null, 0.03, 0.03));
-				//wall5.addComponent(new bounce());
-				wall5.addComponent(new loop());
-				wall5.addComponent(new simpleRigidbody());
-				wall5.addComponent(new drawRect(new vec2(0, 0), new vec2(100, 100)));
-				wall5.addComponent(new move(1, 0.05));
-
-				mainScene.addObject(wall5);
-
 				var p1 = platform.build(new vec2(200,300));
 				mainScene.addObject(p1);
-
-				
-				var collLayer = new collisionLayer();
-				collLayer.addCollider(ballColl);
-				collLayer.addCollider(wall4Coll);
-				collLayer.addCollider(wall5Coll);
-				mainScene.physicsManager.addLayer(collLayer);
 
 				//mainScene.addObject(test);
 			}

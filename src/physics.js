@@ -2,7 +2,7 @@
 //author : cdqwertz
 
 function physicsManager() {
-	this.layers = new Array();
+	this.layers = [new collisionLayer()];
 	this.addLayer = function(c) {
 		this.layers.push(c);
 	};
@@ -52,7 +52,7 @@ function collision(a, b) {
 
 //collider
 
-function boxCollider(x, y, w, h, t, m) {
+function boxCollider(x, y, w, h, t, m, layer) {
 	this.x = 0;
 	this.y = 0;
 	this.w = w;
@@ -61,6 +61,7 @@ function boxCollider(x, y, w, h, t, m) {
 	this.offset_y = y;
 	this.check = m;
 	this.tag = t || "";
+	this.layer = layer || 0;
 	this.componentType = "boxCollider";
 
 	this.isColliding = false;
@@ -69,6 +70,8 @@ function boxCollider(x, y, w, h, t, m) {
 	this.parent = null;
 
 	this.start = function(obj) {
+		mainScene.physicsManager.layers[this.layer].addCollider(this);
+
 		this.parent = obj;
 
 		var p = obj.components[obj.findComponent("transform")].getPos();
@@ -77,12 +80,12 @@ function boxCollider(x, y, w, h, t, m) {
 	};
 
 	this.update = function(obj) {
-		var p = obj.components[obj.findComponent("transform")].getPos();
-		this.x = p.x + this.offset_x;
-		this.y = p.y + this.offset_y;
 	};
 
 	this.afterUpdate = function(obj) {
+		var p = obj.components[obj.findComponent("transform")].getPos();
+		this.x = p.x + this.offset_x;
+		this.y = p.y + this.offset_y;
 		this.collisions = [];
 	};
 
@@ -166,7 +169,7 @@ function simpleRigidbody() {
 					}
 						
 					if(solve) {
-						if(can_move[(dir+2)%4]) {
+						if(can_move[((dir+2)%4)]) {
 							can_move[dir] = false;
 							if(dir == 0) {
 								this.t.position.x = other.x - other.w/2 -  this.coll.w/2;
@@ -184,7 +187,7 @@ function simpleRigidbody() {
 				for(var i = 0; i < rigidbody_collisions.length; i++) {
 					var other = rigidbody_collisions[i].b;
 					var dir = this.coll.getDir(other);
-					if(can_move[(dir+2)%4]) {
+					if(can_move[((dir+2)%4)]) {
 						can_move[dir] = false;
 						if(dir == 0) {
 							this.t.position.x = other.x - other.w/2 -  this.coll.w/2;
@@ -196,7 +199,6 @@ function simpleRigidbody() {
 							this.t.position.y = other.y + other.h/2 + this.coll.h/2;
 						}
 					} else {
-						console.log(can_move[(dir+2)%4]);
 					}
 				}
 			}
