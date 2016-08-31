@@ -18,6 +18,13 @@ function collisionLayer() {
 	this.addCollider = function(c) {
 		this.objs.push(c);
 	};
+	this.removeCollider = function(c) {
+		for(var i = 0; i < this.objs.length; i++) {
+			if(this.objs[i] == c) {
+				this.objs.splice(i, 1);
+			}	
+		}
+	};
 	this.update = function() {
 		for(var i = 0; i < this.objs.length; i++) {
 			this.objs[i].isColliding = false;
@@ -130,6 +137,10 @@ function boxCollider(x, y, w, h, t, m, layer) {
 		// 3 : top
 
 		return d;
+	};
+
+	this.destroy = function(obj) {
+		mainScene.physicsManager.layers[this.layer].removeCollider(this);
 	};
 }
 

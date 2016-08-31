@@ -95,6 +95,7 @@ var prefab_editor = new function() {
 			var p = this.prefabs.push([]);
 			this.prefabs[p-1].push(n);
 			this.selectedObject = p-1;
+			this.prefabs[this.selectedObject].push(["transform",["vec2", 0 , 0, "position"],["float", 0, "rotation"]]);
 		}
 		this.showComponentsGUI();
 		this.updateEditorGUI();

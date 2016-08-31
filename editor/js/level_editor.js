@@ -59,8 +59,6 @@ var level_editor = new function() {
 	this.GUISelectObject = function(i) {
 		var s = "";
 		s += "<li><a onclick=\"level_editor.showObjectsGUI();return false;\">...</a></li>";
-		s += "<li><a onclick=\"level_editor.showObjectsGUI();return false;\">Update (WIP)</a></li>";
-		s += "<li><a onclick=\"level_editor.showObjectsGUI();return false;\">Show Prefab (WIP)</a></li>";
 		s += "<li><a onclick=\"level_editor.GUIDeleteObject(" + i + ");return false;\">Delete</a></li>";
 		objectsGUI.innerHTML = s;
 	};

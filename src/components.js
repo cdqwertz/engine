@@ -198,3 +198,38 @@ function health(hp, regeneration) {
 		}
 	};
 }
+
+function score() {
+	this.score = 0;
+	this.componentType = "score";
+	
+	this.update = function(obj) {
+	};
+
+	this.add = function(x) {
+		this.score += x;
+	};
+}
+
+function coin() {
+	this.componentType = "coin";
+	this.coll = null;
+	
+	this.start = function(obj) {
+		this.coll = obj.getComponent("boxCollider");
+	};	
+
+	this.update = function(obj) {
+		if(this.coll && this.coll.isColliding) {
+			for(var i = 0; i < this.coll.collisions.length; i++) {
+				var other = this.coll.collisions[i].b;
+				if(other.parent.getComponent("score")) {
+					other.parent.getComponent("score").add(1);
+					obj.destroy();
+				}
+			}
+		}
+	};
+}
+
+

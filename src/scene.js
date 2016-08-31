@@ -9,10 +9,20 @@ function scene() {
 	this.addObject = function(obj) {
 		this.objs.push(obj);
 	};
+
+	this.findObject = function(obj) {
+		for(var i = 0; i < this.objs.length; i++) {
+			if(this.objs[i] == obj) {
+				return (i);
+			}
+		}
+		return -1;
+	};
+
 	this.start = function() {
 		for (var i in this.objs) {
 			if (this.objs[i].start) {
-				this.objs[i].start();
+				this.objs[i].start(this);
 			}
 		}
 	};

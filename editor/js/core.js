@@ -83,6 +83,9 @@ var core = new function() {
 	};
 
 	this.keyDown = function(e) {
+		if(!e.shiftKey) {
+			return false;
+		}
 		if(e.keyCode == 83) {
 			this.snap = !this.snap;
 		} else if(e.keyCode == 81) {
@@ -113,6 +116,8 @@ var core = new function() {
 		} else {
 			level_editor.keyDown(e);
 		}
+
+		return true;
 	};
 
 	this.code = function() {

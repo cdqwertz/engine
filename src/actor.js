@@ -3,10 +3,13 @@
 
 function actor() {
 	this.components = new Array();
+	this.parent = null;
 	this.addComponent = function (comp) {
 		this.components.push(comp);
 	};
-	this.start = function() {
+
+	this.start = function(parent) {
+		this.parent = parent;
 		for (var i in this.components) {
 			if (this.components[i].start) {
 				this.components[i].start(this);
@@ -59,5 +62,15 @@ function actor() {
 
 	this.getComponent = function(t) {
 		return this.components[this.findComponent(t)]
+	};
+
+	this.destroy = function() {
+		for (var i in this.components) {
+			if (this.components[i].destroy) {
+				this.components[i].destroy(this);
+			}
+		}
+		this.parent.objs.splice(this.parent.findObject(this),1);
+		delete (this);	
 	};
 }
