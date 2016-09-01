@@ -143,6 +143,7 @@ var event_editor = new function() {
 
 	this.registerCommand("Key Pressed?", [["Key", "key"]], "if(input.getKey(<key>)) {", true);
 	this.registerCommand("State = value?", [["Value", "value"]], "if(this.state == <value>) {", true);
+	this.registerCommand("Random > value?", [["Value", "value"]], "if(Math.random() > <value>) {", true);
 
 	this.registerCommand("Set State", [["Value", "value"]], "this.state = <value>;");
 	this.registerCommand("Move Actor", [["Actor","obj"],["X","x"] , ["Y", "y"]], "var t = <obj>.getComponent(\"transform\");\nt.setPos(t.getPos().add(new vec2(<x>*time.dtime, <y>*time.dtime)));");

@@ -74,10 +74,21 @@ var prefab_editor = new function() {
 		s += "<li><a onclick=\"prefab_editor.showComponentsGUI();return false;\">Back</a></li>";
 		s += "<li><a onclick=\"prefab_editor.GUIRemoveComponent("+ n +");return false;\">Delete</a></li>";
 		for(var i = 1; i < this.prefabs[this.selectedObject][n].length; i++) {
+			var inputType = "text";
+			if(this.prefabs[this.selectedObject][n][i][0] == "int") {
+				inputType = "number";
+			}else if(this.prefabs[this.selectedObject][n][i][0] == "bool") {
+				inputType = "checkbox";
+			}
+
 			if(this.prefabs[this.selectedObject][n][i][0] == "vec2") {
-				s += "<li><a>"+ this.prefabs[this.selectedObject][n][i][3] +"<br><br><input type=\"text\" value=\"" + this.prefabs[this.selectedObject][n][i][1] + "\" onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][1] = this.value; prefab_editor.GUISelectComponent(" + n+");\"></input><input type=\"text\" value=\"" + this.prefabs[this.selectedObject][n][i][2] + "\" onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][2] = this.value; prefab_editor.GUISelectComponent(" + n+");\"></input></a></li>";
+				s += "<li><a>"+ this.prefabs[this.selectedObject][n][i][3] +"<br><br><input type=\"number\" value=\"" + this.prefabs[this.selectedObject][n][i][1] + "\" onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][1] = this.value; prefab_editor.GUISelectComponent(" + n+");\"></input><input type=\"number\" value=\"" + this.prefabs[this.selectedObject][n][i][2] + "\" onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][2] = this.value; prefab_editor.GUISelectComponent(" + n+");\"></input></a></li>";
 			} else {
-				s += "<li><a>"+ this.prefabs[this.selectedObject][n][i][2] +"<br><br><input type=\"text\" value=\"" + this.prefabs[this.selectedObject][n][i][1] + "\" onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][1] = this.value; prefab_editor.GUISelectComponent(" + n+");\"></input></a></li>";
+				if(inputType == "checkbox") {
+					s += "<li><a><input type=\""+inputType+"\" name=\"" + this.prefabs[this.selectedObject][n][i][2] +"\"" + "value=\"" + this.prefabs[this.selectedObject][n][i][2] +"\" " + (this.prefabs[this.selectedObject][n][i][1] ? "checked=\"checked\"" : "") + " onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][1] = this.checked; prefab_editor.GUISelectComponent(" + n+");\"></input>"+ this.prefabs[this.selectedObject][n][i][2] +"</a></li>";
+				} else {
+					s += "<li><a>"+ this.prefabs[this.selectedObject][n][i][2] +"<br><br><input type=\""+inputType+"\" value=\"" + this.prefabs[this.selectedObject][n][i][1] + "\" onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][1] = this.value; prefab_editor.GUISelectComponent(" + n+");\"></input></a></li>";
+				}
 			}		
 		}
 		objectsGUI.innerHTML = s;

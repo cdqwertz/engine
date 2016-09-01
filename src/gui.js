@@ -9,6 +9,18 @@ var guiStyle = new function() {
 	this.font = null;
 }();
 
+function gui() {
+	this.componentType = "gui";
+
+	this.draw = function(parent) {
+		ctx.translate(-screen.centerX,-screen.centerY)
+	};
+	
+	this.afterDraw = function(parent) {
+		ctx.translate(screen.centerX,screen.centerY)
+	};
+}
+
 function label(x,y,text,color, font) {
 	this.componentType = "label";
 	
