@@ -1,4 +1,7 @@
 var level_editor = new function() {
+	this.screenWidth = 640;
+	this.screenHeight = 480;
+
 	this.scenes = [["mainScene"]];
 	this.scene = 0;
 	this.selectedObject = [-1];
@@ -34,12 +37,14 @@ var level_editor = new function() {
 		for(var i = 1; i < this.scenes[this.scene].length; i++) {
 			prefab_preview.render(prefab_editor.getPrefab(this.scenes[this.scene][i][0]),this.scenes[this.scene][i][1]+canvasGUI.width/2,this.scenes[this.scene][i][2]+canvasGUI.height/2);
 		}
+		//ctx.strokeStyle = "#000";
+		//ctx.strokeRect(canvasGUI.width/2-(this.screenWidth/2), canvasGUI.height/2-(this.screenHeight/2), this.screenWidth,this.screenHeight);
 	};
 
 
 	this.showPrefabsGUI = function() {
 		var s = "";
-		s += "<li><a onclick=\"level_editor.showMenuGUI();return false;\">...</a></li>";
+		s += "<li><a onclick=\"level_editor.showObjectsGUI();return false;\">...</a></li>";
 		for(var i = 0; i < prefab_editor.prefabs.length; i++) {
 			s += "<li><a onclick=\"level_editor.GUISelectPrefab(" + i + ");return false;\">" + prefab_editor.prefabs[i][0] + "</a></li>";
 		}
@@ -71,7 +76,6 @@ var level_editor = new function() {
 
 	this.showMenuGUI = function() {
 		var s = "";
-		s += "<li><a onclick=\"level_editor.showPrefabsGUI();return false;\">Add...</a></li>";
 		s += "<li><a onclick=\"level_editor.showObjectsGUI();return false;\">Objects...</a></li>";
 		objectsGUI.innerHTML = s;
 	};

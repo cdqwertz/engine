@@ -20,6 +20,8 @@
 			var canvasOverlayGUI;
 			var overlayCtx;
 
+			var dialogContainer;
+
 			function load() {
 				objectsGUI = document.getElementById("objects");
 				canvasGUI = document.getElementById("code");
@@ -40,7 +42,9 @@
 				canvasOverlayGUI.onmousemove = input.onMouseMove;
 				document.onkeydown = input.onKeyDown;
 
-				code_editor.showLibraryGUI();
+				core.prefabs();
+	
+				dialogContainer = document.getElementById("dialogContainer");
 			}
 
 			function newGame() {
@@ -66,7 +70,6 @@
 			<li id="r"><a onclick="core.level();return false;">Create</a></li>
 			<li id="r"><a onclick="core.prefabs();return false;">Prefabs</a></li>
 			<li id="r"><a onclick="core.events();return false;">Events</a></li>
-			<li id="r"><a onclick="core.code();return false;">Code</a></li>
 		</ul>
 
 		<ul id="objects">
@@ -77,5 +80,7 @@
 
 		<canvas id="overlay">
 		</canvas>
+
+		<div id="dialogContainer"></div>
 	</body>
 </html>

@@ -8,7 +8,6 @@ var core = new function() {
 	this.snap = false;
 	this.snapDistance = 15;
 
-
 	this.mouseDown = function(e) {
 		if(this.snap) {
 			this.mouseX = Math.floor((e.clientX / this.snapDistance)+0.5)*this.snapDistance;
@@ -145,7 +144,7 @@ var core = new function() {
 	};
 
 	this.exportCode = function() {
-		alert(code_generator.genHtml(code_generator.genCode()));
+		this.dialog.show("<textarea editable=\"false\" readonly>"+code_generator.genHtml(code_generator.genCode())+"</textarea>", "");
 	};
 
 	this.newProject = function() {
@@ -180,6 +179,20 @@ var core = new function() {
 		l.push(prefab_editor.prefabs);
 		l.push(level_editor.scenes);
 		l.push(event_editor.components);
-		alert(JSON.stringify(l));
-	}
+		this.dialog.show("<textarea editable=\"false\" readonly>"+JSON.stringify(l)+"</textarea>","");
+	};
+
+	this.dialog = new function() { 
+		this.show = function(text,buttons) {
+			if(buttons == "") {
+				buttons = "<button onclick=\"core.dialog.close();\">OK</button>"
+			}
+			s = "<div class=\"dialog_bg\"><div class=\"dialog\">" + text + "<div class=\"dialog_buttons\">"+buttons+"</div></div></div>";
+			dialogContainer.innerHTML = s;
+		};
+
+		this.close = function() {
+			dialogContainer.innerHTML = "";
+		};
+	}();
 }();
