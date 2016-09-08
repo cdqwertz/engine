@@ -1,3 +1,6 @@
+//file : code_generator.js
+//author : cdqwertz
+
 code_generator = new function() {
 	this.genParams = function(l) {
 		var s = "";

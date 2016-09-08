@@ -1,3 +1,6 @@
+//file : prefab_preview.js
+//author : cdqwertz
+
 var prefab_preview = new function() {
 	this.render = function(obj, _x,_y) {
 		if(!obj) {

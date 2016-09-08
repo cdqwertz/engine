@@ -1,3 +1,6 @@
+//file : input.js
+//author : cdqwertz
+
 var input = new function() {
 	this.mousePressed = false;
 	this.mouseX = 0;

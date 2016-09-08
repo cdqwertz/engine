@@ -1,3 +1,6 @@
+//file : code_editor.js
+//author : cdqwertz
+
 var code_editor = new function() {
 	this.components = [[]];
 	this.component = 0;

@@ -1,3 +1,6 @@
+//file : prefab_editor.js
+//author : cdqwertz
+
 var prefab_editor = new function() {
 	this.prefabs = [];
 	this.selectedObject = -1;
@@ -24,7 +27,7 @@ var prefab_editor = new function() {
 		} else if(e.keyCode == 87) {
 			this.addActor();
 		} else if(e.keyCode == 69) {
-			this.addComponent();
+			this.GUIaddComponent();
 		}
 	};
 
@@ -55,7 +58,7 @@ var prefab_editor = new function() {
 		for(var i = 1; i < this.prefabs[this.selectedObject].length; i++) {
 			s += "<li><a onclick=\"prefab_editor.GUISelectComponent(" + i + ");return false;\">" + this.prefabs[this.selectedObject][i][0] + "</a></li>";
 		}
-		s += "<li><a onclick=\"prefab_editor.addComponent();return false;\">Add Component</a></li>";
+		s += "<li><a onclick=\"prefab_editor.GUIaddComponent();return false;\">Add Component</a></li>";
 		objectsGUI.innerHTML = s;
 		this.updateEditorGUI();
 	};
@@ -111,9 +114,18 @@ var prefab_editor = new function() {
 		this.showComponentsGUI();
 		this.updateEditorGUI();
 	};
+
+	this.GUIaddComponent = function() {
+		var buttons = "<ul>";
+		var components = ["transform", "drawRect" , "drawImage", "boxCollider", "simpleRigidbody", "motion", "health", "score", "coin"]
+		for(var i = 0; i < components.length; i++) {
+			buttons += "<li><button onclick=\"prefab_editor.addComponent(\'"+components[i]+"\');core.dialog.close();\">"+components[i]+"</button></li>";
+		}
+		buttons += "</ul>"
+		core.dialog.show(buttons, "<button onclick=\"core.dialog.close();\">Back</button>");
+	};
 	
-	this.addComponent = function() {
-		var n = prompt("Type:");
+	this.addComponent = function(n) {
 		if(n) {
 			var p = this.prefabs[this.selectedObject].push([]);
 			this.prefabs[this.selectedObject][p-1].push(n);

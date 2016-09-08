@@ -1,3 +1,6 @@
+//file : event_editor.js
+//author : cdqwertz
+
 var event_editor = new function() {
 	this.components = [["component1"]];
 	this.selectedComponent = 0;

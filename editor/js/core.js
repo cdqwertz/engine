@@ -1,3 +1,6 @@
+//file : core.js
+//author : cdqwertz
+
 var core = new function() {
 	this.mode = 0;
 	this.mouseX = 0;

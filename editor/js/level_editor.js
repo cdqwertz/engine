@@ -1,3 +1,6 @@
+//file : level_editor.js
+//author : cdqwertz
+
 var level_editor = new function() {
 	this.screenWidth = 640;
 	this.screenHeight = 480;
