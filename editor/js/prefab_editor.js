@@ -85,7 +85,7 @@ var prefab_editor = new function() {
 			}
 
 			if(this.prefabs[this.selectedObject][n][i][0] == "vec2") {
-				s += "<li><a>"+ this.prefabs[this.selectedObject][n][i][3] +"<br><br><input type=\"number\" value=\"" + this.prefabs[this.selectedObject][n][i][1] + "\" onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][1] = this.value; prefab_editor.GUISelectComponent(" + n+");\"></input><input type=\"number\" value=\"" + this.prefabs[this.selectedObject][n][i][2] + "\" onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][2] = this.value; prefab_editor.GUISelectComponent(" + n+");\"></input></a></li>";
+				s += "<li><a>"+ this.prefabs[this.selectedObject][n][i][3] +"<br><br><input type=\"number\" step=\"any\" value=\"" + this.prefabs[this.selectedObject][n][i][1] + "\" onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][1] = this.value; prefab_editor.GUISelectComponent(" + n+");\"></input><input type=\"number\" step=\"any\" value=\"" + this.prefabs[this.selectedObject][n][i][2] + "\" onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][2] = this.value; prefab_editor.GUISelectComponent(" + n+");\"></input></a></li>";
 			} else {
 				if(inputType == "checkbox") {
 					s += "<li><a><input type=\""+inputType+"\" name=\"" + this.prefabs[this.selectedObject][n][i][2] +"\"" + "value=\"" + this.prefabs[this.selectedObject][n][i][2] +"\" " + (this.prefabs[this.selectedObject][n][i][1] ? "checked=\"checked\"" : "") + " onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][1] = this.checked; prefab_editor.GUISelectComponent(" + n+");\"></input>"+ this.prefabs[this.selectedObject][n][i][2] +"</a></li>";
@@ -117,7 +117,7 @@ var prefab_editor = new function() {
 
 	this.GUIaddComponent = function() {
 		var buttons = "<ul>";
-		var components = ["transform", "drawRect" , "drawImage", "boxCollider", "simpleRigidbody", "motion", "health", "score", "coin"]
+		var components = ["transform", "drawRect" , "drawImage", "boxCollider", "bounce", "simpleRigidbody", "motion", "health", "score", "coin", "followMouse"]
 		for(var i = 0; i < components.length; i++) {
 			buttons += "<li><button onclick=\"prefab_editor.addComponent(\'"+components[i]+"\');core.dialog.close();\">"+components[i]+"</button></li>";
 		}
@@ -161,6 +161,9 @@ var prefab_editor = new function() {
 			} else if(n == "health") {	
 				this.prefabs[this.selectedObject][p-1].push(["float", 0, "hp"]);
 				this.prefabs[this.selectedObject][p-1].push(["float", 0, "regeneration"]);
+			} else if(n == "followMouse") {	
+				this.prefabs[this.selectedObject][p-1].push(["bool", true, "follow x"]);
+				this.prefabs[this.selectedObject][p-1].push(["bool", true, "follow y"]);
 			}
 		}
 		this.showComponentsGUI();

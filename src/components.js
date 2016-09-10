@@ -117,35 +117,32 @@ function bounce() {
 	this.update = function(obj) {
 		if(this.coll) {
 			if(this.coll.isColliding) {
+				var dir = this.coll.getDir(this.coll.other);
+				console.log(dir);
+				if(dir == 1) {
+					var x1 = this.v.velocity.x;
+					var y1 = -Math.abs(this.v.velocity.y);
 				
-				if(this.coll.other.tag == "wall") {
-					var dir = this.coll.getDir(this.coll.other);
-					console.log(dir);
-					if(dir == 1) {
-						var x1 = this.v.velocity.x;
-						var y1 = -Math.abs(this.v.velocity.y);
-					
-						this.v.velocity.x = x1;
-						this.v.velocity.y = y1;
-					} else if(dir == 3) {
-						var x1 = this.v.velocity.x;
-						var y1 = Math.abs(this.v.velocity.y);
-					
-						this.v.velocity.x = x1;
-						this.v.velocity.y = y1;
-					} else if(dir == 0) {
-						var x1 = -Math.abs(this.v.velocity.x);
-						var y1 = this.v.velocity.y;
-					
-						this.v.velocity.x = x1;
-						this.v.velocity.y = y1;
-					} else if(dir == 2) {
-						var x1 = Math.abs(this.v.velocity.x);
-						var y1 = this.v.velocity.y;
-					
-						this.v.velocity.x = x1;
-						this.v.velocity.y = y1;
-					}
+					this.v.velocity.x = x1;
+					this.v.velocity.y = y1;
+				} else if(dir == 3) {
+					var x1 = this.v.velocity.x;
+					var y1 = Math.abs(this.v.velocity.y);
+				
+					this.v.velocity.x = x1;
+					this.v.velocity.y = y1;
+				} else if(dir == 0) {
+					var x1 = -Math.abs(this.v.velocity.x);
+					var y1 = this.v.velocity.y;
+				
+					this.v.velocity.x = x1;
+					this.v.velocity.y = y1;
+				} else if(dir == 2) {
+					var x1 = Math.abs(this.v.velocity.x);
+					var y1 = this.v.velocity.y;
+				
+					this.v.velocity.x = x1;
+					this.v.velocity.y = y1;
 				}
 			}
 		}
@@ -227,6 +224,29 @@ function coin() {
 					other.parent.getComponent("score").add(1);
 					obj.destroy();
 				}
+			}
+		}
+	};
+}
+
+function followMouse(followX,followY) {
+	this.followX = followX;
+	this.followY = followY;
+	this.componentType = "followMouse";
+
+	this.transform = null;
+
+	this.start = function(parent) {
+		this.transform = parent.getComponent("transform");
+	}
+
+	this.update = function(parent) {
+		if(this.transform) {
+			if(this.followX) {
+				this.transform.position.x = input.mouseX-screen.centerX;
+			}
+			if(this.followY) {
+				this.transform.position.y = input.mouseY-screen.centerY;
 			}
 		}
 	};

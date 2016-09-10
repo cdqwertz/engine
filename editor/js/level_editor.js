@@ -40,8 +40,9 @@ var level_editor = new function() {
 		for(var i = 1; i < this.scenes[this.scene].length; i++) {
 			prefab_preview.render(prefab_editor.getPrefab(this.scenes[this.scene][i][0]),this.scenes[this.scene][i][1]+canvasGUI.width/2,this.scenes[this.scene][i][2]+canvasGUI.height/2);
 		}
-		//ctx.strokeStyle = "#000";
-		//ctx.strokeRect(canvasGUI.width/2-(this.screenWidth/2), canvasGUI.height/2-(this.screenHeight/2), this.screenWidth,this.screenHeight);
+		ctx.strokeStyle = "#000";
+		ctx.strokeRect(canvasGUI.width/2-(this.screenWidth/2), canvasGUI.height/2-(this.screenHeight/2), this.screenWidth,this.screenHeight);
+		ctx.fillText("Camera",canvasGUI.width/2-(this.screenWidth/2), canvasGUI.height/2-(this.screenHeight/2)-5)
 	};
 
 

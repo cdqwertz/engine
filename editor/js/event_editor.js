@@ -154,4 +154,5 @@ var event_editor = new function() {
 	this.registerCommand("Rotate", [["Rotation", "r"]], "this.transform.rotation += <r>;");
 	this.registerCommand("Add Component", [["Component", "c"]], "parent.addComponent(new <c>);");
 	this.registerCommand("Add Component to Actor", [["Actor", "obj"],["Component", "c"]], "<obj>.addComponent(new <c>);");
+	this.registerCommand("Destroy", [[]], "parent.destroy();");
 }();
