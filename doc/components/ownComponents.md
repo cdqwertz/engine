@@ -13,10 +13,10 @@ function ownComponent() {
 
 ```javascript
 function ownComponent() {
-	this.start = function(obj) {
+	this.start = function(parent) {
 	};
 	
-	this.update = function(obj) {
+	this.update = function(parent) {
 	};
 }
 ```
@@ -26,10 +26,10 @@ function ownComponent() {
 ```javascript
 function ownComponent() {
 	this.componentType = "ownComponent";
-	this.start = function(obj) {
+	this.start = function(parent) {
 	};
 	
-	this.update = function(obj) {
+	this.update = function(parent) {
 	};
 }
 ```
@@ -41,5 +41,11 @@ function ownComponent() {
 ```javascript
 actor.addComponent(new ownComponent());
 ```
+
+###Other methods
+- afterUpdate
+- physics
+- draw
+- afterDraw
 
 

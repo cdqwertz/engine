@@ -1,15 +1,27 @@
 #scene
 
 ```javascript
-new scene()
+new scene(load)
 ```
 
 ###Methods:
+
+```javascript
+x.start()
+```
+
+```javascript
+x.update()
+```
 
 ```javascript
 x.addObject(obj)
 ```
 
 ```javascript
-x.update()
+x.findObject(obj)
+```
+
+```javascript
+x.load(parent)
 ```

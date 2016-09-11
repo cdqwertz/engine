@@ -173,10 +173,11 @@ function transform(p, r) {
 	};
 }
 
-function health(hp, regeneration) {
+function health(hp, regeneration, destroy) {
 	this.hp = hp;
 	this.maxHp = hp;
 	this.regeneration = regeneration;
+	this.destroyOnDie = destroy || false;
 
 	this.componentType = "health";
 
@@ -184,14 +185,49 @@ function health(hp, regeneration) {
 	
 	this.update = function(obj) {
 		if(this.regeneration) {
-			timer += time.dtime;
-			if(timer > 1) {
+			this.timer += time.dtime;
+			if(this.timer > 1000) {
 				this.hp += this.regeneration;
+				this.timer = 0;
 			}
 		}
 
 		if(this.hp > this.maxHp) {
 			this.hp = this.maxHp;
+		}
+
+		if((this.hp < 0 || this.hp == 0) && this.destroyOnDie) {
+			obj.destroy();
+		}
+	};
+
+	this.damage = function(x) {
+		this.hp -= x;
+	};
+}
+
+function damage(damage, destroy) {
+	this.damage = damage || 0;
+	this.destroyOnDie = destroy || false;
+	this.coll = null;
+	this.componentType = "damage";
+
+	this.start = function(parent) {
+		this.coll = parent.getComponent("boxCollider");
+		
+	};
+	
+	this.update = function(parent) {
+		if(this.coll && this.coll.isColliding) {
+			for(var i = 0; i < this.coll.collisions.length; i++) {
+				var other = this.coll.collisions[i].b;
+				if(other.parent.getComponent("health")) {
+					other.parent.getComponent("health").damage(this.damage);
+					if(this.destroyOnDie) {
+						parent.destroy();
+					}
+				}
+			}
 		}
 	};
 }

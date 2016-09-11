@@ -33,6 +33,10 @@ var input = new function() {
 	this.getMouse = function (button) {
 		return this.mousePressed[button];
 	};
+
+	this.getMousePosition = function() {
+		return new vec2(this.mouseX, this.mouseY);
+	};
 }();
 
 //Keyboard
@@ -73,8 +77,11 @@ var keyCodes = new function () {
 	this.y = 89;
 	this.z = 90;
 
-	this.arrow_left = 37;
-	this.arrow_up = 38;
-	this.arrow_right = 39;
-	this.arrow_down = 40;
+
+	this.arrow = new function() {
+		this.left = 37;
+		this.up = 38;
+		this.right = 39;
+		this.down = 40;
+	}();
 }();

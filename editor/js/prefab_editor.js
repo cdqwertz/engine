@@ -117,7 +117,7 @@ var prefab_editor = new function() {
 
 	this.GUIaddComponent = function() {
 		var buttons = "<ul>";
-		var components = ["transform", "drawRect" , "drawImage", "boxCollider", "bounce", "simpleRigidbody", "motion", "health", "score", "coin", "followMouse"]
+		var components = ["transform", "drawRect" , "drawImage", "boxCollider", "bounce", "simpleRigidbody", "motion", "health", "damage", "score", "coin", "followMouse"]
 		for(var i = 0; i < components.length; i++) {
 			buttons += "<li><button onclick=\"prefab_editor.addComponent(\'"+components[i]+"\');core.dialog.close();\">"+components[i]+"</button></li>";
 		}
@@ -161,6 +161,10 @@ var prefab_editor = new function() {
 			} else if(n == "health") {	
 				this.prefabs[this.selectedObject][p-1].push(["float", 0, "hp"]);
 				this.prefabs[this.selectedObject][p-1].push(["float", 0, "regeneration"]);
+				this.prefabs[this.selectedObject][p-1].push(["bool", true, "destroy on die"]);
+			} else if(n == "damage") {	
+				this.prefabs[this.selectedObject][p-1].push(["float", 1, "damage"]);
+				this.prefabs[this.selectedObject][p-1].push(["bool", true, "destroy on die"]);
 			} else if(n == "followMouse") {	
 				this.prefabs[this.selectedObject][p-1].push(["bool", true, "follow x"]);
 				this.prefabs[this.selectedObject][p-1].push(["bool", true, "follow y"]);

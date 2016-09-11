@@ -1,4 +1,20 @@
 #Components
+##transform
+
+```javascript
+new transform(pos, rotation)
+```
+
+####Methods:
+
+```javascript
+x.setPos(pos)
+```
+
+```javascript
+x.getPos()
+```
+
 ##drawRect
 
 ```javascript
@@ -17,19 +33,3 @@ new drawImage(pos, img, mode, w, h, animations, animation, speed)
 4. animations : A list of the animations
 5. animation : The animation that is played when you start the game
 6. speed : How fast should the animation play?
-
-##transform
-
-```javascript
-new transform(pos, rotation)
-```
-
-####Methods:
-
-```javascript
-x.setPos(pos)
-```
-
-```javascript
-x.getPos()
-```
