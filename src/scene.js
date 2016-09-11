@@ -1,8 +1,9 @@
 //file : scene.js
 //author : cdqwertz
 
-function scene() {
+function scene(load) {
 	this.objs = new Array();
+	this.load = load || (function(parent) {});
 	
 	this.physicsManager = new physicsManager();
 
@@ -20,6 +21,7 @@ function scene() {
 	};
 
 	this.start = function() {
+		this.load(this);
 		for (var i in this.objs) {
 			if (this.objs[i].start) {
 				this.objs[i].start(this);

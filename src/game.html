@@ -94,11 +94,10 @@
 
 			//Load
 
-			function load()
-			{
+			mainScene.load = function load(parent) {
 				var wall5 = new actor();
 				wall5.addComponent(new transform(new vec2(0, 0), 0));
-				wall5.addComponent(new move(1, 0.05));
+				wall5.addComponent(new move(0, 0.05));
 				wall5.addComponent(new motion(new vec2(0, 0), 0, null, 0.03, 0.03));
 				wall5.addComponent(new coin());
 				var wall5Coll = new boxCollider(0,0, 100, 100, "wall", true)
@@ -109,7 +108,7 @@
 
 				wall5.addComponent(new drawRect(new vec2(0, 0), new vec2(100, 100)));
 
-				mainScene.addObject(wall5);
+				parent.addObject(wall5);
 
 
 				var ball = new actor();
@@ -124,7 +123,7 @@
 				ball.addComponent(new drawRect(new vec2(0, 0), new vec2(50, 50), "#FF0000"));
 				ball.addComponent(new loop());
 
-				mainScene.addObject(ball);
+				parent.addObject(ball);
 
 				var wall4 = new actor();
 				wall4.addComponent(new transform(new vec2(0, screen.h/2), 0));
@@ -132,10 +131,10 @@
 				wall4.addComponent(wall4Coll);
 				wall4.addComponent(new drawRect(new vec2(0, 0), new vec2(screen.w, 50)));
 
-				mainScene.addObject(wall4);
+				parent.addObject(wall4);
 
 				var p1 = platform.build(new vec2(200,300));
-				mainScene.addObject(p1);
+				parent.addObject(p1);
 
 				//mainScene.addObject(test);
 			}

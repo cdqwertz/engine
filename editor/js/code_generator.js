@@ -51,11 +51,11 @@ code_generator = new function() {
 			c += "\n\t\treturn(obj);\n\t});\n\n" ;
 		}
 		
-		c +=  "\n\n\n\tfunction load() {\n";
+		c +=  "\n\n\n\tmainScene.load = function load(parent) {\n";
 		
 		for(var i = 0; i < level_editor.scenes.length; i++){
 			for(var j = 1; j < level_editor.scenes[i].length; j++){
-				c += "\t\tmainScene.addObject(" + level_editor.scenes[i][j][0] + ".build(new vec2("+ level_editor.scenes[i][j][1] + "," + level_editor.scenes[i][j][2] + ")));\n" ;
+				c += "\t\tparent.addObject(" + level_editor.scenes[i][j][0] + ".build(new vec2("+ level_editor.scenes[i][j][1] + "," + level_editor.scenes[i][j][2] + ")));\n" ;
 			}
 		}
 		c += "\t}";

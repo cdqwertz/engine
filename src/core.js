@@ -53,9 +53,6 @@ function onUpdate(t) {
 
 function onInit() {
 	screen.init(c, c2);
-	if(load) {
-		load();
-	}
 	ctx.translate(screen.centerX, screen.centerY);
 	mainScene.start();
 	onUpdate();
