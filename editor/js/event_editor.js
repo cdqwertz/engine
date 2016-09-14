@@ -31,6 +31,9 @@ var event_editor = new function() {
 					this.components[this.selectedComponent][a-1][b-1][1][i] = value;
 				}
 				this.updateEditorGUI();
+			} else if(e.which == 2) {
+				this.components[this.selectedComponent][a-1].splice(b-1,1);
+				this.updateEditorGUI();
 			}
 		} else if(e.which == 2) {
 			this.components[this.selectedComponent][a-1].pop();
@@ -118,7 +121,7 @@ var event_editor = new function() {
 	this.genCode = function() {
 		var c = "";
 		for(var i = 0; i < this.components.length; i++){
-			c += "\tfunction " + this.components[i][0] + "() {\n\tthis.transform = null;\n\tthis.state = 0;\n\tthis.componentType=\""+ this.components[i][0] +"\";\n\tthis.start = function(parent) {\n\t\tthis.transform = parent.getComponent(\"transform\");\n\t};\n\n\n\tthis.update = function(parent) {\n";
+			c += "\tfunction " + this.components[i][0] + "() {\n\tthis.transform = null;\n\tthis.motion = null;\n\tthis.state = 0;\n\tthis.componentType=\""+ this.components[i][0] +"\";\n\tthis.start = function(parent) {\n\t\tthis.transform = parent.getComponent(\"transform\");\n\t\tthis.motion = parent.getComponent(\"motion\");\n\t};\n\n\n\tthis.update = function(parent) {\n";
 			for(var j = 1; j < this.components[i].length; j++){
 				c += "\t\t\t{\n"
 				var z = 0;
@@ -139,7 +142,7 @@ var event_editor = new function() {
 				}
 				c += "\t\t\t}\n";
 			}
-			c += "\t\t}\n\t}\n\n";
+			c += "\t};\n\t}\n\n";
 		}
 		return c;
 	}
@@ -149,10 +152,17 @@ var event_editor = new function() {
 	this.registerCommand("Random > value?", [["Value", "value"]], "if(Math.random() > <value>) {", true);
 
 	this.registerCommand("Set State", [["Value", "value"]], "this.state = <value>;");
-	this.registerCommand("Move Actor", [["Actor","obj"],["X","x"] , ["Y", "y"]], "var t = <obj>.getComponent(\"transform\");\nt.setPos(t.getPos().add(new vec2(<x>*time.dtime, <y>*time.dtime)));");
+
 	this.registerCommand("Move", [["X","x"] , ["Y", "y"]], "this.transform.setPos(this.transform.getPos().add(new vec2(<x>*time.dtime, <y>*time.dtime)));");
 	this.registerCommand("Rotate", [["Rotation", "r"]], "this.transform.rotation += <r>;");
-	this.registerCommand("Add Component", [["Component", "c"]], "parent.addComponent(new <c>);");
-	this.registerCommand("Add Component to Actor", [["Actor", "obj"],["Component", "c"]], "<obj>.addComponent(new <c>);");
+	this.registerCommand("Set Velocity", [["X", "x"], ["Y", "y"]], "this.motion.velocity = new vec2(<x>, <y>);");
+	this.registerCommand("Set Friction", [["Friction", "friction"]], "this.motion.friction = <friction>;");
+	this.registerCommand("Set Gravity", [["Gravity", "gravity"]], "this.motion.gravity = <gravity>;");
+
 	this.registerCommand("Destroy", [[]], "parent.destroy();");
+	this.registerCommand("Add Component", [["Component", "c"]], "parent.addComponent(new <c>);");
+
+	this.registerCommand("Move Actor", [["Actor","obj"],["X","x"] , ["Y", "y"]], "var t = <obj>.getComponent(\"transform\");\nt.setPos(t.getPos().add(new vec2(<x>*time.dtime, <y>*time.dtime)));");
+	this.registerCommand("Add Component to Actor", [["Actor", "obj"],["Component", "c"]], "<obj>.addComponent(new <c>);");
+
 }();
