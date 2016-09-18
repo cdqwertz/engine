@@ -39,11 +39,11 @@ function vec2(x, y) {
 	};
 
 	this.dist = function(other) {
-		return Math.pow(Math.pow(this.x-other.x)+Math.pow(this.y-other.y),0.5);
+		return Math.pow(Math.pow(this.x-other.x,2)+Math.pow(this.y-other.y,2),0.5);
 	};
 
 	this.length = function() {
-		return Math.pow(Math.pow(this.x)+Math.pow(this.y),0.5);
+		return Math.pow(Math.pow(this.x,2)+Math.pow(this.y,2),0.5);
 	};
 
 	this.abs = function() {

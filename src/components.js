@@ -288,4 +288,28 @@ function followMouse(followX,followY) {
 	};
 }
 
+function moveToMouse(speed,radius) {
+	this.componentType = "moveToMouse";
+	this.speed = speed;
+	this.radius = radius;
+	this.transform = null;
+
+	this.start = function(parent) {
+		this.transform = parent.getComponent("transform");
+	}
+
+	this.update = function(parent) {
+		if(this.transform) {
+			var mouse = new vec2((input.mouseX-screen.centerX),(input.mouseY-screen.centerY));
+			if (mouse.dist(this.transform.position) > this.radius) {
+				var len = mouse.sub(this.transform.position).length();
+				var dir = mouse.sub(this.transform.position).div(new vec2(len,len)).mul(new vec2(this.speed, this.speed));
+
+				this.transform.position.x += dir.x * time.dtime;
+				this.transform.position.y += dir.y * time.dtime;
+			}
+		}
+	};
+}
+
 

@@ -18,7 +18,6 @@ Take a look at LICENSE.txt
 
 ######Components
 - Add animation component
-- Add damage component
 - Add followPath component
 
 ######GUI

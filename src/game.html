@@ -114,9 +114,9 @@
 				var ball = new actor();
 				ball.addComponent(new transform(new vec2(200, 0), 0));
 				//ball.addComponent(new bounce());
+				ball.addComponent(new moveToMouse(0.9));
 				ball.addComponent(new damage(1, true));
-				ball.addComponent(new move(1, 0.07));
-				ball.addComponent(new motion(new vec2(0.7, 0), 0, null, 0.03, 0.03));
+				ball.addComponent(new motion(new vec2(0.7, 0), 0, null, 0.03));
 				var ballColl = new boxCollider(0, 0, 50, 50, "wall", true)
 				ball.addComponent(ballColl);
 				ball.addComponent(new simpleRigidbody());

@@ -117,7 +117,7 @@ var prefab_editor = new function() {
 
 	this.GUIaddComponent = function() {
 		var buttons = "<ul>";
-		var components = ["transform", "drawRect" , "drawImage", "boxCollider", "bounce", "simpleRigidbody", "motion", "health", "damage", "score", "coin", "followMouse"]
+		var components = ["transform", "drawRect" , "drawImage", "boxCollider", "bounce", "simpleRigidbody", "motion", "health", "damage", "score", "coin", "followMouse", "moveToMouse"]
 		for(var i = 0; i < components.length; i++) {
 			buttons += "<li><button onclick=\"prefab_editor.addComponent(\'"+components[i]+"\');core.dialog.close();\">"+components[i]+"</button></li>";
 		}
@@ -168,6 +168,9 @@ var prefab_editor = new function() {
 			} else if(n == "followMouse") {	
 				this.prefabs[this.selectedObject][p-1].push(["bool", true, "follow x"]);
 				this.prefabs[this.selectedObject][p-1].push(["bool", true, "follow y"]);
+			} else if(n == "moveToMouse") {	
+				this.prefabs[this.selectedObject][p-1].push(["float", 1.0, "speed"]);
+				this.prefabs[this.selectedObject][p-1].push(["int", 15, "radius"]);
 			}
 		}
 		this.showComponentsGUI();
