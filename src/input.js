@@ -21,8 +21,8 @@ var input = new function() {
 
 	this.MouseMove = function(e) {
 		e = e || window.event;
-		input.mouseX = e.clientX;
-		input.mouseY = e.clientY;
+		input.mouseX = e.pageX || e.clientX;
+		input.mouseY = e.pageY || e.clientY;
 	};
 
 	//
