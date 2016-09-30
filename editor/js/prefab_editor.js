@@ -105,11 +105,13 @@ var prefab_editor = new function() {
 
 	this.addActor = function() {
 		var n = prompt("Name:");
-		if(n) {
+		if(n && core.utils.isNameAllowed(n)) {
 			var p = this.prefabs.push([]);
 			this.prefabs[p-1].push(n);
 			this.selectedObject = p-1;
 			this.prefabs[this.selectedObject].push(["transform",["vec2", 0 , 0, "position"],["float", 0, "rotation"]]);
+		} else if(!core.utils.isNameAllowed(n)) {
+			core.dialog.show("This name is not allowed!", "<button onclick=\"core.dialog.close();\">Back</button>");
 		}
 		this.showComponentsGUI();
 		this.updateEditorGUI();
@@ -118,6 +120,11 @@ var prefab_editor = new function() {
 	this.GUIaddComponent = function() {
 		var buttons = "<ul>";
 		var components = ["transform", "drawRect" , "drawImage", "boxCollider", "bounce", "simpleRigidbody", "motion", "health", "damage", "score", "coin", "followMouse", "moveToMouse"]
+		
+		for(var i = 0; i < event_editor.components.length; i++) {
+			components.push(event_editor.components[i][0])
+		}
+
 		for(var i = 0; i < components.length; i++) {
 			buttons += "<li><button onclick=\"prefab_editor.addComponent(\'"+components[i]+"\');core.dialog.close();\">"+components[i]+"</button></li>";
 		}

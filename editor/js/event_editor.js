@@ -94,13 +94,21 @@ var event_editor = new function() {
 				this.updateEditorGUI();
 			}
 		} else if(parts[0] == "add") {
-			var i = this.components.push([parts[1]]);
-			this.selectedComponent = i-1;
-			console.log(this.components);
+			if(core.utils.isNameAllowed(parts[1])) {
+				var i = this.components.push([parts[1]]);
+				this.selectedComponent = i-1;
+				console.log(this.components);
+			} else {
+				core.dialog.show("This name is not allowed!", "<button onclick=\"core.dialog.close();\">Back</button>");
+			}
 
 			this.updateEditorGUI();
 		} else if(parts[0] == "name") {
-			this.components[this.selectedComponent][0] = parts[1];
+			if(core.utils.isNameAllowed(parts[1])) {
+				this.components[this.selectedComponent][0] = parts[1];
+			} else {
+				core.dialog.show("This name is not allowed!", "<button onclick=\"core.dialog.close();\">Back</button>");
+			}
 		}
 	};
 
@@ -121,7 +129,7 @@ var event_editor = new function() {
 	this.genCode = function() {
 		var c = "";
 		for(var i = 0; i < this.components.length; i++){
-			c += "\tfunction " + this.components[i][0] + "() {\n\tthis.transform = null;\n\tthis.motion = null;\n\tthis.state = 0;\n\tthis.componentType=\""+ this.components[i][0] +"\";\n\tthis.start = function(parent) {\n\t\tthis.transform = parent.getComponent(\"transform\");\n\t\tthis.motion = parent.getComponent(\"motion\");\n\t};\n\n\n\tthis.update = function(parent) {\n";
+			c += "\tfunction " + this.components[i][0] + "() {\n\tthis.transform = null;\n\tthis.motion = null;\n\tthis.collider = null;\n\tthis.state = 0;\n\tthis.componentType=\""+ this.components[i][0] +"\";\n\tthis.start = function(parent) {\n\t\tthis.transform = parent.getComponent(\"transform\");\n\t\tthis.motion = parent.getComponent(\"motion\");\n\t\tthis.motion = parent.getComponent(\"boxCollider\");\n\t};\n\n\n\tthis.update = function(parent) {\n";
 			for(var j = 1; j < this.components[i].length; j++){
 				c += "\t\t\t{\n"
 				var z = 0;
@@ -150,6 +158,7 @@ var event_editor = new function() {
 	this.registerCommand("Key Pressed?", [["Key", "key"]], "if(input.getKey(<key>)) {", true);
 	this.registerCommand("State = value?", [["Value", "value"]], "if(this.state == <value>) {", true);
 	this.registerCommand("Random > value?", [["Value", "value"]], "if(Math.random() > <value>) {", true);
+	this.registerCommand("Collision?", [], "if(this.collider && this.collider.isColliding) {", true);
 
 	this.registerCommand("Set State", [["Value", "value"]], "this.state = <value>;");
 

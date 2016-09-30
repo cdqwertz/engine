@@ -198,4 +198,36 @@ var core = new function() {
 			dialogContainer.innerHTML = "";
 		};
 	}();
+
+	this.utils = new function() {
+		this.isNameAllowed = function(str) {
+			var name = str.trim();
+			var strs = ["var", "function", "this", "new", "for", "while", "return", "true", "false","Math", "window", "document", "core", "input"];
+			if (strs.indexOf(name) != -1) {
+				return false;
+			}
+
+			if(name.includes("<") || name.includes(">")) {
+				return false;
+			}
+
+			if(name.includes("(") || name.includes(")")) {
+				return false;
+			}
+
+			if(name.includes("{") || name.includes("}")) {
+				return false;
+			}
+
+			if(name.includes("&&") || name.includes("||")) {
+				return false;
+			}
+
+			if(name.includes(" ") || name.includes("-")) {
+				return false;
+			}
+
+			return true;
+		};
+	}();
 }();
