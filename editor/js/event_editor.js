@@ -7,6 +7,8 @@ var event_editor = new function() {
 
 	this.commands = [];
 	this.selectedCommand = -1;
+	this.library = [];
+	this.selectedLibrary = -1;
 
 	this.dist_x = 100;
 	this.dist_y = 100;
@@ -72,10 +74,22 @@ var event_editor = new function() {
 		}
 	};
 
-	this.showCommandsGUI = function() {
+	this.showCommandsGUI = function(n) {
 		var s = "";
+		s += "<li><a onclick=\"event_editor.showLibraryGUI()\">...</a></li>"
 		for(var i = 0; i < this.commands.length; i++) {
-			s += "<li><a onclick=\"event_editor.selectCommand("+i+")\">"+this.commands[i][0]+"</a></li>"
+			console.log(this.commands[i][4] + " - " + n)
+			if(this.commands[i][4] == n) {
+				s += "<li><a onclick=\"event_editor.selectCommand("+i+")\">"+this.commands[i][0]+"</a></li>";
+			}
+		}
+		objectsGUI.innerHTML = s;
+	};
+
+	this.showLibraryGUI = function() {
+		var s = "";
+		for(var i = 0; i < this.library.length; i++) {
+			s += "<li><a onclick=\"event_editor.showCommandsGUI(\'" + i + "\');return false;\">" + this.library[i] + "</a></li>";
 		}
 		objectsGUI.innerHTML = s;
 	};
@@ -112,9 +126,13 @@ var event_editor = new function() {
 		}
 	};
 
-	this.registerCommand = function(name, params, convert_to, is_code_block) {
+	this.registerCommand = function(name, params, convert_to, library, is_code_block) {
 		is_code_block = is_code_block || false
-		this.commands.push([name,params,convert_to, is_code_block]);
+		this.commands.push([name,params,convert_to, is_code_block, library]);
+	};
+
+	this.registerLibrary = function(name) {
+		this.library.push(name);
 	};
 
 	this.findCommand = function(name) {
@@ -155,23 +173,29 @@ var event_editor = new function() {
 		return c;
 	}
 
-	this.registerCommand("Key Pressed?", [["Key", "key"]], "if(input.getKey(<key>)) {", true);
-	this.registerCommand("State = value?", [["Value", "value"]], "if(this.state == <value>) {", true);
-	this.registerCommand("Random > value?", [["Value", "value"]], "if(Math.random() > <value>) {", true);
-	this.registerCommand("Collision?", [], "if(this.collider && this.collider.isColliding) {", true);
+	this.registerLibrary("Actor");
+	this.registerLibrary("Motion");
+	this.registerLibrary("Input");
+	this.registerLibrary("Other");
 
-	this.registerCommand("Set State", [["Value", "value"]], "this.state = <value>;");
+	this.registerCommand("Key Pressed?", [["Key", "key"]], "if(input.getKey(<key>)) {", 2, true);
+	this.registerCommand("Mouse Pressed?", [["Button", "button"]], "if(input.getMouse(<button>)) {", 2, true);
+	this.registerCommand("State = value?", [["Value", "value"]], "if(this.state == <value>) {", 3, true);
+	this.registerCommand("Random > value?", [["Value", "value"]], "if(Math.random() > <value>) {", 3, true);
+	this.registerCommand("Collision?", [], "if(this.collider && this.collider.isColliding) {", 0, true);
 
-	this.registerCommand("Move", [["X","x"] , ["Y", "y"]], "this.transform.setPos(this.transform.getPos().add(new vec2(<x>*time.dtime, <y>*time.dtime)));");
-	this.registerCommand("Rotate", [["Rotation", "r"]], "this.transform.rotation += <r>;");
-	this.registerCommand("Set Velocity", [["X", "x"], ["Y", "y"]], "this.motion.velocity = new vec2(<x>, <y>);");
-	this.registerCommand("Set Friction", [["Friction", "friction"]], "this.motion.friction = <friction>;");
-	this.registerCommand("Set Gravity", [["Gravity", "gravity"]], "this.motion.gravity = <gravity>;");
+	this.registerCommand("Set State", [["Value", "value"]], "this.state = <value>;", 3);
 
-	this.registerCommand("Destroy", [[]], "parent.destroy();");
-	this.registerCommand("Add Component", [["Component", "c"]], "parent.addComponent(new <c>);");
+	this.registerCommand("Move", [["X","x"] , ["Y", "y"]], "this.transform.setPos(this.transform.getPos().add(new vec2(<x>*time.dtime, <y>*time.dtime)));", 1);
+	this.registerCommand("Rotate", [["Rotation", "r"]], "this.transform.rotation += <r>;", 1);
+	this.registerCommand("Set Velocity", [["X", "x"], ["Y", "y"]], "this.motion.velocity = new vec2(<x>, <y>);", 1);
+	this.registerCommand("Set Friction", [["Friction", "friction"]], "this.motion.friction = <friction>;", 1);
+	this.registerCommand("Set Gravity", [["Gravity", "gravity"]], "this.motion.gravity = <gravity>;", 1);
 
-	this.registerCommand("Move Actor", [["Actor","obj"],["X","x"] , ["Y", "y"]], "var t = <obj>.getComponent(\"transform\");\nt.setPos(t.getPos().add(new vec2(<x>*time.dtime, <y>*time.dtime)));");
-	this.registerCommand("Add Component to Actor", [["Actor", "obj"],["Component", "c"]], "<obj>.addComponent(new <c>);");
+	this.registerCommand("Destroy", [[]], "parent.destroy();", 0);
+	this.registerCommand("Add Component", [["Component", "c"]], "parent.addComponent(new <c>);", 0);
+
+	this.registerCommand("Move Actor", [["Actor","obj"],["X","x"] , ["Y", "y"]], "var t = <obj>.getComponent(\"transform\");\nt.setPos(t.getPos().add(new vec2(<x>*time.dtime, <y>*time.dtime)));", 0);
+	this.registerCommand("Add Component to Actor", [["Actor", "obj"],["Component", "c"]], "<obj>.addComponent(new <c>);", 0);
 
 }();

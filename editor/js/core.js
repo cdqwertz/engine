@@ -142,7 +142,7 @@ var core = new function() {
 
 	this.events = function() {
 		this.mode = 3;
-		event_editor.showCommandsGUI();
+		event_editor.showLibraryGUI();
 		event_editor.updateEditorGUI();
 	};
 
