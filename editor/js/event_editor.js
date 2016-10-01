@@ -78,7 +78,6 @@ var event_editor = new function() {
 		var s = "";
 		s += "<li><a onclick=\"event_editor.showLibraryGUI()\">...</a></li>"
 		for(var i = 0; i < this.commands.length; i++) {
-			console.log(this.commands[i][4] + " - " + n)
 			if(this.commands[i][4] == n) {
 				s += "<li><a onclick=\"event_editor.selectCommand("+i+")\">"+this.commands[i][0]+"</a></li>";
 			}
