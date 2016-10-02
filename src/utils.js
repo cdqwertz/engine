@@ -20,4 +20,14 @@ var utils = new function() {
 			return "rgba(" + r + ", " + g + ", " + b + ", " + a + ")"
 		};
 	}();
+
+	this.scale = window.innerWidth/100;
+
+	this.scaleNumber = function(x) {
+		return x * this.scale;
+	};
+
+	this.scaleVec2 = function(v) {
+		return new vec2(v.x*this.scale, v.y*this.scale);
+	};
 }();

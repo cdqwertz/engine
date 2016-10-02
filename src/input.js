@@ -35,7 +35,7 @@ var input = new function() {
 	};
 
 	this.getMousePosition = function() {
-		return new vec2(this.mouseX, this.mouseY);
+		return new vec2((this.mouseX-screen.centerX)/utils.scale, (this.mouseY-screen.centerY)/utils.scale);
 	};
 }();
 

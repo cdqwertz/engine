@@ -146,7 +146,7 @@ var event_editor = new function() {
 	this.genCode = function() {
 		var c = "";
 		for(var i = 0; i < this.components.length; i++){
-			c += "\tfunction " + this.components[i][0] + "() {\n\tthis.transform = null;\n\tthis.motion = null;\n\tthis.collider = null;\n\tthis.state = 0;\n\tthis.componentType=\""+ this.components[i][0] +"\";\n\tthis.start = function(parent) {\n\t\tthis.transform = parent.getComponent(\"transform\");\n\t\tthis.motion = parent.getComponent(\"motion\");\n\t\tthis.motion = parent.getComponent(\"boxCollider\");\n\t};\n\n\n\tthis.update = function(parent) {\n";
+			c += "\tfunction " + this.components[i][0] + "() {\n\tthis.transform = null;\n\tthis.motion = null;\n\tthis.collider = null;\n\tthis.state = 0;\n\tthis.componentType=\""+ this.components[i][0] +"\";\n\tthis.start = function(parent) {\n\t\tthis.transform = parent.getComponent(\"transform\");\n\t\tthis.motion = parent.getComponent(\"motion\");\n\t\tthis.collider = parent.getComponent(\"boxCollider\");\n\t};\n\n\n\tthis.update = function(parent) {\n";
 			for(var j = 1; j < this.components[i].length; j++){
 				c += "\t\t\t{\n"
 				var z = 0;

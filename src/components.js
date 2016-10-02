@@ -9,14 +9,17 @@ function drawRect(pos, scale, color)
 	this.componentType = "drawRect";
 	this.draw = function(obj) {
 		ctx.fillStyle = this.color;
-		ctx.fillRect(this.pos.x-(this.scale.x/2), this.pos.y-(this.scale.y/2),this.scale.x,this.scale.y);
+		var p = utils.scaleVec2(this.pos);
+		var s = utils.scaleVec2(this.scale);
+		ctx.fillRect(p.x-(s.x/2), p.y-(s.y/2),s.x,s.y);
 	};
 }
 
-function drawImage(pos, img, mode, w, h, animations, animation, speed)
+function drawImage(pos, scale, img, mode, w, h, animations, animation, speed)
 {
 	this.pos = pos;
 	this.img = img;
+	this.scale = scale;
 	this.componentType = "drawImage";
 	
 	this.mode = mode || 0;	
@@ -31,17 +34,19 @@ function drawImage(pos, img, mode, w, h, animations, animation, speed)
 	this.animation = animation || 0;
 
 	this.draw = function(obj) {
+		var p = utils.scaleVec2(this.pos);
+		var s = utils.scaleVec2(this.scale);
 		if(this.mode == 0) {
-			ctx.drawImage(this.img,this.pos.x-(this.img.width/2), this.pos.y-(this.img.height/2));
+			ctx.drawImage(this.img,p.y-(s.x/2), p.y-(s.y/2), s.x, s.y);
 		} else if(this.mode == 1) {
-			ctx.drawImage(this.img,this.pos.x-(this.w/2), this.pos.y-(this.h/2), this.w, this.h);
+			ctx.drawImage(this.img,p.y-(s.x/2), p.y-(s.y/2), s.x, s.y);
 		} else if(this.mode == 2) {
 			if(this.animation == -1) {
-				ctx.drawImage(this.img, 0, 0, this.w, this.h,this.pos.x-(this.w/2), this.pos.y-(this.h/2), this.w, this.h);	
+				ctx.drawImage(this.img, 0, 0, this.w, this.h,p.y-(s.x/2), p.y-(s.y/2), s.x, s.y);	
 			} else {
 				var s = this.animations[this.animation][0];
 				var e = this.animations[this.animation][1];
-				ctx.drawImage(this.img, this.frame*this.w + s*this.w, 0, this.w, this.h,this.pos.x-(this.w/2), this.pos.y-(this.h/2), this.w, this.h);
+				ctx.drawImage(this.img, this.frame*this.w + s*this.w, 0, this.w, this.h, p.y-(s.x/2), p.y-(s.y/2), s.x, s.y);
 				if(this.timer > this.speed) {	
 					this.frame += 1;
 					if(this.frame > e) {
@@ -69,7 +74,7 @@ function motion(v, r, a, f, g) {
 	this.start = function(obj) {
 		this.t = obj.getComponent("transform");
 	};
-	this.update = function(obj) {
+	this.afterUpdate = function(obj) {
 		this.velocity = this.velocity.mul(new vec2(1.0-this.friction,1.0-this.friction));
 		this.velocity.y += this.gravity;
 		this.velocity = this.velocity.add(this.acceleration);
@@ -154,12 +159,14 @@ function transform(p, r) {
 	this.rotation = r;
 	this.componentType = "transform";
 	this.draw = function(obj) {
-		ctx.translate(this.position.x, this.position.y);
+		var p = utils.scaleVec2(this.position);
+		ctx.translate(p.x, p.y);
 		ctx.rotate(this.rotation);
 	};
 	this.afterDraw = function(obj) {
+		var p = utils.scaleVec2(this.position);
 		ctx.rotate(-this.rotation);
-		ctx.translate(-this.position.x, -this.position.y);
+		ctx.translate(-p.x, -p.y);
 	};
 	this.setPos = function(pos) {
 		this.position = pos;
@@ -278,11 +285,12 @@ function followMouse(followX,followY) {
 
 	this.update = function(parent) {
 		if(this.transform) {
+			var mouse = input.getMousePosition();
 			if(this.followX) {
-				this.transform.position.x = input.mouseX-screen.centerX;
+				this.transform.position.x = mouse.x;
 			}
 			if(this.followY) {
-				this.transform.position.y = input.mouseY-screen.centerY;
+				this.transform.position.y = mouse.y;
 			}
 		}
 	};
@@ -300,7 +308,7 @@ function moveToMouse(speed,radius) {
 
 	this.update = function(parent) {
 		if(this.transform) {
-			var mouse = new vec2((input.mouseX-screen.centerX),(input.mouseY-screen.centerY));
+			var mouse = input.getMousePosition();
 			if (mouse.dist(this.transform.position) > this.radius) {
 				var len = mouse.sub(this.transform.position).length();
 				var dir = mouse.sub(this.transform.position).div(new vec2(len,len)).mul(new vec2(this.speed, this.speed));

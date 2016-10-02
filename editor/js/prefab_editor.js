@@ -34,7 +34,7 @@ var prefab_editor = new function() {
 	this.updateEditorGUI = function() {
 		ctx.clearRect(0,0,canvasGUI.width,canvasGUI.height);
 		if(this.selectedObject != -1) {
-			prefab_preview.render(this.prefabs[this.selectedObject],document.body.clientWidth/2,document.body.clientHeight/2);
+			prefab_preview.render(this.prefabs[this.selectedObject],0,0);
 		}
 	};
 
@@ -85,7 +85,7 @@ var prefab_editor = new function() {
 			}
 
 			if(this.prefabs[this.selectedObject][n][i][0] == "vec2") {
-				s += "<li><a>"+ this.prefabs[this.selectedObject][n][i][3] +"<br><br><input type=\"number\" step=\"any\" value=\"" + this.prefabs[this.selectedObject][n][i][1] + "\" onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][1] = this.value; prefab_editor.GUISelectComponent(" + n+");\"></input><input type=\"number\" step=\"any\" value=\"" + this.prefabs[this.selectedObject][n][i][2] + "\" onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][2] = this.value; prefab_editor.GUISelectComponent(" + n+");\"></input></a></li>";
+				s += "<li><a>"+ this.prefabs[this.selectedObject][n][i][3] +"<br><br><input type=\"text\" value=\"" + this.prefabs[this.selectedObject][n][i][1] + "\" onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][1] = this.value; prefab_editor.GUISelectComponent(" + n+");\"></input><input type=\"text\" value=\"" + this.prefabs[this.selectedObject][n][i][2] + "\" onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][2] = this.value; prefab_editor.GUISelectComponent(" + n+");\"></input></a></li>";
 			} else {
 				if(inputType == "checkbox") {
 					s += "<li><a><input type=\""+inputType+"\" name=\"" + this.prefabs[this.selectedObject][n][i][2] +"\"" + "value=\"" + this.prefabs[this.selectedObject][n][i][2] +"\" " + (this.prefabs[this.selectedObject][n][i][1] ? "checked=\"checked\"" : "") + " onchange = \"prefab_editor.prefabs[prefab_editor.selectedObject]["+n+"]["+i+"][1] = this.checked; prefab_editor.GUISelectComponent(" + n+");\"></input>"+ this.prefabs[this.selectedObject][n][i][2] +"</a></li>";
@@ -141,21 +141,22 @@ var prefab_editor = new function() {
 				this.prefabs[this.selectedObject][p-1].push(["float", 0, "rotation"]);
 			} else if(n == "drawRect") {
 				this.prefabs[this.selectedObject][p-1].push(["vec2", 0 , 0, "position"]);
-				this.prefabs[this.selectedObject][p-1].push(["vec2", 512 , 512, "size"]);
+				this.prefabs[this.selectedObject][p-1].push(["vec2", 10 , 10, "size"]);
 				this.prefabs[this.selectedObject][p-1].push(["string", "#000000", "color"]);
 			} else if(n == "drawImage") {
 				this.prefabs[this.selectedObject][p-1].push(["vec2", 0 , 0, "position"]);
+				this.prefabs[this.selectedObject][p-1].push(["vec2", 10, 10, "scale"]);
 				this.prefabs[this.selectedObject][p-1].push(["Image", "new Image()", "image"]);
 				this.prefabs[this.selectedObject][p-1].push(["int", 0, "mode"]);
-				this.prefabs[this.selectedObject][p-1].push(["int", 512 , "scale x"]);
-				this.prefabs[this.selectedObject][p-1].push(["int", 512 , "scale y"]);
+				this.prefabs[this.selectedObject][p-1].push(["int", 100, "width"]);
+				this.prefabs[this.selectedObject][p-1].push(["int", 100, "height"]);
 				this.prefabs[this.selectedObject][p-1].push(["list", "[]", "animations"]);
 			} else if(n == "boxCollider") {
 				this.prefabs[this.selectedObject][p-1].push(["int", 0, "x"]);
 				this.prefabs[this.selectedObject][p-1].push(["int", 0, "y"]);
 
-				this.prefabs[this.selectedObject][p-1].push(["int", 512, "size x"]);
-				this.prefabs[this.selectedObject][p-1].push(["int", 512, "size y"]);
+				this.prefabs[this.selectedObject][p-1].push(["int", 10, "size x"]);
+				this.prefabs[this.selectedObject][p-1].push(["int", 10, "size y"]);
 
 				this.prefabs[this.selectedObject][p-1].push(["string", "tag", "tag"]);
 				this.prefabs[this.selectedObject][p-1].push(["bool", false, "check"]);
@@ -176,8 +177,8 @@ var prefab_editor = new function() {
 				this.prefabs[this.selectedObject][p-1].push(["bool", true, "follow x"]);
 				this.prefabs[this.selectedObject][p-1].push(["bool", true, "follow y"]);
 			} else if(n == "moveToMouse") {	
-				this.prefabs[this.selectedObject][p-1].push(["float", 1.0, "speed"]);
-				this.prefabs[this.selectedObject][p-1].push(["int", 15, "radius"]);
+				this.prefabs[this.selectedObject][p-1].push(["float", 0.07, "speed"]);
+				this.prefabs[this.selectedObject][p-1].push(["int", 0.7, "radius"]);
 			}
 		}
 		this.showComponentsGUI();

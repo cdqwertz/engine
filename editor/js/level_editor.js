@@ -21,7 +21,7 @@ var level_editor = new function() {
 				canvasOverlayGUI.style.cursor = "auto";
 			} else {
 				console.log("add prefab");
-				this.addPrefab(this.selectedPrefab,x-canvasGUI.width/2,y-canvasGUI.height/2);
+				this.addPrefab(this.selectedPrefab,(x-canvasGUI.width/2)/prefab_preview.scale,(y-canvasGUI.height/2)/prefab_preview.scale);
 			}
 		}
 	};
@@ -38,7 +38,7 @@ var level_editor = new function() {
 	this.updateEditorGUI = function(e) {
 		ctx.clearRect(0,0,canvasGUI.width,canvasGUI.height);
 		for(var i = 1; i < this.scenes[this.scene].length; i++) {
-			prefab_preview.render(prefab_editor.getPrefab(this.scenes[this.scene][i][0]),this.scenes[this.scene][i][1]+canvasGUI.width/2,this.scenes[this.scene][i][2]+canvasGUI.height/2);
+			prefab_preview.render(prefab_editor.getPrefab(this.scenes[this.scene][i][0]),this.scenes[this.scene][i][1],this.scenes[this.scene][i][2]);
 		}
 		ctx.strokeStyle = "#000";
 		ctx.strokeRect(canvasGUI.width/2-(this.screenWidth/2), canvasGUI.height/2-(this.screenHeight/2), this.screenWidth,this.screenHeight);

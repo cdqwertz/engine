@@ -19,7 +19,8 @@
 
 		<script src="vector.js"></script>
 		<script src="input.js"></script>
-		<script src="messages.js"></script>
+		<script src="vector.js"></script>
+		<script src="utils.js"></script>
 		<script src="actor.js"></script>	
 		<script src="prefab.js"></script>
 		<script src="scene.js"></script>
@@ -97,39 +98,39 @@
 			mainScene.load = function load(parent) {
 				var wall5 = new actor();
 				wall5.addComponent(new transform(new vec2(0, 0), 0));
-				wall5.addComponent(new move(0, 0.05));
-				wall5.addComponent(new motion(new vec2(0, 0), 0, null, 0.03, 0.03));
-				var wall5Coll = new boxCollider(0,0, 100, 100, "wall", true)
+				wall5.addComponent(new move(0, 0.005));
+				wall5.addComponent(new motion(new vec2(0, 0), 0, null, 0.03, 0.003));
+				var wall5Coll = new boxCollider(0,0, 10, 10, "wall", true)
 				wall5.addComponent(wall5Coll);
 				//wall5.addComponent(new bounce());
 				wall5.addComponent(new loop());
 				wall5.addComponent(new health(2,1, true));
 				wall5.addComponent(new simpleRigidbody());
 
-				wall5.addComponent(new drawRect(new vec2(0, 0), new vec2(100, 100)));
+				wall5.addComponent(new drawRect(new vec2(0, 0), new vec2(10, 10)));
 
 				parent.addObject(wall5);
 
 
 				var ball = new actor();
-				ball.addComponent(new transform(new vec2(200, 0), 0));
+				ball.addComponent(new transform(new vec2(20, 0), 0));
 				//ball.addComponent(new bounce());
-				ball.addComponent(new moveToMouse(0.9, 15));
+				ball.addComponent(new moveToMouse(0.07, 0.7));
 				ball.addComponent(new damage(1, true));
-				ball.addComponent(new motion(new vec2(0.7, 0), 0, null, 0.03));
-				var ballColl = new boxCollider(0, 0, 50, 50, "wall", true)
+				ball.addComponent(new motion(new vec2(0, 0), 0, null, 0.03));
+				var ballColl = new boxCollider(0, 0, 5, 5, "wall", true)
 				ball.addComponent(ballColl);
 				ball.addComponent(new simpleRigidbody());
-				ball.addComponent(new drawRect(new vec2(0, 0), new vec2(50, 50), "#FF0000"));
+				ball.addComponent(new drawRect(new vec2(0, 0), new vec2(5, 5), "#FF0000"));
 				ball.addComponent(new loop());
 
 				parent.addObject(ball);
 
 				var wall4 = new actor();
-				wall4.addComponent(new transform(new vec2(0, screen.h/2), 0));
-				var wall4Coll = new boxCollider(0,0, screen.w, 50, "wall", false)
+				wall4.addComponent(new transform(new vec2(0, 40), 0));
+				var wall4Coll = new boxCollider(0,0, 100, 10, "wall", false)
 				wall4.addComponent(wall4Coll);
-				wall4.addComponent(new drawRect(new vec2(0, 0), new vec2(screen.w, 50)));
+				wall4.addComponent(new drawRect(new vec2(0, 0), new vec2(100, 10)));
 
 				parent.addObject(wall4);
 
