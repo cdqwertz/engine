@@ -119,7 +119,7 @@ var prefab_editor = new function() {
 
 	this.GUIaddComponent = function() {
 		var buttons = "<ul>";
-		var components = ["transform", "drawRect" , "drawImage", "boxCollider", "bounce", "simpleRigidbody", "motion", "health", "damage", "score", "coin", "followMouse", "moveToMouse"]
+		var components = ["transform", "drawRect" , "drawImage", "boxCollider", "bounce", "simpleRigidbody", "motion", "health", "damage", "score", "coin", "followMouse", "moveToMouse", "spawner"]
 		
 		for(var i = 0; i < event_editor.components.length; i++) {
 			components.push(event_editor.components[i][0])
@@ -179,6 +179,9 @@ var prefab_editor = new function() {
 			} else if(n == "moveToMouse") {	
 				this.prefabs[this.selectedObject][p-1].push(["float", 0.07, "speed"]);
 				this.prefabs[this.selectedObject][p-1].push(["int", 0.7, "radius"]);
+			} else if(n == "spawner") {	
+				this.prefabs[this.selectedObject][p-1].push(["float", "box", "prefab"]);
+				this.prefabs[this.selectedObject][p-1].push(["int", 1000, "interval"]);
 			}
 		}
 		this.showComponentsGUI();

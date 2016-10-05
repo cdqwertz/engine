@@ -86,9 +86,9 @@
 			var platform = new prefab(function (pos) {
 				var p = new actor();
 				p.addComponent(new transform(pos, 0));
-				var coll = new boxCollider(0,0, 300, 100, "wall", false)
+				var coll = new boxCollider(0,0, 3, 1, "wall", false)
 				p.addComponent(coll);
-				p.addComponent(new drawRect(new vec2(0, 0), new vec2(300, 100)));
+				p.addComponent(new drawRect(new vec2(0, 0), new vec2(3, 1)));
 				
 				return p;
 			});
@@ -113,7 +113,7 @@
 
 
 				var ball = new actor();
-				ball.addComponent(new transform(new vec2(20, 0), 0));
+				ball.addComponent(new transform(new vec2(30, 0), 0));
 				//ball.addComponent(new bounce());
 				ball.addComponent(new moveToMouse(0.07, 0.7));
 				ball.addComponent(new damage(1, true));
@@ -134,8 +134,8 @@
 
 				parent.addObject(wall4);
 
-				var p1 = platform.build(new vec2(200,300));
-				parent.addObject(p1);
+				//var p1 = platform.build(new vec2(2,3));
+				//parent.addObject(p1);
 
 				//mainScene.addObject(test);
 			}

@@ -26,7 +26,7 @@ var input = new function() {
 	};
 
 	//
-	this.getKey = function (keyCode) {
+	this.getKey = function(keyCode) {
 		return this.pressedKeys[keyCode];
 	};
 

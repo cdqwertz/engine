@@ -320,4 +320,28 @@ function moveToMouse(speed,radius) {
 	};
 }
 
+function spawner(obj, interval) {
+	this.componentType = "spawner";
+	this.timer = 0;
+	this.interval = interval || 1000;
+	this.prefab = obj;
+	this.transform = null;
+	
+	this.start = function(parent) {
+		this.transform = parent.getComponent("transform");
+	};
 
+	this.update = function(parent) {
+		this.timer += time.dtime;
+		if(this.timer > this.interval) {
+			this.spawn(parent)
+			this.timer = 0;
+		}
+	};
+
+	this.spawn = function(parent) {
+		var x = this.prefab.build(this.transform.position);
+		parent.parent.addObject(x);
+		x.start(parent.parent);
+	};
+}
