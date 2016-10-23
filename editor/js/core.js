@@ -85,6 +85,9 @@ var core = new function() {
 	};
 
 	this.keyDown = function(e) {
+		if(document.activeElement.nodeName.toLowerCase() == "input") {
+			return false;
+		}
 		if(!e.shiftKey) {
 			return false;
 		}

@@ -120,6 +120,17 @@ body {
 	box-shadow: 1px 0px 2px #d0d0d0; 
 }
 
+input[type="text"] {
+	margin-top : 2px;
+
+	border : 1px solid grey;
+	background : #f0f0f0;
+}
+
+input[type="text"]:focus {
+	background : #fff;
+}
+
 #code {
 	position:absolute;
 	z-index: 0;
