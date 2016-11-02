@@ -1,5 +1,6 @@
 //file : actor.js
 //author : cdqwertz
+//license : see LICENSE.txt
 
 function actor() {
 	this.components = new Array();

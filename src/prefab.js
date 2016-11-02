@@ -1,5 +1,6 @@
 //file : prefab.js
 //author : cdqwertz
+//license : see LICENSE.txt
 
 function prefab(blueprint) {
 	this.build = blueprint;

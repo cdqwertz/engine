@@ -1,5 +1,6 @@
 //file : components.js
 //author : cdqwertz
+//license : see LICENSE.txt
 
 function drawRect(pos, scale, color)
 {

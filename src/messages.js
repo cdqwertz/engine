@@ -1,5 +1,6 @@
 //file : messages.js
 //author : cdqwertz
+//license : see LICENSE.txt
 
 
 function message(_title, _body, _receiver) {

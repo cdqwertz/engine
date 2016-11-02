@@ -1,5 +1,6 @@
 //file : scene.js
 //author : cdqwertz
+//license : see LICENSE.txt
 
 function scene(load) {
 	this.objs = new Array();

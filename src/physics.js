@@ -1,5 +1,6 @@
 //file : physics.js
 //author : cdqwertz
+//license : see LICENSE.txt
 
 function physicsManager() {
 	this.layers = [new collisionLayer()];

@@ -1,5 +1,6 @@
 //file : vector.js
 //author : cdqwertz
+//license : see LICENSE.txt
 
 function vec2(x, y) {
 	this.x = x;

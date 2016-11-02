@@ -1,5 +1,6 @@
 //file : utils.js
 //author : cdqwertz
+//license : see LICENSE.txt
 
 var utils = new function() {
 	this.color = new function() {

@@ -1,5 +1,6 @@
 //file : path.js
 //author : cdqwertz
+//license : see LICENSE.txt
 
 function path(p) {
 	this.points = p;

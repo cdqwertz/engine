@@ -1,5 +1,6 @@
 //file : gui.js
 //author : cdqwertz
+//license : see LICENSE.txt
 
 var guiStyle = new function() {
 	this.color = "#CCCCCC";

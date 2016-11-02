@@ -1,5 +1,6 @@
 //file : core.js
 //author : cdqwertz
+//license : see LICENSE.txt
 
 var c = document.getElementById("screen");
 var ctx = c.getContext("2d");

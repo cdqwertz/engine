@@ -1,5 +1,6 @@
 //file : input.js
 //author : cdqwertz
+//license : see LICENSE.txt
 
 var input = new function() {
 	this.pressedKeys = [];
