@@ -345,3 +345,26 @@ function spawner(obj, interval) {
 		x.start(parent.parent);
 	};
 }
+
+function map2d(map, img, tileSize, scale) {
+	this.transform = null;
+	this.map = map;
+	this.image = img;
+	this.tileSize = tileSize;
+	this.scale = scale;
+
+	this.start = function(parent) {
+	};
+
+	this.draw = function(parent) {
+		var s = utils.scaleVec2(this.scale);
+		
+		for(var i = 0; i < map.length; i++) {
+			for(var j = 0; j < map[i].length; j++) {
+				var pos = new vec2(j * this.scale.x, i * this.scale.y);
+				var p = utils.scaleVec2(pos);
+				ctx.drawImage(this.image, this.tileSize.x*map[i][j], 0, this.tileSize.x, this.tileSize.y , p.x-(s.x/2), p.y-(s.y/2), s.x+1, s.y+1);
+			}
+		}
+	};
+}

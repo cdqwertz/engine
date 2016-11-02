@@ -5,7 +5,7 @@ function vec2(x, y) {
 	this.x = x;
 	this.y = y;
 	
-	this.set = function(_x,_y){
+	this.set = function(_x,_y) {
 		this.x = _x;
 		this.y = _y;
 	};
@@ -50,5 +50,49 @@ function vec2(x, y) {
 		var _x = Math.abs(this.x);
 		var _y = Math.abs(this.y);
 		return (new vec2(_x,_y));
+	};
+}
+
+function vec3(x, y, z) {
+	this.x = x;
+	this.y = y;
+	this.z = z;
+
+	this.set = function(_x,_y,_z) {
+		this.x = _x;
+		this.y = _y;
+		this.z = _z;
+	};
+
+	this.clone = function() {
+		return (new vec3(this.x, this.y, this.z));
+	};
+
+	this.add = function(other) {
+		var _x = this.x+other.x;
+		var _y = this.y+other.y;
+		var _z = this.z+other.z;
+		return (new vec3(_x, _y, _z));
+	};
+
+	this.sub = function(other) {
+		var _x = this.x-other.x;
+		var _y = this.y-other.y;
+		var _z = this.z-other.z;
+		return (new vec3(_x, _y, _z));
+	};
+
+	this.mul = function(other) {
+		var _x = this.x*other.x;
+		var _y = this.y*other.y;
+		var _z = this.z*other.z;
+		return (new vec3(_x, _y, _z));
+	};
+
+	this.div = function(other) {
+		var _x = this.x/other.x;
+		var _y = this.y/other.y;
+		var _z = this.z/other.z;
+		return (new vec3(_x, _y, _z));
 	};
 }

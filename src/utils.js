@@ -21,7 +21,7 @@ var utils = new function() {
 		};
 	}();
 
-	this.scale = window.innerWidth/100;
+	this.scale = window.innerHeight/100;
 
 	this.scaleNumber = function(x) {
 		return x * this.scale;

@@ -27,7 +27,6 @@ Take a look at LICENSE.txt
 - ...
 
 ######3D
-- Add vec3
 - Add isometric 3d rendering
 - Add simple webgl engine
 - Add simple 3d physics engine

@@ -28,6 +28,7 @@ function scene(load) {
 			}
 		}
 	};
+
 	this.update = function() {
 		//update
 		for (var i in this.objs) {
