@@ -61,6 +61,80 @@ function drawImage(pos, scale, img, mode, w, h, animations, animation, speed)
 	};
 }
 
+function border(dir, size, color, updateCollider) {
+	this.dir = dir;
+	this.color = color;
+	this.size = size;
+	this.updateCollider = updateCollider;
+	this.collider = null;
+	
+	this.start = function(parent) {
+		if (this.updateCollider) {
+			this.collider = parent.getComponent("collider");
+			this.collider.updatePosition = false;
+			
+			if (this.updateCollider) {
+				this.collider.updatePosition = false;
+				var s = 0;
+		
+				if (dir == 0 || dir == 2) {
+					s = (window.innerWidth/utils.scale-this.size)/2;
+				} else {
+					s = (window.innerHeight/utils.scale-this.size)/2;
+				}
+			
+			
+				if (dir == 0) {
+					//right
+					this.collider.x = (screen.centerX)/utils.scale -s + s/2;
+					this.collider.y = 0;
+					this.collider.w = s;
+					this.collider.h = 100;
+				} else if (dir == 1) {
+					//bottom
+				} else if (dir == 2) {
+					//left
+					this.collider.x = (-screen.centerX)/utils.scale + s/2;
+					this.collider.y = 0;
+					this.collider.w = s;
+					this.collider.h = 100;
+				} else if (dir == 3) {
+					//top
+				}
+			}
+		}
+	};
+	
+	this.update = function(parent) {
+	};
+
+	this.draw = function(parent) {
+		var s = 0;
+		
+		if (dir == 0 || dir == 2) {
+			s = utils.scaleNumber((window.innerWidth/utils.scale-this.size)/2);
+		} else {
+			s = utils.scaleNumber((window.innerHeight/utils.scale-this.size)/2);
+		}
+		
+		ctx.fillStyle = this.color;
+		
+		if (dir == 0) {
+			//right
+			ctx.fillRect(screen.centerX-s, -screen.centerY, s, screen.h);
+		} else if (dir == 1) {
+			//bottom
+			ctx.fillRect(-screen.centerX, screen.centerY-s, screen.w, s);
+		} else if (dir == 2) {
+			//left
+			ctx.fillRect(-screen.centerX, -screen.centerY, s, screen.h);
+		} else if (dir == 3) {
+			//top
+			ctx.fillRect(-screen.centerX, -screen.centerY, screen.w, s);
+		}
+	}
+}
+
 function motion(v, r, a, f, g) {
 	this.velocity = v;
 	this.velocity_rotation = r;
@@ -117,7 +191,7 @@ function bounce() {
 	this.v;
 	this.componentType = "bounce";
 	this.start = function(obj) {
-		this.coll = obj.getComponent("boxCollider");
+		this.coll = obj.getComponent("collider");
 		this.v = obj.getComponent("motion");
 	};
 	this.update = function(obj) {
@@ -221,7 +295,7 @@ function damage(damage, destroy) {
 	this.componentType = "damage";
 
 	this.start = function(parent) {
-		this.coll = parent.getComponent("boxCollider");
+		this.coll = parent.getComponent("collider");
 		
 	};
 	
@@ -257,7 +331,7 @@ function coin() {
 	this.coll = null;
 	
 	this.start = function(obj) {
-		this.coll = obj.getComponent("boxCollider");
+		this.coll = obj.getComponent("collider");
 	};	
 
 	this.update = function(obj) {

@@ -28,6 +28,7 @@
 		<script src="gui.js"></script>
 		<script src="path.js"></script>
 		<script src="physics.js"></script>
+		<script src="world.js"></script>
 		<script src="core.js"></script>
 
 		<script>
@@ -86,7 +87,7 @@
 			var platform = new prefab(function (pos) {
 				var p = new actor();
 				p.addComponent(new transform(pos, 0));
-				var coll = new boxCollider(0,0, 3, 1, "wall", false)
+				var coll = new collider(0,0, 3, 1, "wall", false)
 				p.addComponent(coll);
 				p.addComponent(new drawRect(new vec2(0, 0), new vec2(3, 1)));
 				
@@ -95,12 +96,14 @@
 
 			//Load
 
-			mainScene.load = function load(parent) {
+			world.addScene(new scene(function load(parent) {
+				parent.actors = [];
+				
 				var wall5 = new actor();
 				wall5.addComponent(new transform(new vec2(0, 0), 0));
 				wall5.addComponent(new move(0, 0.005));
 				wall5.addComponent(new motion(new vec2(0, 0), 0, null, 0.03, 0.003));
-				var wall5Coll = new boxCollider(0,0, 10, 10, "wall", true)
+				var wall5Coll = new collider(0,0, 10, 10, "wall", true)
 				wall5.addComponent(wall5Coll);
 				//wall5.addComponent(new bounce());
 				wall5.addComponent(new loop());
@@ -118,7 +121,7 @@
 				ball.addComponent(new moveToMouse(0.07, 0.7));
 				ball.addComponent(new damage(1, true));
 				ball.addComponent(new motion(new vec2(0, 0), 0, null, 0.03));
-				var ballColl = new boxCollider(0, 0, 5, 5, "wall", true)
+				var ballColl = new collider(0, 0, 5, 5, "wall", true)
 				ball.addComponent(ballColl);
 				ball.addComponent(new simpleRigidbody());
 				ball.addComponent(new drawRect(new vec2(0, 0), new vec2(5, 5), "#FF0000"));
@@ -128,17 +131,25 @@
 
 				var wall4 = new actor();
 				wall4.addComponent(new transform(new vec2(0, 50), 0));
-				var wall4Coll = new boxCollider(0,0, 100, 10, "wall", false)
+				var wall4Coll = new collider(0,0, 100, 10, "wall", false);
 				wall4.addComponent(wall4Coll);
 				wall4.addComponent(new drawRect(new vec2(0, 0), new vec2(100, 10)));
 
 				parent.addObject(wall4);
-
-				//var p1 = platform.build(new vec2(2,3));
-				//parent.addObject(p1);
-
-				//mainScene.addObject(test);
-			}
+				
+				var wall1 = new actor();
+				var wall2 = new actor();
+				
+				wall1.addComponent(new border(2, 100, "#000000", true));
+				wall2.addComponent(new border(0, 100, "#000000", true));
+				
+				wall1.addComponent(new collider(0,0, 0, 0, "wall", false));
+				wall2.addComponent(new collider(0,0, 0, 0, "wall", false));
+				
+				parent.addObject(wall1);
+				parent.addObject(wall2);
+			}));
+			
 		</script>
 	</body>
 </html>

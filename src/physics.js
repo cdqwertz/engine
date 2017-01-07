@@ -60,7 +60,7 @@ function collision(a, b) {
 
 //collider
 
-function boxCollider(x, y, w, h, t, m, layer) {
+function collider(x, y, w, h, t, m, layer) {
 	this.x = 0;
 	this.y = 0;
 	this.w = w;
@@ -70,30 +70,37 @@ function boxCollider(x, y, w, h, t, m, layer) {
 	this.check = m;
 	this.tag = t || "";
 	this.layer = layer || 0;
-	this.componentType = "boxCollider";
+	this.componentType = "collider";
 
 	this.isColliding = false;
 	this.other = null;
 	this.collisions = [];
 	this.parent = null;
+	
+	this.updatePosition = true;
 
 	this.start = function(obj) {
-		mainScene.physicsManager.layers[this.layer].addCollider(this);
+		world.getScene().physicsManager.layers[this.layer].addCollider(this);
 
 		this.parent = obj;
 
-		var p = obj.components[obj.findComponent("transform")].getPos();
-		this.x = p.x + this.offset_x;
-		this.y = p.y + this.offset_y;
+		if (this.updatePosition) {
+			var p = obj.components[obj.findComponent("transform")].getPos();
+			this.x = p.x + this.offset_x;
+			this.y = p.y + this.offset_y;
+		}
 	};
 
 	this.update = function(obj) {
 	};
 
 	this.afterUpdate = function(obj) {
-		var p = obj.components[obj.findComponent("transform")].getPos();
-		this.x = p.x + this.offset_x;
-		this.y = p.y + this.offset_y;
+		if(this.updatePosition) {
+			var p = obj.components[obj.findComponent("transform")].getPos();
+			this.x = p.x + this.offset_x;
+			this.y = p.y + this.offset_y;
+		}
+		
 		this.collisions = [];
 	};
 
@@ -155,7 +162,7 @@ function simpleRigidbody() {
 
 	this.start = function(obj) {
 		this.t = obj.getComponent("transform");
-		this.coll = obj.getComponent("boxCollider");
+		this.coll = obj.getComponent("collider");
 		this.motion = obj.getComponent("motion")
 	};	
 

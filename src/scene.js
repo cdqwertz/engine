@@ -3,18 +3,18 @@
 //license : see LICENSE.txt
 
 function scene(load) {
-	this.objs = new Array();
-	this.load = load || (function(parent) {});
+	this.actors = [];
+	this.load = load || (function(parent) {parent.actors = [];});
 	
 	this.physicsManager = new physicsManager();
 
 	this.addObject = function(obj) {
-		this.objs.push(obj);
+		this.actors.push(obj);
 	};
 
 	this.findObject = function(obj) {
-		for(var i = 0; i < this.objs.length; i++) {
-			if(this.objs[i] == obj) {
+		for(var i = 0; i < this.actors.length; i++) {
+			if(this.actors[i] == obj) {
 				return (i);
 			}
 		}
@@ -23,34 +23,34 @@ function scene(load) {
 
 	this.start = function() {
 		this.load(this);
-		for (var i in this.objs) {
-			if (this.objs[i].start) {
-				this.objs[i].start(this);
+		for (var i in this.actors) {
+			if (this.actors[i].start) {
+				this.actors[i].start(this);
 			}
 		}
 	};
 
 	this.update = function() {
 		//update
-		for (var i in this.objs) {
-			if (this.objs[i].update) {
-				this.objs[i].update();
+		for (var i in this.actors) {
+			if (this.actors[i].update) {
+				this.actors[i].update();
 			}
 		}
 
 		//physics
 		this.physicsManager.update();
 		
-		for (var i in this.objs) {
-			if (this.objs[i].physics) {
-				this.objs[i].physics();
+		for (var i in this.actors) {
+			if (this.actors[i].physics) {
+				this.actors[i].physics();
 			}
 		}
 
 		//render
-		for (var i in this.objs) {
-			if (this.objs[i].draw) {
-				this.objs[i].draw();
+		for (var i in this.actors) {
+			if (this.actors[i].draw) {
+				this.actors[i].draw();
 			}
 		}
 	};

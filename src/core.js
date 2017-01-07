@@ -4,7 +4,6 @@
 
 var c = document.getElementById("screen");
 var ctx = c.getContext("2d");
-var mainScene = new scene();
 
 var c2 = document.getElementById("canvas");
 var ctx2 = c2.getContext("2d");
@@ -44,7 +43,7 @@ function onUpdate(t) {
 	time.update(t || 0);
 		
 	ctx.clearRect(-c.width/2, -c.height/2, c.width, c.height);
-	mainScene.update();
+	world.update();
 
 	ctx2.clearRect(0, 0, c.width, c.height);
 	ctx2.drawImage(c,0,0);
@@ -53,9 +52,11 @@ function onUpdate(t) {
 }
 
 function onInit() {
+	console.log(world)
+
 	screen.init(c, c2);
 	ctx.translate(screen.centerX, screen.centerY);
-	mainScene.start();
+	world.loadScene(0);
 	onUpdate();
 }
 
