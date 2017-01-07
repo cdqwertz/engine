@@ -22,7 +22,7 @@ function gui() {
 	};
 }
 
-function label(x,y,text,color, font) {
+function label(x, y, text, color, font) {
 	this.componentType = "label";
 	
 	this.x = x;
@@ -42,7 +42,7 @@ function label(x,y,text,color, font) {
 	};
 }
 
-function button(x,y,w,h,text,color,textColor,font) {
+function button(x, y, w, h, text, color, textColor, font) {
 	this.componentType = "button";
 
 	this.x = x;
@@ -116,7 +116,7 @@ function menu(items, dist, color, font, fontActive) {
 	};
 };
 
-function scrollbar(x,y,w,h,color) {
+function scrollbar(x, y, w, h, color) {
 	this.componentType = "scrollbar";
 
 	this.x = x;

@@ -9,4 +9,5 @@ components.js
 gui.js
 path.js
 physics.js
+world.js
 core.js
